@@ -1,27 +1,102 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
 <head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0">
+
 
 </head>
 
-<body>
-<h2> WebRTC test 3 </h2>
-<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
-<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+<style>
+ #copyright{
+ 	font-size:7px;
+ 	color:grey;
+ 	font-style: italic;
+ }
+	.video{
+		width:150px;
+	}
+.Kontrol{
+	font-size: 12px;
+	font-family: Arial
+}	
+input, textarea, select, option {
+ background-color:#FFF3F3;
+ font-size: 10px;
+ }	
+button {
+  
+  border-radius: 4px;
+  background-color: #e7e7e7; 
+  color: black;
+  
+  padding: 2px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+}	
+</style>
 
 
+<body style="margin:2px;">
 
-<button id="btn-open-room">Open Room</button>
-<button id="btn-join-room">Join Room</button>
-<div id="videos-container" style="margin: 20px 0; width:100px;"></div>
-<hr>
+<div  class="Kontrol" id="kontrol">
+	<div id="entete" style="width: 300px; height: 50px;"> </div>
+	<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+	<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+
+
+	<input type="text" size="10" id="OdaIsmi" placeholder="Room Name" value="">
+	<button id="btn-openjoin-room"> Open/Join Room</button>
+	<hr>
+	
+<div id="copyright">© Copyright 2020 D.TULBENT</div>
+
+
+</div>
+
 <script>
+// ------------ TARIH HESAPLA ve ENTETE Yazdir --- ------
+var today = new Date(); 
+var dd = today.getDate(); 
+var mm = today.getMonth()+1; //January is 0! 
+var yyyy = today.getFullYear(); 
+if(dd<10){dd='0'+dd} 
+if(mm<10){mm='0'+mm} 
+var today = dd+'/'+mm+'/'+yyyy; 
+document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:18px;font-weight:bold;'> Visioconference<span style='font-size:10px;font-weight:normal;'>   "+today+ "</span></div>";
+// ----------- NAVIGATORUN DILINI BUL Ve Mesajlari Ayarla----------------------
+var language = navigator.language;
+if (language.indexOf('fr') > -1) {
+	document.getElementById("btn-openjoin-room").innerHTML ="Entrez!";
+	document.getElementById('OdaIsmi').placeholder = 'Nom de la salle';
+	var odadancik="Quittez la Salle";
+	var odaadiyok="Le Nom de la salle manque !";
+	}
+else if (language.indexOf('tr') > -1) {
+	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
+	document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
+	var odadancik="Salonu terket";
+	var odaadiyok="Oda adi eksik !";
+}
+else {
+	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
+	document.getElementById('OdaIsmi').placeholder = "Room Name ?";
+	var odadancik="Leave the Room";
+	var odaadiyok="Please enter Room Name !";
+	}
+
+// ----------------BAGLANTIYA BASLIYORUZ -------------------------------------------
+
 var connection = new RTCMultiConnection();
 
-// this line is VERY_important
+// Soket server baglanti adresi
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
-// all below lines are optional; however recommended.
-connection.socketCustomParameters ='&fullName=Muaz&country=PK&meetingId=xyz';
+// ------------ Video audio degerleri ---------------------------------
+connection.socketCustomParameters ='&fullName=Deniz&country=FR&meetingId=xyz';
 
 connection.session = {
     audio: true,
@@ -32,23 +107,67 @@ connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
     OfferToReceiveVideo: true
 };
-connection.videosContainer = document.getElementById('videos-container');
 
-connection.onstream = function(event) {
-    document.body.appendChild( event.mediaElement );
+var video_degerleri=300;
+connection.mediaConstraints = {
+    audio: true,
+    video: {
+        mandatory: {
+        	minAspectRatio: 1,
+        	maxAspectRatio: 1,
+            minWidth: video_degerleri,
+            maxWidth: video_degerleri,
+            minHeight: video_degerleri,
+            maxHeight: video_degerleri
+        },
+        optional: []
+    }
 };
 
-var predefinedRoomId = prompt('Merci de donner le nom de la Salle !', 'Deniz');
+//----------- Video Elemanini  DOM da <body> ye bagladi
+connection.onstream = function(event) {document.body.appendChild( event.mediaElement );};
 
-document.getElementById('btn-open-room').onclick = function() {
-    this.disabled = true;
-    connection.open( predefinedRoomId );
+//----- Leave yazisini ekle
+document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:11px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");
+    	
+//------ Leave room yazisini kapat -----
+document.getElementById('text-leave').style.visibility = "hidden";
+
+// ------------------------------------
+//--------ODAYI AC /  ACIK ODAYA ODAYA GIR ------
+// ------------------------------------
+document.getElementById('btn-openjoin-room').onclick = function() {
+	var oda = document.getElementById("OdaIsmi").value
+	if (oda =="") { alert(odaadiyok)}
+    else {
+    	connection.openOrJoin(oda);
+    	document.getElementById('btn-openjoin-room').style.visibility = "hidden";
+    	document.getElementById("kontrol").style.display = "none"; // Kontrolu kapat
+    	document.getElementById('text-leave').style.visibility = "visible"; // leave yazisini ac
+    	  	   	
+    	}
+};
+// ---------------------------------
+//------- KENDI  ODANI TERKET ------
+// ---------------------------------
+document.getElementById('text-leave').onclick = function() {
+    // disconnect with all users
+    connection.getAllParticipants().forEach(function(pid) {
+        connection.disconnectWith(pid);
+    });
+
+    // Butun  local cameralari kapat 
+    connection.attachStreams.forEach(function(localStream) {
+        localStream.stop();
+    });
+
+    // socket.io baglantisini kapat 
+    connection.closeSocket();
+	location.reload();
+	this.disabled = true;
 };
 
-document.getElementById('btn-join-room').onclick = function() {
-    this.disabled = true;
-    connection.join( predefinedRoomId );
-};
+// Iyi eylenceler !!!! 
 
 
 </script>
@@ -56,4 +175,5 @@ document.getElementById('btn-join-room').onclick = function() {
 </body>
 
 </html>
+
 
