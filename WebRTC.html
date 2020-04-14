@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-<head>
-  <meta charset="utf-8">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0">
-
-
-</head>
-
-<style>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>VisioConf v0.5</title>
+		<meta name="author" content="Deniz" />
+		<!-- Date: 2020-04-10 -->
+	</head>
+	
+	<style>
  #copyright{
- 	font-size:7px;
+ 	font-size:10px;
  	color:grey;
  	font-style: italic;
  }
@@ -36,6 +37,19 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 10px;
+}
+.iki-kisi{
+	max-width: 100%;
+    max-height: 100%;
+    display:block;
+    position:absolute;
+    
+
+}
+.resim-ekle{
+	max-width: 100%;
+    max-height: 100%;
+    display:block;
 }	
 </style>
 
@@ -46,19 +60,30 @@ button {
 	<div id="entete" style="width: 300px; height: 50px;"> </div>
 	<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 	<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-
+	
 
 	<input type="text" size="10" id="OdaIsmi" placeholder="Room Name" value="">
 	<button id="btn-openjoin-room"> Open/Join Room</button>
 	<hr>
+
 	
-<div id="copyright">2020 D.TULBENT</div>
+<div id="copyright"> VisioConf V0.5 - 2020 D.TULBENT</div> <!-- Ayak kismi -->
 
 
+</div> <!-- Kontrol -->
+
+<!--************* VIDEO CONTAINER **********-->
+<div id="videos-container" style="background-color: powderblue; ">
+	<div id="video0" class="iki-kisi" style="z-index:5;"> </div>
+	<div id="video1" class="iki-kisi"> </div>
+	
 </div>
 
 <script>
+
+//*******************************************************
 // ------------ TARIH HESAPLA ve ENTETE Yazdir --- ------
+//*******************************************************
 var today = new Date(); 
 var dd = today.getDate(); 
 var mm = today.getMonth()+1; //January is 0! 
@@ -67,28 +92,36 @@ if(dd<10){dd='0'+dd}
 if(mm<10){mm='0'+mm} 
 var today = dd+'/'+mm+'/'+yyyy; 
 document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:18px;font-weight:bold;'> Visioconference<span style='font-size:10px;font-weight:normal;'>   "+today+ "</span></div>";
+
+// ****************************************************************************
 // ----------- NAVIGATORUN DILINI BUL Ve Mesajlari Ayarla----------------------
+// ****************************************************************************
 var language = navigator.language;
 if (language.indexOf('fr') > -1) {
 	document.getElementById("btn-openjoin-room").innerHTML ="Entrez!";
 	document.getElementById('OdaIsmi').placeholder = 'Nom de la salle';
 	var odadancik="Quittez la Salle";
 	var odaadiyok="Le Nom de la salle manque !";
+	var kisisayisi=  " Utilisateur(s) connecté(s)";
 	}
 else if (language.indexOf('tr') > -1) {
 	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
 	document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
 	var odadancik="Salonu terket";
 	var odaadiyok="Oda adi eksik !";
+	var kisisayisi=  " Kisi Salondayiz";
 }
 else {
 	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
 	document.getElementById('OdaIsmi').placeholder = "Room Name ?";
 	var odadancik="Leave the Room";
 	var odaadiyok="Please enter Room Name !";
+	var kisisayisi=  " Users connected now";
 	}
 
-// ----------------BAGLANTIYA BASLIYORUZ -------------------------------------------
+//*************************************************************
+// ----------------BAGLANTIYA BASLIYORUZ ----------------------
+// ************************************************************
 
 var connection = new RTCMultiConnection();
 
@@ -107,25 +140,73 @@ connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: true,
     OfferToReceiveVideo: true
 };
+//**************************************
+//*** Ecran yerlestirme hesaplari ******
+// *************************************
+var screen_H = screen.height+"px";
+var screen_W = screen.width+"px";
+var screen_H_Small = Math.ceil(screen.height/8) + "px";
+var screen_W_Small = Math.ceil(screen.width /8) + "px";
+//alert (screen_W + "/"+ screen_W_Small)
+//*********************************************
+//---- kullanicinin salona girmesi olayi ------
+//*********************************************
+var user_id=[];
+var kullanici=[];
+connection.onstream = function(event) {
+	//alert(screen.height+"x"+screen.width) //********* Ekran Boyutlari
+	document.getElementById("videos-container").style.height = screen_H;
+	document.getElementById("videos-container").style.width = screen_W;
 
-var video_degerleri=300;
-connection.mediaConstraints = {
-    audio: true,
-    video: {
-        mandatory: {
-        	minAspectRatio: 1,
-        	maxAspectRatio: 1,
-            minWidth: video_degerleri,
-            maxWidth: video_degerleri,
-            minHeight: video_degerleri,
-            maxHeight: video_degerleri
-        },
-        optional: []
-    }
+	// user id leri kayda aliyoruz user_id[0]="xtgYtRUIgHrTçdzfsvvppokj" gibi
+	user_id[connection.getAllParticipants().length]=event.mediaElement.id;
+	
+	// baglanti sayisini hesapliyoruz
+	var baglanti_sayisi = connection.getAllParticipants().length
+	
+	// ======= > Bir Kisi < ========== //
+	if(connection.getAllParticipants().length==0){
+		//  -------> Kullaniciyi videoya bagla
+		kullanici[0]=event.userid;
+		//  ---> Video boyutlarini hesapla
+		document.getElementById("video0").style.height = screen_H;
+		document.getElementById("video0").style.width = screen_W;	
+	    // ----> Vedoyu ekle
+		document.getElementById("video0").appendChild(event.mediaElement);
+	    // ----> Videoyunun içine CSS Class ekle ve boyulari kontrol et
+		document.getElementById(user_id[0]).classList.add("resim-ekle");	
+	}
+	
+	// Ikinci  kisi baglaniyor
+	if(connection.getAllParticipants().length==1){
+		//  -------> Kullaniciyi videoya bagla
+		kullanici[1]=event.userid;
+		//  ---> Video boyutlarini hesapla
+		document.getElementById("video0").style.height = screen_H_Small;
+		document.getElementById("video0").style.width = screen_W_Small;
+		document.getElementById("video1").style.height = screen_H;
+		document.getElementById("video1").style.width = screen_W;
+		// ----> Vedoyu ekle
+		document.getElementById("video1").appendChild(event.mediaElement);
+		// ----> Videoyunun içine CSS Class ekle ve boyutlari kontrolla 
+	    document.getElementById(user_id[1]).classList.add("resim-ekle");		
+	}
+    
 };
 
-//----------- Video Elemanini  DOM da <body> ye bagladi
-connection.onstream = function(event) {document.body.appendChild( event.mediaElement );};
+
+connection.onleave = connection.streamended = connection.onclose = function(event) {
+	//alert("Cikti"+connection.getAllParticipants().length)
+	if(connection.getAllParticipants().length==1){	
+		document.getElementById("video0").style.height =screen_H;
+		document.getElementById("video0").style.width = screen_W;
+	}
+};
+
+
+
+
+
 
 //----- Leave yazisini ekle
 document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:11px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");
@@ -133,9 +214,9 @@ document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-
 //------ Leave room yazisini kapat -----
 document.getElementById('text-leave').style.visibility = "hidden";
 
-// ------------------------------------
+// *********************************************
 //--------ODAYI AC /  ACIK ODAYA ODAYA GIR ------
-// ------------------------------------
+// *********************************************
 document.getElementById('btn-openjoin-room').onclick = function() {
 	var oda = document.getElementById("OdaIsmi").value
 	if (oda =="") { alert(odaadiyok)}
@@ -147,9 +228,9 @@ document.getElementById('btn-openjoin-room').onclick = function() {
     	  	   	
     	}
 };
-// ---------------------------------
+// **********************************
 //------- KENDI  ODANI TERKET ------
-// ---------------------------------
+// **********************************
 document.getElementById('text-leave').onclick = function() {
     // disconnect with all users
     connection.getAllParticipants().forEach(function(pid) {
@@ -167,13 +248,13 @@ document.getElementById('text-leave').onclick = function() {
 	this.disabled = true;
 };
 
+
+
 // Iyi eylenceler !!!! 
 
-
+ 
 </script>
 
 </body>
 
 </html>
-
-
