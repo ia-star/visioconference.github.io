@@ -349,8 +349,12 @@ connection.onleave = connection.streamended = connection.onclose = function(even
 
 
 //----- Leave yazisini ekle
+if(isMobile==1){
 document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:35px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");
-    	
+}
+else{
+document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:20px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");	
+}    	
 //------ Leave room yazisini kapat -----
 document.getElementById('text-leave').style.visibility = "hidden";
 
