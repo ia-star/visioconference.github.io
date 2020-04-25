@@ -111,12 +111,35 @@ button {
 	
 	
 	
-	
-	
-	
-	
 .v5{display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;}
-.v6{display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;}
+
+
+.v6HL{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
+	grid-column-start: 1; grid-column-end: 4; grid-row-start: 1; grid-row-end: 4;
+	}
+.v6HR{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
+	grid-column-start: 4; grid-column-end: 7; grid-row-start: 1; grid-row-end: 4;
+	}
+.v6OL{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
+	grid-column-start: 1; grid-column-end: 4; grid-row-start: 4; grid-row-end: 7;
+	}
+.v6OR{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
+	grid-column-start: 4; grid-column-end: 7; grid-row-start: 4; grid-row-end: 7;
+	}
+.v6BL{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
+	grid-column-start: 4; grid-column-end: 7; grid-row-start: 7; grid-row-end: 11;
+	}
+.v6BR{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
+	grid-column-start: 1; grid-column-end: 4; grid-row-start: 7; grid-row-end: 11;
+	}
+	
+	
 .v7{display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;}
 		
 </style>
@@ -127,25 +150,25 @@ button {
 	<div id="entete" style="width: 300px; height: 100px;"> </div>
 	<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 	<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-	
+	<script src="https://cdn.rawgit.com/muaz-khan/DetectRTC/master/DetectRTC.js"></script>
 
 	<input type="text" size="10" id="OdaIsmi" placeholder="Room Name" value="">
 	<button id="btn-openjoin-room"> Open/Join Room</button>
 	<hr>
+	<div id="copyright"> VisioConf V0.7 - 2020 D.TULBENT</div> <!-- Ayak kismi -->
+	<div id="mesaj"> </div>
 <!-- Buraya remote videolarin Id lerini stok  ediyoruz -->	
-<!--<input type="hidden" id="u0" value="" >-->
-<input type="hidden" id="u1" value="" >
-<input type="hidden" id="u2" value="" >
-<input type="hidden" id="u3" value="" >
-<input type="hidden" id="u4" value="" >
-<input type="hidden" id="u5" value="" >
-<input type="hidden" id="u6" value="" >
-<input type="hidden" id="u7" value="" >
-<input type="hidden" id="u8" value="" >
+<div id="misafirler">
+<input type="hidden" id="u1" name="" value="" >
+<input type="hidden" id="u2" name="" value="" >
+<input type="hidden" id="u3" name="" value="" >
+<input type="hidden" id="u4" name="" value="" >
+<input type="hidden" id="u5" name="" value="" >
+<input type="hidden" id="u6" name="" value="" >
+<input type="hidden" id="u7" name="" value="" >
+<input type="hidden" id="u8" name="" value="" >
+</div>
 	
-<div id="copyright"> VisioConf V0.7 - 2020 D.TULBENT</div> <!-- Ayak kismi -->
-
-
 </div> <!-- Kontrol -->	
 	
 		
@@ -155,6 +178,56 @@ button {
 </section>
 
 <script>
+
+/* ***************************************************************************
+// ----------- NAVIGATORUN DILINI BUL Ve Mesajlari Ayarla----------------------
+// *************************************************************************** */
+var language = navigator.language;
+if (language.indexOf('fr') > -1) {
+	document.getElementById("btn-openjoin-room").innerHTML ="Entrez!";
+	document.getElementById('OdaIsmi').placeholder = 'Nom de la salle';
+	var odadancik="Quittez la Salle";
+	var odaadiyok="Le Nom de la salle manque !";
+	var kisisayisi=  " Utilisateur(s) connecté(s)";
+	var navOK="Navigateur bon pour la visiocoférence ";
+	var navNotOK="Votre navigateur n'est pas adapté à faire de la visioconférence !";
+	}
+else if (language.indexOf('tr') > -1) {
+	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
+	document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
+	var odadancik="Salonu terket";
+	var odaadiyok="Oda adi eksik !";
+	var kisisayisi=  " Kisi Salondayiz";
+	var navOK="Web Browseriniz uygundur";
+	var navNotOK="Kullandiginiz Web Browser size visoconferans yapama imkani sunmuyor!";
+}
+else {
+	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
+	document.getElementById('OdaIsmi').placeholder = "Room Name ?";
+	var odadancik="Leave the Room";
+	var odaadiyok="Please enter Room Name !";
+	var kisisayisi=  " Users connected now";
+	var navOK=" Your browser is OK !";
+	var navNotOK="Your browser does not support visioconference !!";
+	}
+
+/* ******************************************************
+ ------------ BROWSER WEBRTC Uygunluk kontrolu ? --- ------
+//****************************************************** */
+var webrtc_test=DetectRTC.isSctpDataChannelsSupported+
+				DetectRTC.isRtpDataChannelsSupported+
+				DetectRTC.isAudioContextSupported+
+				DetectRTC.isWebRTCSupported+
+				DetectRTC.isWebSocketsSupported+
+				DetectRTC.isVideoSupportsStreamCapturing;
+    			
+
+if(DetectRTC.isWebSocketsBlocked==false && webrtc_test==6){	document.getElementById("mesaj").innerHTML = "<span style='color:green; font-size:30px;font-weight:bold;'></span>";}
+else{document.getElementById("mesaj").innerHTML = "<span style='color:red; font-size:30px; font-weight:bold;'>"+navNotOK+"</span>";}
+
+//alert(DetectRTC.displayResolution);
+
+
 
 /* ******************************************************
  ------------ TARIH HESAPLA ve ENTETE Yazdir --- ------
@@ -168,54 +241,40 @@ if(dd<10){dd='0'+dd}
 if(mm<10){mm='0'+mm} 
 var today = dd+'/'+mm+'/'+yyyy; 
 document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:30px;font-weight:bold;'> Visioconference<br> <span style='font-size:20px;font-weight:normal;'>   "+today+ "</span></div>";
-
-/* ***************************************************************************
-// ----------- NAVIGATORUN DILINI BUL Ve Mesajlari Ayarla----------------------
-// *************************************************************************** */
-var language = navigator.language;
-if (language.indexOf('fr') > -1) {
-	document.getElementById("btn-openjoin-room").innerHTML ="Entrez!";
-	document.getElementById('OdaIsmi').placeholder = 'Nom de la salle';
-	var odadancik="Quittez la Salle";
-	var odaadiyok="Le Nom de la salle manque !";
-	var kisisayisi=  " Utilisateur(s) connecté(s)";
-	}
-else if (language.indexOf('tr') > -1) {
-	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
-	document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
-	var odadancik="Salonu terket";
-	var odaadiyok="Oda adi eksik !";
-	var kisisayisi=  " Kisi Salondayiz";
-}
-else {
-	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
-	document.getElementById('OdaIsmi').placeholder = "Room Name ?";
-	var odadancik="Leave the Room";
-	var odaadiyok="Please enter Room Name !";
-	var kisisayisi=  " Users connected now";
-	}
 	
-
+/*
 var hasTouchscreen = 'ontouchstart' in window;
 if(hasTouchscreen){var isMobile=1;}
 else{var isMobile=0;}
+*/
+if(DetectRTC.isMobileDevice==true){var isMobile=1;}
+else{var isMobile=0;}
 
-
-
-
+//alert(isMobile);
 /* *************************************
 *** Ecran yerlestirme hesaplari ******
 // *************************************/
+
 if(isMobile==1){
 var WW=window.innerWidth;
 var WH=document.documentElement.clientHeight;
 }
 else{
 	var WH=document.documentElement.clientHeight;
-	var WW=Math.ceil(WH/1.5);
+	var WW=Math.ceil(WH/1.4);
+	//var WW=window.innerWidth;
 }
+ function getAspectRatio(w, h) {
+        function gcd(a, b) {
+            return (b == 0) ? a : gcd(b, a % b);
+        }
+        var r = gcd(w, h);
+        return (w / r) / (h / r);
+    }
 
-//alert(WW+" / "+WH);
+var Gorani=getAspectRatio(WW, WH);
+//alert( Gorani+" ww:"+WW+" WH: "+WH);
+
 document.getElementById('wrapper').style.height = WH+"px";
 document.getElementById('wrapper').style.width = WW+"px";
 
@@ -241,7 +300,18 @@ connection.sdpConstraints.mandatory = {
     OfferToReceiveVideo: true
 };
 
-
+	function getInputWithValue(wrapper, value) {
+    var inputs = wrapper.getElementsByTagName("input");
+    var i = inputs.length;
+    while (i--) {
+        if (inputs[i].value === value) {
+            return inputs[i];
+        }
+    }
+    return null;
+	}
+	
+	
 /* ********************************************
 ---- kullanicinin salona girmesi olayi ------
 //******************************************** */
@@ -249,75 +319,284 @@ var user_id=[];
 var LocalUserID=[];
 var RemoteUserID=[];
 var kullanici=[];
+var kalanlar=[];
 
-function yerlestir(baglanti_sayisi){
-		if (baglanti_sayisi==1){
-         
-	    var aranan_1=document.getElementById("u1").value;
-	    document.getElementById(aranan_1).classList.add("v1");
-		}
-		
-		if (baglanti_sayisi==2){
-         
-	    var video_1=document.getElementById("u1").value;
-	    document.getElementById(video_1).classList.add("v1S");
-	    document.getElementById(video_1).classList.remove("v1");
-	    
-	    var video_2=document.getElementById("u2").value;
-	    document.getElementById(video_2).classList.add("v2");
-		}
-		
-		
-		if (baglanti_sayisi==3){         
-	    var video_1=document.getElementById("u1").value;
-	    //document.getElementById(video_1).classList.add("v1S");
-	    
-	    var video_2=document.getElementById("u2").value;
-	    document.getElementById(video_2).classList.add("v3H");
-	    document.getElementById(video_2).classList.remove("v2");
-	    
-	    var video_3=document.getElementById("u3").value;
-	    document.getElementById(video_3).classList.add("v3B");
+/* *************************************
+/ ========= YERLESTIR ================= /
+ ****************************************/
+function yerlestir(gelen_sayi) {
+	// bagli olan video sayisini bul
+	var mevcut_video_sayisi = document.getElementById("wrapper").childElementCount;
+	var parent = document.getElementById("wrapper"); 
+		if (mevcut_video_sayisi==1){  		
+			// benim durumum
+	  		parent.children[0].classList.add("v1");
+	  		parent.children[0].classList.remove("v1S");
+	  		}
+							
+		if (mevcut_video_sayisi==2){
+			// benim durumum
+	  		parent.children[0].classList.add("v1S");
+	  		parent.children[0].classList.remove("v1");
+	    	// Digerlerinin durumu
+	  		parent.children[1].classList.add("v2");
+	  		
+			parent.children[1].classList.remove("v3B");
+			parent.children[1].classList.remove("v3H");
+			
 		}
 		
 		
-		if (baglanti_sayisi==4){
+		if (mevcut_video_sayisi==3){
+			// benim durumum        
+	    	parent.children[0].classList.add("v1S");
+	    	parent.children[0].classList.remove("v4HL");
+	    	
+	    
+	   	 // 2ci nin durumu
+	   		parent.children[1].classList.add("v3H");
+	    	parent.children[1].classList.remove("v2");
+	    	
+	    	parent.children[1].classList.remove("v4HR");
+	    	parent.children[1].classList.remove("v4BL");
+	    	parent.children[1].classList.remove("v4BR");		    
+	    
+		// üçüncünün durumu
+			parent.children[2].classList.add("v3B");
+	    	parent.children[2].classList.remove("v2");
+	    	
+	    	parent.children[2].classList.remove("v4HR");
+	    	parent.children[2].classList.remove("v4BL");
+	    	parent.children[2].classList.remove("v4BR");		
+
+			}    
 		
-		var video_1=document.getElementById("u1").value;
-	    document.getElementById(video_1).classList.add("v4HL");
-		document.getElementById(video_1).classList.remove("v1S");
+	
+		if (mevcut_video_sayisi==4){
+			
+			// benim durumum  
+			parent.children[0].classList.add("v4HL");
+			parent.children[0].classList.remove("v1S");
+			
+			// 2ci nin durumu
+			parent.children[1].classList.add("v4HR");
+			
+			parent.children[1].classList.remove("v3H");
+			parent.children[1].classList.remove("v3B");
+			
+			parent.children[1].classList.remove("v4BR");
+			parent.children[1].classList.remove("v4BL");
+			
+			
+			// 3 cünün durumu
+			parent.children[2].classList.add("v4BL");
+			
+			parent.children[2].classList.remove("v3H");
+			parent.children[2].classList.remove("v3B");
+			
+			parent.children[2].classList.remove("v4HR");
+			parent.children[2].classList.remove("v4BR");
+	
+			
+			// 4 üncünün durumu
+			parent.children[3].classList.add("v4BR");
+
+			parent.children[3].classList.remove("v3H");
+			parent.children[3].classList.remove("v3B");
+			
+			parent.children[3].classList.remove("v4HR");
+			parent.children[3].classList.remove("v4BL");
+	    
+		}	
 		
-		var video_2=document.getElementById("u2").value;
-	    document.getElementById(video_2).classList.add("v4HR");
-	    document.getElementById(video_2).classList.remove("v3H");
-	    
-	    var video_3=document.getElementById("u3").value;
-	    document.getElementById(video_3).classList.add("v4BL");
-	    document.getElementById(video_3).classList.remove("v3B");
-	    
-	    var video_4=document.getElementById("u4").value;
-	    document.getElementById(video_4).classList.add("v4BR");
-	    
+		if (mevcut_video_sayisi==5){
+			
+			// benim durumum  
+			parent.children[0].classList.add("v1S");
+			parent.children[0].classList.remove("v4HL");
+			parent.children[0].classList.remove("v6HL");
+			
+			// 2ci nin durumu
+			parent.children[1].classList.add("v4HL");
+			parent.children[1].classList.remove("v4HR");
+			parent.children[1].classList.remove("v4BL");
+			parent.children[1].classList.remove("v4BR");
+		
+			parent.children[4].classList.remove("v6HL");
+			parent.children[4].classList.remove("v6HR");
+			parent.children[4].classList.remove("v6OL");
+			parent.children[4].classList.remove("v6OR");
+			parent.children[4].classList.remove("v6BL");
+			parent.children[4].classList.remove("v6BR");
+			
+			// 3 cünün durumu
+			parent.children[2].classList.add("v4HR");
+			parent.children[2].classList.remove("v4HL");
+			parent.children[2].classList.remove("v4BL");
+			parent.children[2].classList.remove("v4BR");
+			
+			parent.children[4].classList.remove("v6HL");
+			parent.children[4].classList.remove("v6HR");
+			parent.children[4].classList.remove("v6OL");
+			parent.children[4].classList.remove("v6OR");
+			parent.children[4].classList.remove("v6BL");
+			parent.children[4].classList.remove("v6BR");
+			
+			// 4 üncünün durumu
+			parent.children[3].classList.add("v4BL");
+			parent.children[3].classList.remove("v4HR");
+			parent.children[3].classList.remove("v4HL");
+			parent.children[3].classList.remove("v4BR");
+			
+			parent.children[4].classList.remove("v6HL");
+			parent.children[4].classList.remove("v6HR");
+			parent.children[4].classList.remove("v6OL");
+			parent.children[4].classList.remove("v6OR");
+			parent.children[4].classList.remove("v6BL");
+			parent.children[4].classList.remove("v6BR");
+			
+			// 5 üncünün durumu
+			parent.children[4].classList.add("v4BR");
+			
+			parent.children[4].classList.remove("v4HR");
+			parent.children[4].classList.remove("v4HL");
+			parent.children[4].classList.remove("v4BL");
+			
+			parent.children[4].classList.remove("v6HL");
+			parent.children[4].classList.remove("v6HR");
+			parent.children[4].classList.remove("v6OL");
+			parent.children[4].classList.remove("v6OR");
+			parent.children[4].classList.remove("v6BL");
+			parent.children[4].classList.remove("v6BR");		    
+		}	
+		if (mevcut_video_sayisi==6){
+			
+			// benim durumum  
+			parent.children[0].classList.add("v6HL");
+			parent.children[0].classList.remove("v1S");
+			
+			// 2ci nin durumu
+			parent.children[1].classList.add("v6HR");	
+			parent.children[1].classList.remove("v6HL");
+			parent.children[1].classList.remove("v6OL");
+			parent.children[1].classList.remove("v6OR");
+			parent.children[1].classList.remove("v6BL");
+			parent.children[1].classList.remove("v6BR");
+			
+			// 3 cünün durumu
+			parent.children[2].classList.add("v6OL");			
+			parent.children[2].classList.remove("v6HR");
+			parent.children[2].classList.remove("v6HL");
+			parent.children[2].classList.remove("v6OR");
+			parent.children[2].classList.remove("v6BL");
+			parent.children[2].classList.remove("v6BR");
+			
+			// 4 üncünün durumu
+			parent.children[3].classList.add("v6OR");
+			parent.children[3].classList.remove("v6HL");			
+			parent.children[3].classList.remove("v6HR");
+			parent.children[3].classList.remove("v6OL");
+			parent.children[3].classList.remove("v6BL");
+			parent.children[3].classList.remove("v6BR");
+			
+			// 5 üncünün durumu
+			parent.children[4].classList.add("v6BL");
+			parent.children[4].classList.remove("v6HL");
+			parent.children[4].classList.remove("v6HR");
+			parent.children[4].classList.remove("v6OL");
+			parent.children[4].classList.remove("v6OR");
+			parent.children[4].classList.remove("v6BR");		    
+			// 6 cinin durumu
+			parent.children[5].classList.add("v6BR");
+			parent.children[5].classList.remove("v6HL");
+			parent.children[5].classList.remove("v6HR");
+			parent.children[5].classList.remove("v6OL");
+			parent.children[5].classList.remove("v6OR");
+			parent.children[5].classList.remove("v6BL");	
 		}		
+		if (mevcut_video_sayisi==7){
+			
+			// benim durumum  
+			parent.children[0].classList.add("v1S");
+			parent.children[0].classList.remove("v6HL");
+			
+			// 2ci nin durumu
+			parent.children[1].classList.add("v6HL");	
+			parent.children[1].classList.remove("v6HR");
+			parent.children[1].classList.remove("v6OL");
+			parent.children[1].classList.remove("v6OR");
+			parent.children[1].classList.remove("v6BL");
+			parent.children[1].classList.remove("v6BR");
+			
+			// 3 cünün durumu
+			parent.children[2].classList.add("v6HR");			
+			parent.children[2].classList.remove("v6HL");
+			parent.children[2].classList.remove("v6OL");
+			parent.children[2].classList.remove("v6OR");
+			parent.children[2].classList.remove("v6BL");
+			parent.children[2].classList.remove("v6BR");
+			
+			// 4 üncünün durumu
+			parent.children[3].classList.add("v6OL");
+			parent.children[3].classList.remove("v6HL");			
+			parent.children[3].classList.remove("v6HR");
+			parent.children[3].classList.remove("v6OR");
+			parent.children[3].classList.remove("v6BL");
+			parent.children[3].classList.remove("v6BR");
+			
+			// 5 üncünün durumu
+			parent.children[4].classList.add("v6OR");
+			parent.children[4].classList.remove("v6HL");
+			parent.children[4].classList.remove("v6HR");
+			parent.children[4].classList.remove("v6OL");
+			parent.children[4].classList.remove("v6BL");
+			parent.children[4].classList.remove("v6BR");		    
+			// 6 cinin durumu
+			parent.children[5].classList.add("v6BL");
+			parent.children[5].classList.remove("v6HL");
+			parent.children[5].classList.remove("v6HR");
+			parent.children[5].classList.remove("v6OL");
+			parent.children[5].classList.remove("v6OR");
+			parent.children[5].classList.remove("v6BR");
+			
+			// 7 cinin durumu
+			parent.children[6].classList.add("v6BR");
+			parent.children[6].classList.remove("v6HL");
+			parent.children[6].classList.remove("v6HR");
+			parent.children[6].classList.remove("v6OL");
+			parent.children[6].classList.remove("v6OR");
+			parent.children[6].classList.remove("v6BL");	
+		}		
+		
+		
+			
 }// yerlestir
 
 
-
+/* *************************************
+/ ======== SALONA GIRIYOR ============== /
+ ****************************************/
 
 connection.onstream = function(event) {
 	// kullaniciyi video ya bagla
 	document.getElementById("wrapper").appendChild(event.mediaElement);
+	
+	//document.getElementById(event.mediaElement).setAttribute("name", event.userid);
+	
 	
 	/* user id leri kayda aliyoruz user_id[0]="xtgYtRUIgHrTçdzfsvvppokj" gibi*/
 	//user_id[connection.getAllParticipants().length]=event.mediaElement.id;
 	//kullanici[connection.getAllParticipants().length]=event.userid;
 	
 	// baglanti sayisini hesapliyoruz	
-	var baglanti_sayisi = document.getElementById("wrapper").childElementCount;
+	var baglanti_sayisi = document.getElementById("wrapper").childElementCount; 
+	//alert("Giris:"+baglanti_sayisi);
+	
 
 	if (event.type === 'remote') {
 		var user_sayi="u"+baglanti_sayisi; // u1....
-		document.getElementById(user_sayi).setAttribute('value',event.mediaElement.id); 
+		document.getElementById(user_sayi).setAttribute('value',event.mediaElement.id);
+		document.getElementById(user_sayi).setAttribute('name',event.userid); 
 		
 		RemoteUserID[baglanti_sayisi]=event.mediaElement.id;
 		
@@ -325,12 +604,12 @@ connection.onstream = function(event) {
 	else{
 		var user_sayi="u"+baglanti_sayisi; // u1....
 		document.getElementById(user_sayi).setAttribute('value',event.mediaElement.id); 
-	
+		document.getElementById(user_sayi).setAttribute('name',event.userid);
 		LocalUserID[baglanti_sayisi]=event.mediaElement.id;
 		
 	}
-	
-	yerlestir(baglanti_sayisi);
+	//Yerlestir 
+	yerlestir();
 	
 	
 	
@@ -338,14 +617,37 @@ connection.onstream = function(event) {
 
 } // onsream
 
-connection.onleave = connection.streamended = connection.onclose = function(event) {
+
+/* *************************************
+/ ======= SALONDAN CIKIYOR ============= /
+ ****************************************/
+connection.onleave = connection.streamended = connection.onclose = function(event){
 	
 // baglanti sayisini hesapliyoruz	
 	//var baglanti_sayisi = document.getElementById("wrapper").childElementCount;
-	//var baglanti_sayisi=connection.getAllParticipants().length;
-	//alert(baglanti_sayisi);
-	//yerlestir(baglanti_sayisi);
-}
+	var kalan_sayisi=connection.getAllParticipants().length;
+	//alert("Cikis: "+kalan_sayisi);
+	
+	
+	//var wrapper = document.getElementById("misafirler");
+	//var input = getInputWithValue(wrapper, event.mediaElement.id);
+	//alert("çikis"+event.userid);
+
+	
+	//çikani bul ve temizle
+	var cikanVideo_id=document.getElementsByName(event.userid)[0].value;
+	document.getElementById(cikanVideo_id).remove();
+	
+	document.getElementsByName(event.userid)[0].value="";
+	document.getElementsByName(event.userid)[0].name="";
+	
+	
+	
+	// Yerlestir
+	yerlestir();
+
+
+} //onclose
 
 
 //----- Leave yazisini ekle
@@ -353,7 +655,8 @@ if(isMobile==1){
 document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:35px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");
 }
 else{
-document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:20px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");	
+document.body.insertAdjacentHTML("beforeend", "<div id='text-leave' style='font-size:20px;color:red;font-weight: bold;position: absolute;top:5px;z-index: 100;cursor:pointer;' >"+odadancik+"</div>");
+	
 }    	
 //------ Leave room yazisini kapat -----
 document.getElementById('text-leave').style.visibility = "hidden";
