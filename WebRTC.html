@@ -77,6 +77,12 @@ button {
 	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;z-index:1;
 	grid-column-start: 1; grid-column-end: 3;grid-row-start: 1;grid-row-end: 3;
 }
+.v1SX{
+	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;z-index:1;
+	grid-column-start: 1; grid-column-end: 2;grid-row-start: 1;grid-row-end: 2;
+}
+
+
 .v2{
 	display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;
 	grid-column-start: 1; grid-column-end: 8; grid-row-start: 1; grid-row-end: 11;  
@@ -155,8 +161,10 @@ button {
 	<input type="text" size="10" id="OdaIsmi" placeholder="Room Name" value="">
 	<button id="btn-openjoin-room"> Open/Join Room</button>
 	<hr>
+	<!-- ************ MESAJ Bolumu ********** -->
 	<div id="copyright"> VisioConf V0.7 - 2020 D.TULBENT</div> <!-- Ayak kismi -->
-	<div id="mesaj"> </div>
+	<div style="display:inline;"> <span id="mesaj"> </span > <span id="butondetay" title=" " style="color:blue;cursor:pointer; font-size:30px;" > </span></div>
+    <div id="detaymesaji"> </div>
 <!-- Buraya remote videolarin Id lerini stok  ediyoruz -->	
 <div id="misafirler">
 <input type="hidden" id="u1" name="" value="" >
@@ -190,8 +198,26 @@ if (language.indexOf('fr') > -1) {
 	var odaadiyok="Le Nom de la salle manque !";
 	var kisisayisi=  " Utilisateur(s) connecté(s)";
 	var navOK="Navigateur bon pour la visiocoférence ";
-	var navNotOK="Votre navigateur n'est pas adapté à faire de la visioconférence !";
-	}
+	var navNotOK="Votre navigateur n'est pas adapté à faire une bonne  visioconférence !";
+	var dataylari_incele="Voir les détails";
+	
+	var ScreenCapturingSupported_OK="Capture d\'écran OK";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Capture d\'écran n\'est pas supportée</span>";
+	var SctpDataChannelsSupported_OK="Sctp Data Channel OK";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel n\'est pas supporté</span>";
+	var RtpDataChannelsSupported_OK="Rtp Data Channel OK";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel n\'est pas supporté</span>";
+	var WebRTCSupported_OK="WebRTC est OK";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>WebRTC n\'est pas supporté </span>";
+	var WebSocketsSupported_OK="Web Socket OK";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket n\'est pas supporté</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket est bloqué</span>";
+	var WebSocketsBlocked_notOK="Web Socket n\'est pas bloqué";
+	var VideoSupportsStreamCapturing_OK="Caputre video est possible";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Caputre video n\'est pas possible</span>";
+	var System="Système: ";
+	var Browser="Navigateur: ";
+;	}
 else if (language.indexOf('tr') > -1) {
 	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
 	document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
@@ -199,8 +225,26 @@ else if (language.indexOf('tr') > -1) {
 	var odaadiyok="Oda adi eksik !";
 	var kisisayisi=  " Kisi Salondayiz";
 	var navOK="Web Browseriniz uygundur";
-	var navNotOK="Kullandiginiz Web Browser size visoconferans yapama imkani sunmuyor!";
-}
+	var navNotOK="Bu Web Browser size kaliteli bir visoconferans yapama imkani sunmuyor!";
+	var dataylari_incele="Detaylari incele";
+	
+	var ScreenCapturingSupported_OK="Ekrak koyalama mümkün";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Ekran kopyalama imkansiz</span>";
+	var SctpDataChannelsSupported_OK="Sctp Data Channel Tamam";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel çalismiyor</span>";
+	var RtpDataChannelsSupported_OK="Rtp Data Channel Tamam";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel çalismiyor</span>";
+	var WebRTCSupported_OK="Internet üzerinden direk baglanti Tamam";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>Internet üzerinden direk baglanti çalismiyor </span>";
+	var WebSocketsSupported_OK="Web Socket Tamam";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket çalismiyor</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket kapali</span>";
+	var WebSocketsBlocked_notOK="Web Socket açik";
+	var VideoSupportsStreamCapturing_OK="Video kopyalama mümkün";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Video kopyalama çalismiyor</span>";
+	var System="Isletme sistemi: ";
+	var Browser="Browser: ";
+	}
 else {
 	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
 	document.getElementById('OdaIsmi').placeholder = "Room Name ?";
@@ -208,12 +252,32 @@ else {
 	var odaadiyok="Please enter Room Name !";
 	var kisisayisi=  " Users connected now";
 	var navOK=" Your browser is OK !";
-	var navNotOK="Your browser does not support visioconference !!";
+	var navNotOK="Your browser is not suitable for a good videoconference!";
+	var dataylari_incele="See the details";
+	
+	var ScreenCapturingSupported_OK="Screen Capturing Supported";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Screen Capturing not supported</span>";
+	var SctpDataChannelsSupported_OK="Sctp Data Channel Supported";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel not supported</span>";
+	var RtpDataChannelsSupported_OK="Rtp Data Channel Supported";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel not Supported</span>";
+	var WebRTCSupported_OK="WebRTC supported";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>WebRTC not supported </span>";
+	var WebSocketsSupported_OK="Web Socket supported";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket not supported</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket is Blocked</span>";
+	var WebSocketsBlocked_notOK="Web Socket is Not Blocked";
+	var VideoSupportsStreamCapturing_OK="Video Supports Stream Capturing";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Video does not Supports Stream Capturing</span>";
+	var System="System: ";
+	var Browser="Browser: ";
 	}
 
 /* ******************************************************
  ------------ BROWSER WEBRTC Uygunluk kontrolu ? --- ------
 //****************************************************** */
+var detay_masaji="";
+
 var webrtc_test=DetectRTC.isSctpDataChannelsSupported+
 				DetectRTC.isRtpDataChannelsSupported+
 				DetectRTC.isAudioContextSupported+
@@ -222,10 +286,23 @@ var webrtc_test=DetectRTC.isSctpDataChannelsSupported+
 				DetectRTC.isVideoSupportsStreamCapturing;
     			
 
-if(DetectRTC.isWebSocketsBlocked==false && webrtc_test==6){	document.getElementById("mesaj").innerHTML = "<span style='color:green; font-size:30px;font-weight:bold;'></span>";}
-else{document.getElementById("mesaj").innerHTML = "<span style='color:red; font-size:30px; font-weight:bold;'>"+navNotOK+"</span>";}
+if(DetectRTC.isWebSocketsBlocked==false && webrtc_test==6){	document.getElementById("mesaj").innerHTML = "<span style='color:green; font-size:30px;font-weight:bold;'>" +  " </span>";}
+else{document.getElementById("mesaj").innerHTML = "<span style='color:red; font-size:30px; font-weight:bold;'>"+navNotOK+"</span>";document.getElementById("butondetay").title=dataylari_incele;document.getElementById("butondetay").innerHTML ="&#128736";}
 
-//alert(DetectRTC.displayResolution);
+document.getElementById('butondetay').onclick = function() {
+
+if(DetectRTC.isScreenCapturingSupported==1){detay_masaji=detay_masaji+ScreenCapturingSupported_OK+"<br>";}else{detay_masaji=detay_masaji+ScreenCapturingSupported_notOK+"<br>";}
+if(DetectRTC.isSctpDataChannelsSupported==1){detay_masaji=detay_masaji+SctpDataChannelsSupported_OK+"<br>";}else{detay_masaji=detay_masaji+SctpDataChannelsSupported_notOK+"<br>";}
+if(DetectRTC.isRtpDataChannelsSupported==1){detay_masaji=detay_masaji+RtpDataChannelsSupported_OK+"<br>";}else{detay_masaji=detay_masaji+RtpDataChannelsSupported_notOK+"<br>";}
+if( DetectRTC.isWebRTCSupported==1){detay_masaji=detay_masaji+WebRTCSupported_OK+"<br>";}else{detay_masaji=detay_masaji+WebRTCSupported_notOK+"<br>";}
+if( DetectRTC.isWebSocketsSupported==1){detay_masaji=detay_masaji+WebSocketsSupported_OK+"<br>";}else{detay_masaji=detay_masaji+WebSocketsSupported_notOK+"<br>";}
+if( DetectRTC.isWebSocketsBlocked==1){detay_masaji=detay_masaji+WebSocketsBlocked_OK+"<br>";}else{detay_masaji=detay_masaji+WebSocketsBlocked_notOK+"<br>";}
+if( DetectRTC.isVideoSupportsStreamCapturing==1){detay_masaji=detay_masaji+VideoSupportsStreamCapturing_OK+"<br>";}else{detay_masaji=detay_masaji+VideoSupportsStreamCapturing_notOK+"<br>";}
+detay_masaji=detay_masaji+System+ DetectRTC.osName+"  Version: "+DetectRTC.osVersion+"<br>"+Browser+DetectRTC.browser.name+" Version: "+DetectRTC.browser.version;
+
+ 
+document.getElementById("detaymesaji").innerHTML =detay_masaji;	
+}
 
 
 
@@ -240,7 +317,7 @@ var yyyy = today.getFullYear();
 if(dd<10){dd='0'+dd} 
 if(mm<10){mm='0'+mm} 
 var today = dd+'/'+mm+'/'+yyyy; 
-document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:30px;font-weight:bold;'> Visioconference<br> <span style='font-size:20px;font-weight:normal;'>   "+today+ "</span></div>";
+document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:30px;font-weight:bold;'><img src='toplanti.png' width=26px> Kozeri<br> <span style='font-size:20px;font-weight:normal;'>   "+today+ "</span></div>";
 	
 /*
 var hasTouchscreen = 'ontouchstart' in window;
@@ -332,12 +409,14 @@ function yerlestir(gelen_sayi) {
 			// benim durumum
 	  		parent.children[0].classList.add("v1");
 	  		parent.children[0].classList.remove("v1S");
+	  		parent.children[0].classList.remove("v1SX");
 	  		}
 							
 		if (mevcut_video_sayisi==2){
 			// benim durumum
 	  		parent.children[0].classList.add("v1S");
 	  		parent.children[0].classList.remove("v1");
+	  		parent.children[0].classList.remove("v1SX");
 	    	// Digerlerinin durumu
 	  		parent.children[1].classList.add("v2");
 	  		
@@ -353,22 +432,25 @@ function yerlestir(gelen_sayi) {
 		
 		if (mevcut_video_sayisi==3){
 			// benim durumum        
-	    	parent.children[0].classList.add("v1S");
-	    	parent.children[0].classList.remove("v4HL");
+	    	parent.children[0].classList.add("v1SX");
 	    	
+	    	parent.children[0].classList.remove("v4HL");
+	    	parent.children[0].classList.add("v1S");
 	    
 	   	 // 2ci nin durumu
 	   		parent.children[1].classList.add("v3H");
-	    	parent.children[1].classList.remove("v2");
 	    	
+	    	parent.children[1].classList.remove("v2");
+	    	parent.children[1].classList.remove("v4HL");
 	    	parent.children[1].classList.remove("v4HR");
 	    	parent.children[1].classList.remove("v4BL");
 	    	parent.children[1].classList.remove("v4BR");		    
 	    
 		// üçüncünün durumu
 			parent.children[2].classList.add("v3B");
+			
 	    	parent.children[2].classList.remove("v2");
-	    	
+	    	parent.children[2].classList.remove("v4HL");
 	    	parent.children[2].classList.remove("v4HR");
 	    	parent.children[2].classList.remove("v4BL");
 	    	parent.children[2].classList.remove("v4BR");		
@@ -416,9 +498,10 @@ function yerlestir(gelen_sayi) {
 		if (mevcut_video_sayisi==5){
 			
 			// benim durumum  
-			parent.children[0].classList.add("v1S");
+			parent.children[0].classList.add("v1SX");
 			parent.children[0].classList.remove("v4HL");
 			parent.children[0].classList.remove("v6HL");
+			parent.children[0].classList.remove("v1S");
 			
 			// 2ci nin durumu
 			parent.children[1].classList.add("v4HL");
@@ -585,41 +668,28 @@ connection.onstream = function(event) {
 	// kullaniciyi video ya bagla
 	document.getElementById("wrapper").appendChild(event.mediaElement);
 	
-	//document.getElementById(event.mediaElement).setAttribute("name", event.userid);
-	
-	
-	/* user id leri kayda aliyoruz user_id[0]="xtgYtRUIgHrTçdzfsvvppokj" gibi*/
-	//user_id[connection.getAllParticipants().length]=event.mediaElement.id;
-	//kullanici[connection.getAllParticipants().length]=event.userid;
-	
 	// baglanti sayisini hesapliyoruz	
 	var baglanti_sayisi = document.getElementById("wrapper").childElementCount; 
-	//alert("Giris:"+baglanti_sayisi);
 	
-
 	if (event.type === 'remote') {
-		var user_sayi="u"+baglanti_sayisi; // u1....
-		document.getElementById(user_sayi).setAttribute('value',event.mediaElement.id);
-		document.getElementById(user_sayi).setAttribute('name',event.userid); 
-		
-		RemoteUserID[baglanti_sayisi]=event.mediaElement.id;
-		
+		var islem=0;
+		for (i=2;i<8;i++){
+			var sayi="u"+i;
+			if(document.getElementById(sayi).value=="" && islem < 1){
+				document.getElementById(sayi).setAttribute('value',event.mediaElement.id);
+				document.getElementById(sayi).setAttribute('name',event.userid); 
+				islem++;	
+			}			
+		}
+	
 	}
-	else{
-		var user_sayi="u"+baglanti_sayisi; // u1....
-		document.getElementById(user_sayi).setAttribute('value',event.mediaElement.id); 
-		document.getElementById(user_sayi).setAttribute('name',event.userid);
-		LocalUserID[baglanti_sayisi]=event.mediaElement.id;
-		
+	else{ // yani ben
+		document.getElementById("u1").setAttribute('value',event.mediaElement.id); 
+		document.getElementById("u1").setAttribute('name',event.userid);		
 	}
 	//Yerlestir 
 	yerlestir();
-	
-	
-	
-
-
-} // onsream
+} // onsream sonu
 
 
 /* *************************************
@@ -627,30 +697,16 @@ connection.onstream = function(event) {
  ****************************************/
 connection.onleave = connection.streamended = connection.onclose = function(event){
 	
-// baglanti sayisini hesapliyoruz	
-	//var baglanti_sayisi = document.getElementById("wrapper").childElementCount;
+	// baglanti sayisini hesapliyoruz	
 	var kalan_sayisi=connection.getAllParticipants().length;
-	//alert("Cikis: "+kalan_sayisi);
-	
-	
-	//var wrapper = document.getElementById("misafirler");
-	//var input = getInputWithValue(wrapper, event.mediaElement.id);
-	//alert("çikis"+event.userid);
-
-	
 	//çikani bul ve temizle
 	var cikanVideo_id=document.getElementsByName(event.userid)[0].value;
 	document.getElementById(cikanVideo_id).remove();
 	
 	document.getElementsByName(event.userid)[0].value="";
-	document.getElementsByName(event.userid)[0].name="";
-	
-	
-	
+	document.getElementsByName(event.userid)[0].name="";	
 	// Yerlestir
 	yerlestir();
-
-
 } //onclose
 
 
