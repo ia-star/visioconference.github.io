@@ -360,7 +360,7 @@ $("button#player2_zar_at").hide();$("button#player1_zar_at").hide();$("button#de
 // ***************************************** //
 
 $("#pullari_yerlestir").click(function(){
-	start_layout("T2");
+	start_layout("L");
 	$("button#siyah_pullari_sec").show();
 	$("#pullari_yerlestir").hide();
 	showMessage("Ho&#x15F; Geldiniz. Iyi oyunlar dilegimizle ");
