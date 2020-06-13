@@ -363,7 +363,7 @@ $("#pullari_yerlestir").click(function(){
 	start_layout("L");
 	$("button#siyah_pullari_sec").show();
 	$("#pullari_yerlestir").hide();
-	showMessage("Ho&#x15F; Geldiniz. Iyi oyunlar dilegimizle ");
+	showMessage("Ho&#x15F; Geldiniz. Iyi oyunlar dile&#x11F;imizle ");
 	})
 
 $("button#siyah_pullari_sec").click(function(){
