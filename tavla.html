@@ -2,41 +2,41 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Tavla version 1.0</title>
+		<title>Tavla version 0.3</title>
 		<link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="global.css">
 	</head>
 	<body>
 <div class="Kontrol" id="kontrol"> 
 <!-- /* **************  IKILI BAGLANTI KURMA ****************** */ -->
-<div id="entete" style="width: 500px; height: 80px;"> </div>
+<div id="entete" style="width: 1000px; height: 120px;"> </div>
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
  <input type="hidden" id="user-id" style="font-size: 1.2em; margin-right: 0; width: 5em;"  placeholder="all"  title=" user-id gir ve dierek mesaj at.">
 <div id="chat-output" style="display:block"> </div>
 <input type="hidden" id="chat-input" style="font-size: 1.2em; margin-left: -.5em; width: 80%;" placeholder="Mesaj yaz"  value="">
-<input  type="text" size="14" id="OdaIsmi" placeholder="Tavla Masas&#x131;n&#x131;n ad&#x131;" onclick="this.value=''"    value="">
-<button style="background-color:#ffd387;" id="btn-openjoin-room">Masaya buyrun</button>
+<input  type="text" size="14" id="OdaIsmi" placeholder="Tavla Masas&#x131;n&#x131;n ad&#x131;" onclick="this.value=''" title="Arkada&#x15F;&#x131;n&#x131;zla kararla&#x15F;t&#x131;rd&#x131;&#x11F;&#x131;n&#x131;z masa ad&#x131;n&#x131; girin lütfen"   value="">
+<button style="background-color:#ffd387;cursor:pointer;" id="btn-openjoin-room" >Masaya buyrun</button>
 </div>
 <div id="container" class="container"> 	
 <!--/* ****************************************************** */	-->	
-		<button id="devam_et" style="display:none;"  class="devam_et"> Devam et</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+		<button id="devam_et" style="display:none;"  class="devam_et"> Devam et</button>	
 		
-		<input id="kayit" type="hidden" data-oyuncu="0"  data-oyun="0" data-oyunmax="0"	data-position="0" data-yera="0" data-yerb="0" data-kirik="0"  data-toplama="0">	 
+		<input id="kayit" type="hidden" data-oyuncu="0"  data-oyun="0" data-oyunmax="0"	data-position="0" data-yera="0" data-zara="0"  data-yerb="0" data-zarb="0" data-kirik="0"  data-toplama="0" kuta="0" kutb="0">	 
 		<input id="arbit" type="hidden" data-local_user_ref="0" data-remote_user_ref="0"  data-local_user_name=" " data-remote_user_name=" ">	 
 
 		<input type="hidden" id="layout_tipi" placeholder="simulasyon" size="3" value="L">
 		<input type="hidden" id="oyuncu_no" placeholder="Oyuncu no" size="3" value="0">
-		<button id="pullari_yerlestir" class="basla" style="display:none"> Pullar&#x131; yerlestir</button>
+		<button id="pullari_yerlestir"  style="display:none; font-weight:bold; cursor:pointer;" onMouseOver="this.style.color='green';" onMouseOut="this.style.color='black'" > Pullar&#x131; yerlestir</button>
 		<button id="basla" class="basla" style="display:none"> Oyuna Ba&#x15F;la</button>
-		<button id="secimTamam" style="display:none;"  class="devam_et"> Pul seçimi Tamam </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button id="secimTamam" style="display:none;"  class="devam_et"> Pul seçimi Tamam </button>
 		<button id="siyah_pullari_sec" style="display:none"> siyah pullar&#x131; seç</button>
 		<button id="player1_zar_at" style="display:none" class="zar_at_turuncu">Turuncu pullar Zar at&#x131;yor</button>
 		<button id="player2_zar_at" style="display:none" class="zar_at_siyah">Siyah Pullar Zar at&#x131;yor</button>	
 	
 	
-		<div id="board" class="board">
+		<div id="board" class="board" style="display:none">
 			<div class="side left">
 			
 				<div class="quarter top">
@@ -71,37 +71,9 @@
 					<div class="point" data-id="24"><div class="triangle"></div></div>
 				</div>
 				
-				<div class="quarter bottom">
-					<div class="point odd" data-id="6"><div class="triangle"></div></div>
-					<div class="point" data-id="5"><div class="triangle"></div></div>
-					<div class="point odd" data-id="4"><div class="triangle"></div></div>
-					<div class="point" data-id="3"><div class="triangle"></div></div>
-					<div class="point odd" data-id="2"><div class="triangle"></div></div>
-					<div class="point" data-id="1"><div class="triangle"></div></div>
-				</div>
-				
-				<div id="message"> </div>
-				
-				<div class="kirik_pul_kutusu1" data-id="25"> 
-					<!--<div class="kirik_pul"></div>-->					
-				</div>
-				
-				<div class="kirik_pul_kutusu2" data-id="26"> 
-					<!--<div class="kirik_pul"></div>	-->	
-				</div>
-				
-				<div class="toplanan_pul_kutusu1" data-id="27"> 
-					<!-- <div class="toplanan_pul"></div> -->
-							
-				</div>
-				
-				<div class="toplanan_pul_kutusu2" data-id="28"> 
-					<!-- <div class="toplanan_pul"></div> -->
-						
-				</div>
-				
-				
-				
+				<div id="kirik_zarlar" class="kirik_zarlar">
+				<div class="kirik_pul_kutusu1" data-id="25"> </div>
+
 				<div class="die" id="die1">
 					<div class="face" data-id="1">
 						<div class="pip center middle"></div>
@@ -173,6 +145,33 @@
 					</div>
 				</div>
 				
+				<div class="kirik_pul_kutusu2" data-id="26"> </div>
+				</div>				
+				<div class="quarter bottom">
+					<div class="point odd" data-id="6"><div class="triangle"></div></div>
+					<div class="point" data-id="5"><div class="triangle"></div></div>
+					<div class="point odd" data-id="4"><div class="triangle"></div></div>
+					<div class="point" data-id="3"><div class="triangle"></div></div>
+					<div class="point odd" data-id="2"><div class="triangle"></div></div>
+					<div class="point" data-id="1"><div class="triangle"></div></div>
+				</div>
+				
+				<div id="message"> </div>
+				
+				
+				
+				
+				<div class="toplanan_pul_kutusu1" data-id="27"> 
+					<!-- <div class="toplanan_pul"></div> -->
+							
+				</div>
+				
+				<div class="toplanan_pul_kutusu2" data-id="28"> 
+					<!-- <div class="toplanan_pul"></div> -->
+						
+				</div>
+				
+
 			</div>
 		</div> <!-- Board sonu -->
 	<div class="copyright" style="font-size:15px; color:black;font-style: italic;" id="copyright"> Tavla V1.0 - &copy;D.TULBENT 2020 </div> <!-- Ayak kismi -->
@@ -180,6 +179,7 @@
 
 </div>	<!-- container sont -->	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="dekodaj.js"></script>
 		<script src="global.js"></script>
 		

@@ -15,10 +15,11 @@
 		   	var pos_element = data.indexOf("!");
 		   	var res_element = data.substring(0,pos_element);
 		   	
-		   	if(res_element=="siyah_pul_secimi"){ //alert(data);
+		   	if(res_element=="siyah_pul_secimi"){ 
 			  	var show_mesaj="Rakip siyah pullar&#x131; seçti. Kabul ediyorsan&#x131;z Pul seçimi tamam tu&#x15F;una bas&#x131;n";
-	 		   	showMessage(show_mesaj);
-	 		   	$("button#secimTamam").show();
+	 		   	// pullari_yerlestir butonu günüyormu ?
+				if ($("#pullari_yerlestir").is(':visible')=== true) {/* element is Visible bir sey yapma */}
+	 		   	else {$("button#secimTamam").show();showMessage(show_mesaj);}
  		   	}
  		   
  		    else if(res_element=="mesaj_simple"){
@@ -52,6 +53,7 @@
 				$("input#oyuncu_no").val(joueur);
 				$("button#player"+joueur+"_zar_at").show();
 				$("button#devam_et").show();
+				$("button#siyah_pullari_sec").hide();
 				
 				// temizlik
 				$("div.piece").removeClass("isaret"); 
@@ -92,7 +94,8 @@
 			$("button#devam_et").hide();
 			$("div#die1").removeClass("active");
 			$("div#die2").removeClass("active");	
- 		   		
+ 		   	if(oyuncu==1){showMessage("oyunu TURUNCU PULLAR  kazand&#x131;");}	
+ 		   	if(oyuncu==2){showMessage("oyunu SIYAH PULLAR  kazand&#x131;");}
  		   	} 
 		   	
 		   	else if(res_element=="zar"){
@@ -100,8 +103,9 @@
 		   		var zar1=data.substring(pos_element+1,pos_zar1);
 		   		var pos_zar2 = data.lastIndexOf("!");
 				var zar2 = data.substring(pos_zar1+1,pos_zar2);
-		   		//alert (pos_zar1+","+pos_zar2);
-		   		$("div.die").shake();
+		   		
+		   		//zarlari salla
+		   		$("div.die").effect( "shake" );
 		   		rakip_zari_goster(zar1,zar2);
  
  				}

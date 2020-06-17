@@ -1,5 +1,7 @@
 /* ************** ENTETE ************************* */
-document.getElementById("entete").innerHTML = "	<div style='padding: 12px 15px 20px 2px;font-size:45px;font-weight:bold; color:#515151;'><img src='toplanti.png' width=35px> Kozeri <span style='font-size:35px;font-weight:bold;'> - Oyun Saray&#x131;  </span></div>";
+var logo="<img src='toplanti.png' width=35px> Kozeri <span style='font-size:35px;font-weight:bold;'> - Oyun Saray&#x131;  </span>";
+var texte_L1="<br><span  style='font-size:25px;color:grey;' ><img src='tavla_masasi.jpeg' width=25px> Tavla Oyunu ";
+document.getElementById("entete").innerHTML = "	<div style='padding: 12px 15px 20px 2px;font-size:45px;font-weight:bold; color:#515151;'>"+logo+texte_L1+"</div>";
 
 /* ************* BAGLANTI ********************************* */
 var connection = new RTCMultiConnection();
@@ -91,6 +93,10 @@ connection.onopen = function(event) {
 			yerlestir();
 
 			} // onstream sonu
+			
+/* ************************************************ */
+/* ************ HERSEYIN BASLANGICI *************** */
+/* ************************************************ */
 
 document.getElementById('btn-openjoin-room').onclick = function() {
 	var oda = document.getElementById("OdaIsmi").value;
@@ -99,9 +105,17 @@ document.getElementById('btn-openjoin-room').onclick = function() {
     	connection.openOrJoin(oda);
     	document.getElementById('btn-openjoin-room').style.visibility = "hidden";
     	document.getElementById("kontrol").style.display = "none"; // Kontrolu kapat  	  	   	
+    	$("div#board").show();
+    	showMessage("Ho&#x15F; Geldiniz. Iyi oyunlar dile&#x11F;imizle ");
     	$("button#pullari_yerlestir").show(); // Pullari yerlestir butonunu aç  	
+    	
     	}
-    }	
+    }
+    
+    
+    
+    
+    	
 // Mobil telefon veya Tablet mi PC mi ?
 var hasTouchscreen = 'ontouchstart' in window;
 if(hasTouchscreen){var isMobile=1;}
@@ -167,6 +181,7 @@ function yerlestir() {
 /* ************************************************ */
 
 function start_layout(layout_type){
+
 // önce Temizlik
 $("div.piece").each(function(){
 	$( this).remove();
@@ -175,7 +190,6 @@ $("div.piece").each(function(){
 $("div.point").each(function(){
 	$(this ).removeClass ( "player1 player2");
 	})	
-
 
 if(layout_type=="L"){
 	
@@ -298,12 +312,10 @@ if(layout_type=="T2"){ // toplama player 2
  		$( "<div class=\"piece\"></div>" ).prependTo( this);
  		$( "<div class=\"piece\"></div>" ).prependTo( this);
  		$( "<div class=\"piece\"></div>" ).prependTo( this);
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+
  		} 
 
 	if($(this).attr("data-id") ==23){
- 		//$(this).addClass("player2");
  		
  		}
  
@@ -322,17 +334,11 @@ if(layout_type=="T2"){ // toplama player 2
  		}
  		
  	
- 	if($(this).attr("data-id") ==20){
- 		/*$(this).addClass("player2");
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);*/
- 	}	
-  	if($(this).attr("data-id") ==19){
- 		/*$(this).addClass("player2");
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);
- 		$( "<div class=\"piece\"></div>" ).prependTo( this);*/
-	
+ 	if($(this).attr("data-id") ==20){ 	}	
+  	
+  	if($(this).attr("data-id") ==17){
+  		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);	
  		} 
  
  
@@ -341,11 +347,121 @@ if(layout_type=="T2"){ // toplama player 2
  		$( "<div class=\"piece\"></div>" ).prependTo( this);
  		$( "<div class=\"piece\"></div>" ).prependTo( this);
 	
- 		} 
+ 		}
+ 	 if($(this).attr("data-id") ==12){
+ 		$(this).addClass("player1");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+	
+ 		} 	 
 
 })
 
 } // fin T2
+/* *************** KIRIK PUL K1  ******************************************** */
+if(layout_type=="K1"){ // krik pul player1
+	 	
+	 	var kutu1=$("div.kirik_pul_kutusu1")
+ 		$("<div class=\"kirik_pul\"></div>" ).prependTo( kutu1);
+ 		$( "<div class=\"kirik_pul\"></div>" ).prependTo( kutu1);
+ 		
+ 		
+ 		
+ 		var kutu2=$("div.kirik_pul_kutusu2")
+ 		$("<div class=\"kirik_pul\"></div>" ).prependTo( kutu2);
+ 		$( "<div class=\"kirik_pul\"></div>" ).prependTo( kutu2);
+ 	
+ 		
+	
+ $("div.point").each(function(){
+	
+  	if($(this).attr("data-id") ==24){
+ 		$(this).addClass("player1");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		} 
+
+	if($(this).attr("data-id") ==23){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		}
+ 
+ 
+ 	if($(this).attr("data-id") ==22){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		}
+ 		
+ 	if($(this).attr("data-id") ==19){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);		
+ 		} 
+ 	
+ 	if($(this).attr("data-id") ==17){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);		
+ 		}
+ 		
+ 	if($(this).attr("data-id") ==13){
+ 		$(this).addClass("player1");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 			
+ 		} 	
+ 		 
+ 	if($(this).attr("data-id") ==12){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 				
+ 		}
+ 		
+ 	 	if($(this).attr("data-id") ==10){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);		
+ 		}	
+ 					 	
+ 	if($(this).attr("data-id") ==8){
+ 		$(this).addClass("player1");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);	
+ 		}
+ 	if($(this).attr("data-id") ==6){
+ 		$(this).addClass("player1");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);		
+ 		}	
+ 		
+ 	if($(this).attr("data-id") ==1){
+ 		$(this).addClass("player2");
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		$( "<div class=\"piece\"></div>" ).prependTo( this);
+ 		} 			 	
+ })
+	
+} // K1 son
+
+
+
+
+
+
 }   /*  Strat Lay out SON  */
 
 
@@ -360,14 +476,17 @@ $("button#player2_zar_at").hide();$("button#player1_zar_at").hide();$("button#de
 // ***************************************** //
 
 $("#pullari_yerlestir").click(function(){
-	start_layout("L");
-	$("button#siyah_pullari_sec").show();
+	start_layout("T2");
+	if($("input#arbit").attr("data-local_user_ref")==0){$("button#siyah_pullari_sec").show();}
+	else{$("button#siyah_pullari_sec").hide();}
 	$("#pullari_yerlestir").hide();
 	showMessage("Ho&#x15F; Geldiniz. Iyi oyunlar dile&#x11F;imizle ");
 	})
 
 $("button#siyah_pullari_sec").click(function(){
 	$("button#secimTamam").hide();
+	if($("input#arbit").attr("data-local_user_ref")==0){$("button#siyah_pullari_sec").show();}
+	else{$("button#siyah_pullari_sec").hide();}
 	var rakibe_mesaj_texte="siyah_pul_secimi!";
 	rakibe_mesaj(rakibe_mesaj_texte);
 	showMessage("Rakibiniz kabul ederse siz siyah pullarla  oynuyacaks&#x131;n&#x131;z.");
@@ -453,8 +572,12 @@ function rakip_zari_goster(zar1,zar2){
 	}
 
 
-$("button#player1_zar_at").click(function(){zar_at();})
-$("button#player2_zar_at").click(function(){zar_at();})
+$("button#player1_zar_at").click(function(){zar_at();
+	$("button#player1_zar_at").hide(); 
+	})
+$("button#player2_zar_at").click(function(){zar_at(); 
+	$("button#player2_zar_at").hide(); 
+	})
 
 // ******************************** //
 // **********  ZAR AT ************* //
@@ -478,7 +601,8 @@ function zar_at(){
 		*/		
 // -------------------------------------
 					
-		$("div.die").shake();
+		//zarlari salla ve at
+		$("div.die").effect( "shake" );
 		var rakibe_mesaj_texte="zar!";
 		// ---- atilan zarlari kaydet
 		// =========================
@@ -522,7 +646,7 @@ if(oyuncu_no==1){
 	var pul_sayisi=0;
 	for(j=ilk;j<7;j++){
 	pul_sayisi=pul_sayisi+($("div.point.player1[data-id="+j+"]").children().length);
-console.log("Ustu bos 1ci="+pul_sayisi+" position="+position);
+
 	}
 }
 if(oyuncu_no==2){
@@ -530,7 +654,7 @@ if(oyuncu_no==2){
 	var pul_sayisi=0;
 	for(j=ilk;j>18;j--){
 	pul_sayisi=pul_sayisi+($("div.point.player2[data-id="+j+"]").children().length);
-console.log("Ustu bos 2ci="+pul_sayisi+" position="+position);
+
 	}
 }	
 	if(pul_sayisi>0){return false;}
@@ -552,6 +676,8 @@ function gidilecek_yeri_goster(oyuncu_no) {
 	$("div.point").removeClass("gidecegi_yer_isareti");
 	$("input#kayit").attr("data-yera","0"); // kayda al
 	$("input#kayit").attr("data-yerb","0"); // kayda al
+	$("input#kayit").attr("data-zara","0"); // kayda al
+	$("input#kayit").attr("data-zarb","0"); // kayda al
 	$("input#kayit").attr("data-toplama","0"); // kayda al
 	$("input#kayit").attr("data-kirik","0"); // kayda al	
 	
@@ -657,7 +783,8 @@ function gidilecek_yeri_goster(oyuncu_no) {
 	// ===== PUL TOPLAMA modunda yer isaretleme Islemleri =====
 	// ========================================================
 	// Test edildi 17/05/2020 
-	else if (toplama_modu==1){ 
+	else if (toplama_modu==1){
+		
 		// ===== temizlik yap ===
 		// =======================
 		$("div.toplanan_pul_kutusu1").removeClass("gidecegi_yer_isareti");
@@ -678,6 +805,10 @@ function gidilecek_yeri_goster(oyuncu_no) {
 		// ==== tiklanan  pulun gidegegi yeri isaretle =====
 		// =================================================
 		$("div.point.player"+oyuncu_no).each(function(){
+			var kutuyu_gorduk1=0; var kutuyu_gorduk2=0;
+			$("input#kayit").attr("kuta",0); //kayda al kuta -> zara kutuya goturdu demek
+			$("input#kayit").attr("kutb",0); //kayda al kutb -> zarb kutuya goturdu demek
+			
 			$(this).find("div.piece").last().click(function(){
 				// temizlik
 				$("div.toplanan_pul_kutusu1").removeClass("gidecegi_yer_isareti");
@@ -712,22 +843,36 @@ function gidilecek_yeri_goster(oyuncu_no) {
 				// ------ sartlar uygunsa toplama kutusunu isaretle ------
 				// =======================================================
 	
-	
+console.log("------ *** BASLANGIC ***----------"+ zar1+" / "+zar2);	
 				if( ( (cond1 && ustu_bos(position,zar1,oyuncu_no)) || cond_pos1) && $("div.point[data-id="+position+"]").children().length >1 ) {
+				kutuyu_gorduk1=1; $("input#kayit").attr("kuta",1); $("input#kayit").attr("kutb",0);//kayda al
 					$("div.toplanan_pul_kutusu"+oyuncu_no).addClass("gidecegi_yer_isareti");
 					$("input#kayit").attr("data-yera",kutu_id); // kayda al	
-console.log("cond1"+ cond1 +" / "+ustu_bos(position,zar1,oyuncu_no)+" |||" +cond_pos1+ "***"+$("div.point[data-id="+position+"]").children().length);			
+					$("input#kayit").attr("data-zara",zar1); // kayda al	
 					rakibe_mesaj_texte="toplama_kutusu_isaretle!"+oyuncu_no+"!";				
 					rakibe_mesaj(rakibe_mesaj_texte);
+
+console.log(cond1+ "&&" +ustu_bos(position,zar1,oyuncu_no)+"|| "+ cond_pos1+") &&"+ $("div.point[data-id="+position+"]").children().length );
+console.log("cond1 OK "+ kutu_id+" K_Gorduk1="+kutuyu_gorduk1+" K_Gorduk2="+kutuyu_gorduk2);				
 				}
-				if( ( (cond2  && ustu_bos(position,zar2,oyuncu_no)) || cond_pos2) && $("div.point[data-id="+position+"]").children().length >1 ) {
+				else if( ( (cond2  && ustu_bos(position,zar2,oyuncu_no)) || cond_pos2) && $("div.point[data-id="+position+"]").children().length >1 ) {
+				kutuyu_gorduk2=1;  $("input#kayit").attr("kutb",1); $("input#kayit").attr("kuta",0); //kayda al
 					$("div.toplanan_pul_kutusu"+oyuncu_no).addClass("gidecegi_yer_isareti");
 					$("input#kayit").attr("data-yerb",kutu_id); // kayda al	
-console.log("cond2"+ cond2 +" / "+ustu_bos(position,zar2,oyuncu_no)+" |||" +cond_pos2+ "***"+$("div.point[data-id="+position+"]").children().length);					
+					$("input#kayit").attr("data-zarb",zar2); // kayda al
 					rakibe_mesaj_texte="toplama_kutusu_isaretle!"+oyuncu_no+"!";				
 					rakibe_mesaj(rakibe_mesaj_texte);
+console.log(cond2+ "&&" +ustu_bos(position,zar2,oyuncu_no)+"|| "+ cond_pos2+" &&"+ $("div.point[data-id="+position+"]").children().length );
+console.log("cond2 OK "+ kutu_id+" K_Gorduk1="+kutuyu_gorduk1+" K_Gorduk2="+kutuyu_gorduk2);					
 				}
+				
+			
 				else {
+					kutuyu_gorduk1==0;kutuyu_gorduk2==0;
+					$("input#kayit").attr("kuta",0); //kayda al
+					$("input#kayit").attr("kutb",0); //kayda al
+
+					
 				// ----- Normal yerleri isaretle -----
 				// ===================================
 				if(oyuncu_no==2) {
@@ -742,15 +887,19 @@ console.log("cond2"+ cond2 +" / "+ustu_bos(position,zar2,oyuncu_no)+" |||" +cond
 	
 			
 			
-				if (gidilecek_yer_testi(yera,oyuncu_no)<3){
+				if (gidilecek_yer_testi(yera,oyuncu_no)<3 && kutuyu_gorduk1==0){
+console.log("yera testi -> "+ yera);
+
 					$("div.point[data-id="+yera+"]").addClass("gidecegi_yer_isareti");
-					if(yera>0) {$("input#kayit").attr("data-yera",yera);} // kayda al
+					if(yera>0) {$("input#kayit").attr("data-yera",yera); $("input#kayit").attr("data-zara",zar1);} // kayda al
 					rakibe_mesaj_texte="yer_isaretle!"+yera+"!";				
 					rakibe_mesaj(rakibe_mesaj_texte);
 				} 	
-				if (gidilecek_yer_testi(yerb,oyuncu_no)<3){
+				if (gidilecek_yer_testi(yerb,oyuncu_no)<3  && kutuyu_gorduk2==0){
+console.log("yerb testi -> "+ yerb);
+console.log("---- SON ------------");
 					$("div.point[data-id="+yerb+ "]").addClass("gidecegi_yer_isareti");
-					if(yerb>0) {$("input#kayit").attr("data-yerb",yerb);} // kayda al
+					if(yerb>0) {$("input#kayit").attr("data-yerb",yerb); $("input#kayit").attr("data-zarb",zar2);} // kayda al
 					rakibe_mesaj_texte="yer_isaretle!"+yerb+"!";				
 					rakibe_mesaj(rakibe_mesaj_texte);
 				}
@@ -799,9 +948,11 @@ console.log("cond2"+ cond2 +" / "+ustu_bos(position,zar2,oyuncu_no)+" |||" +cond
 				// ===========================
 				if(oyuncu_no==2) {var yer1=position+zar1; var yer2=position+zar2;}
 				if(oyuncu_no==1) {var yer1=position-zar1; var yer2=position-zar2;} 
+				
 				$("input#kayit").attr("data-yera",yer1); //kayda al
+				$("input#kayit").attr("data-zara",zar1); // kayda al	
 				$("input#kayit").attr("data-yerb",yer2); //kayda al
-			
+				$("input#kayit").attr("data-zarb",zar2); // kayda al	
 			
 				if (gidilecek_yer_testi(yer1,oyuncu_no)<3){
 					$("div.point[data-id="+yer1+"]").addClass("gidecegi_yer_isareti"); 
@@ -986,7 +1137,7 @@ console.log("cond2"+ cond2 +" / "+ustu_bos(position,zar2,oyuncu_no)+" |||" +cond
 		
 		if($("input#kayit").attr("data-yera") ==yer && oynanan_oyun_sayisi==1 && max_oyun_sayisi==2 ) {
 		$("div#die1.die.active").removeClass("active");
-console.log($("input#kayit").attr("data-yera")+"/"+yer);
+
 		rakibe_mesaj_texte="zar_koret!die1!";				
 		rakibe_mesaj(rakibe_mesaj_texte);	
 		}
@@ -1067,7 +1218,7 @@ console.log($("input#kayit").attr("data-yera")+"/"+yer);
 
 		if(oyuncu_no==1){var kutu_id=27;}
 		if(oyuncu_no==2){var kutu_id=28;}
-		
+		var OyunBitti=0;
 		// position dan pul sil
 		var baslangic=$("div.point[data-id="+position+"]");
 		$(baslangic).find("div.piece.isaret").remove();
@@ -1100,36 +1251,50 @@ console.log($("input#kayit").attr("data-yera")+"/"+yer);
 		// Zarlari körelt
 		 
 		if( oynanan_oyun_sayisi==1 && max_oyun_sayisi==2 ) {
+				if($("input#kayit").attr("kuta") == 1 ){
+				$("div#die1.die.active").removeClass("active");
+				rakibe_mesaj_texte="zar_koret!die1!";				
+				rakibe_mesaj(rakibe_mesaj_texte);
+				}
+				else if($("input#kayit").attr("kutb") == 1 ){
+				$("div#die2.die.active").removeClass("active");
+				rakibe_mesaj_texte="zar_koret!die2!";				
+				rakibe_mesaj(rakibe_mesaj_texte);
+				}
+			
+			}
+		
+		else if(oynanan_oyun_sayisi==2 && max_oyun_sayisi==2 ) {
+			
+
+				$("div#die1.die.active").removeClass("active");
+				rakibe_mesaj_texte="zar_koret!die1!";				
+				rakibe_mesaj(rakibe_mesaj_texte);
+				
+				$("div#die2.die.active").removeClass("active");
+				rakibe_mesaj_texte="zar_koret!die2!";				
+				rakibe_mesaj(rakibe_mesaj_texte);			
+			}
+		
+		else if(oynanan_oyun_sayisi==2 && max_oyun_sayisi==4 ) {
 			$("div#die1.die.active").removeClass("active");
 			rakibe_mesaj_texte="zar_koret!die1!";				
 			rakibe_mesaj(rakibe_mesaj_texte);
 			}
 		
-		else if(oynanan_oyun_sayisi==2 && max_oyun_sayisi==2 ) {
-			$("div#die2.die.active").removeClass("active");	
-			rakibe_mesaj_texte="zar_koret!die2!";				
-			rakibe_mesaj(rakibe_mesaj_texte);
-			}
-		
-		else if(oynanan_oyun_sayisi==2 && max_oyun_sayisi==4 ) {
-			$("div#die1.die.active").removeClass("active");	
-			rakibe_mesaj_texte="zar_koret!die1!";				
-			rakibe_mesaj(rakibe_mesaj_texte);
-			}
-		
 		else if(oynanan_oyun_sayisi==4 && max_oyun_sayisi==4 ) {
-			$("div#die2.die.active").removeClass("active");	
+			$("div#die2.die.active").removeClass("active");
 			rakibe_mesaj_texte="zar_koret!die2!";				
 			rakibe_mesaj(rakibe_mesaj_texte);
+			
 			}
 		
 		// ********************	
 		// sayet oyun bitti ise
 		if((right_quarter_top+left_quarter_top+left_quarter_bottom+right_quarter_bottom)==0 && oyuncu_no==1){
-			//alert ("oyunu TURUNCU PULLAR  kazandi");
+			OyunBitti=1;
+//console.log("Dista kalan pullar= "+(right_quarter_top+left_quarter_top+left_quarter_bottom+right_quarter_bottom));
 			showMessage("oyunu TURUNCU PULLAR  kazand&#x131;");
-			rakibe_mesaj_texte="mesaj_simple!oyunu TURUNCU PULLAR  kazandi!";				
-			rakibe_mesaj(rakibe_mesaj_texte);
 			
 			$("div.piece").removeClass("isaret"); 
 			$("input#kayit").attr("data-oyun","0");
@@ -1150,16 +1315,18 @@ console.log($("input#kayit").attr("data-yera")+"/"+yer);
 			$("button#basla").show();
 			$("button#devam_et").hide();
 			
-			// Rakibe el ver
+			// Rakibe oyun bitti mesaji
 			var rakibe_mesaj_texte="oyun_bitti!"+oyuncu_no+"!";
 			rakibe_mesaj(rakibe_mesaj_texte);
 			
 			
 			}
 		if((right_quarter_top+left_quarter_top+left_quarter_bottom+right_quarter_bottom)==0 && oyuncu_no==2){
-			//alert ("oyunu SIYAH PULLAR  kazandi");
-			showMessage("oyunu SIYAH PULLAR  kazand&#x131;");
-			rakibe_mesaj_texte="mesaj_simple!oyunu SIYAH PULLAR  kazandi!";				
+//console.log("Dista kalan pullar= "+(right_quarter_top+left_quarter_top+left_quarter_bottom+right_quarter_bottom));
+			OyunBitti=1;
+			showMessage("oyunu SIYAH PULLAR  kazand&#x131;");			
+			// Rakibe oyun bitti mesaji
+			var rakibe_mesaj_texte="oyun_bitti!"+oyuncu_no+"!";
 			rakibe_mesaj(rakibe_mesaj_texte);
 			
 			$("div.piece").removeClass("isaret"); 
@@ -1182,17 +1349,11 @@ console.log($("input#kayit").attr("data-yera")+"/"+yer);
 			$("button#basla").show();
 			$("button#devam_et").hide();
 			
-
-			
-			// Rakibe el ver
-			var rakibe_mesaj_texte="oyun_bitti!"+oyuncu_no+"!";
-			rakibe_mesaj(rakibe_mesaj_texte);
-						
 			}
 		// *********************
 		
 		// zarlari kullandim ise  yeni_tur(oyuncu_no) geç
-		if(oynanan_oyun_sayisi == max_oyun_sayisi){
+		if(oynanan_oyun_sayisi == max_oyun_sayisi && OyunBitti==0){
 			$("div.piece").removeClass("isaret"); 
 			$("input#kayit").attr("data-oyun","0");
 			$("input#kayit").attr("data-oyunmax","0");
@@ -1242,16 +1403,6 @@ console.log($("input#kayit").attr("data-yera")+"/"+yer);
 		if ($message.is(":visible")) $message.fadeOut();
 		$message.html(str).fadeIn();
 	}
-	
-	jQuery.fn.shake = function() {
-	    this.each(function(i) {
-		    var left = $(this).position().left;
-	        for (var x = 1; x <= 2; x++) {
-	            $(this).animate({ left: left-25 }, 10).animate({ left: left }, 50).animate({ left: left + 25 }, 10).animate({ left: left }, 50);
-	        }
-	    });
-	    return this;
-	} 
 
 //}); TULBENT 
 

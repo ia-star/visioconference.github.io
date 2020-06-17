@@ -47,9 +47,8 @@ body #board div.side div.point div.piece.isaret{cursor:pointer;}
 body #board div.side div.point div.piece.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
 body #board div.side div.point div.piece.isaret:active{background-color:#ffff33;}
 
-
-body #board div.side div.die{width:50px;
-	height:50px;
+body #board div.side div.kirik_zarlar{ position:absolute;top:340px;left:2px;height:80px;width:800px;}
+body #board div.side div.die{width:50px;height:50px;
 	background-color:#eeeeee;
 	-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
@@ -59,13 +58,15 @@ body #board div.side div.die{width:50px;
 	-moz-background-clip:padding;
 	-webkit-background-clip:padding-box;
 	background-clip:padding-box;
-	position:absolute;top:340px;
+	/*position:absolute;top:340px;*/
+	position:relative;
 	cursor:pointer;-webkit-opacity:0.2;
 	-moz-opacity:0.2;
 	opacity:0.2;}
 body #board div.side div.die.active{-webkit-opacity:1;-moz-opacity:1;opacity:1;}
-body #board div.side div.die#die1{left:220px;}
-body #board div.side div.die#die2{left:280px;}
+
+body #board div.side div.die#die1{position:absolute;left:205px;}
+body #board div.side div.die#die2{position:absolute;left:270px;}
 body #board div.side div.die[data-value="1"] div.face[data-id="1"]{display:block;}
 body #board div.side div.die[data-value="2"] div.face[data-id="2"]{display:block;}
 body #board div.side div.die[data-value="3"] div.face[data-id="3"]{display:block;}
@@ -95,7 +96,7 @@ body #board div.side div#message{font-family:'Satisfy',cursive;position:absolute
 	top:340px;color:#444549;
 	font-size:25px;
 	width:480px;
-	left:520px;
+	left:540px;
 	height:80px;
 	line-height:20px;
 	text-align:center;
@@ -119,7 +120,7 @@ div.kirik_pul{
 div.kirik_pul_kutusu1  div.kirik_pul.isaret{cursor:pointer;}
 div.kirik_pul_kutusu1  div.kirik_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
 
-div.kirik_pul_kutusu1{position:absolute;top:320px;left:370px;width:200px;height:80px;}
+div.kirik_pul_kutusu1{position:fixed;margin-left:2px;width:160px;height:80px;}
 div.kirik_pul_kutusu1 div.kirik_pul{background-color:#dd9300;}
 div.kirik_pul_kutusu1 div.kirik_pul:first-child{left:0;}
 div.kirik_pul_kutusu1 div.kirik_pul:nth-child(2){left:44.44444444444444px;}
@@ -128,7 +129,7 @@ div.kirik_pul_kutusu1 div.kirik_pul:nth-child(3){left:88.88888888888889px;}
 div.kirik_pul_kutusu2  div.kirik_pul.isaret{cursor:pointer;}
 div.kirik_pul_kutusu2  div.kirik_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
 
-div.kirik_pul_kutusu2{position:absolute;top:320px;left:10px;width:200px;height:80px;}
+div.kirik_pul_kutusu2{position:fixed;margin-left:370px;width:160px;height:80px;}
 div.kirik_pul_kutusu2 div.kirik_pul{background-color:#778691;}
 div.kirik_pul_kutusu2 div.kirik_pul:first-child{left:0;}
 div.kirik_pul_kutusu2 div.kirik_pul:nth-child(2){left:44.44444444444444px;}
@@ -195,6 +196,7 @@ body #board div.side div.quarter.bottom div.point div.piece:nth-child(5){top:42.
 body #board div.side div.quarter.bottom div.point div.piece:nth-child(7){top:-46.66666666666663px;}
 body #board div.side div.quarter.bottom div.point div.piece:nth-child(8){top:-91.11111111111109px;}*/
 
+
 .devam_et {background-color: #ffbab3;cursor:pointer;}
 .zar_at_turuncu {background-color: #dd9300;cursor:pointer;}
 .zar_at_siyah {background-color: #000000;cursor:pointer;color:#ffffff}
@@ -243,3 +245,26 @@ body #board div.side div.quarter.bottom div.point div.piece:nth-child(8){top:-91
  	color:grey;
  	font-style: italic;
  }
+ 
+#pullari_yerlestir{
+ display:inline-block;
+ padding:0.35em 1.2em;
+ border:0.1em solid #FFFFFF;
+ margin:0 0.3em 0.3em 0;
+ border-radius:0.12em;
+ box-sizing: border-box;
+ text-decoration:none;
+ font-family:'Roboto',sans-serif;
+ font-weight:300;
+ color:#FFFFFF;
+ text-align:center;
+ transition: all 0.2s;
+}
+#pullari_yerlestir:hover{
+ color:#000000;
+ background-color:#FFFFFF;
+}
+
+
+
+
