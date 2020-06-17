@@ -476,7 +476,7 @@ $("button#player2_zar_at").hide();$("button#player1_zar_at").hide();$("button#de
 // ***************************************** //
 
 $("#pullari_yerlestir").click(function(){
-	start_layout("T2");
+	start_layout("L");
 	if($("input#arbit").attr("data-local_user_ref")==0){$("button#siyah_pullari_sec").show();}
 	else{$("button#siyah_pullari_sec").hide();}
 	$("#pullari_yerlestir").hide();
