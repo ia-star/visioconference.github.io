@@ -1,0 +1,136 @@
+<html>
+<meta charset="utf-8">
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+    <meta content=
+    "Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
+    name="description">
+    <title>
+      Multi language Conference
+    </title>
+
+
+	
+
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="ndedi.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- *********************************************** 
+	************** KONTROL *********************
+	************************************************
+-->
+
+
+<body class="w3-black" id="ana_govde">
+
+<input type="hidden" id="chat-input" style="font-size: 1.2em; margin-left: -.5em; width: 80%;" placeholder="Mesaj yaz"  value="">
+<div id="chat-output" style="display:none"> </div>
+
+<div id="kontrol">
+	
+<div id="entete" style="width: 60%; height: 90px;"> </div>
+<input type="text" size="10" id="OdaIsmi" placeholder="Nom de la Salle" value="">
+<button id="btn-openjoin-room" class="btn-openjoin-room"> Commencer la Visioconférence </button>
+
+
+<!--
+	************** SES -> Yazi *********************
+-->
+ <div id="info" style="background-color:#d9d9d9;width:30%;">
+          <p id="info_start" style="color:grey";>
+            Vous pouvez tester, même avant de commecer la visoconférence,<br> la fonction "Transcription audio en Texte" en cliquant sur le microphone.
+          </p>
+          <p id="info_speak_now" style="display:none;color:green;">
+           La fonction "Transcription audio en Texte" est disponible. Vous pouvez parler dans la langue choisie.
+          </p>
+          <p id="info_no_speech" style="display:none;color:red;">
+            Pas de son ! il faut peut-être <a href=
+            "//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892"> régler le microphone
+            </a>.
+          </p>
+          <p id="info_no_microphone" style="display:none;color:red;">
+            Nous n'avons pa strouvé de Microphone. Assurez vous que votre  microphone est correctement installé 
+            <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+            et configuré.
+          </p>
+          <p id="info_allow" style="display:none;color:red;">
+            Cliquez sur le Microphone pour activer la Transcription.
+          </p>
+          <p id="info_denied" style="display:none">
+            Pas de permission pour utiliser le microphone.
+          </p>
+          <p id="info_blocked" style="display:none;color:red;">
+            L'utilisation du microphone est bloquée. pour changer :
+            chrome://settings/contentExceptions#media-stream
+          </p>
+          <p id="info_upgrade" style="display:none;color:red;">
+            "Transcription audio en Texte" n'est pas supporté par votre navigateur. Télécharger la nouvelle version de <a href=
+            "//www.google.com/chrome">Chrome</a> version 25 ou supérieure.
+          </p>
+          
+         
+          
+          </p>
+</div>
+
+ </div> <!-- KONTROL SONU -->
+ <section class="container" id="container">
+ 	
+	<div class="entete_video1" id="entete_video1">
+		
+		<div class="dil_secimi" id="dil_secimi">
+			<select id="select_language" onchange="updateCountry()"> </select>
+            
+          <select id="select_dialect"> </select>
+		</div>
+		
+		<div  id="div_start" class="div_start">
+          <button id="start_button" onclick="startButton(event)">
+         <img title="Vous pouvez tester la fonction 'Transcription' en cliquant sur le microphone." alt="Start" width="15px" id="start_img" src="mic.png"></button>   
+		</div>
+		
+		<div class="beni_yazdir" id="beni_yazdir" data-status="0" style="display:none;"><img id="beni_yazdir_image" title="Afficher la transcription de mes paroles en texte" src="kisiyi_kaydet.jpeg" width="20px"></div>
+		<div class="gorusmeyi_kaydet" id="gorusmeyi_kaydet" data-status="0" style="display:none;"><img id="gorusmeyi_kaydet_image" title="Afficher la Transcription de la Conversation" src="toplantiyi_kaydet.jpeg" width="25px"></div>
+	
+	<div id="texte-exit"  class="texte-exit" title="Cliquez pour quitter" style="display:none;">Quitter</div>
+	</div>
+	
+	<div class="video1" id="video1" ></div>
+	
+	<div class="texte_video1" id="texte_video1">
+		
+		<div class="yazilarim" id="yazilarim" style="display:block;"><span class="interim" id="interim_span" style="display:block;"> </span></div>
+		<div class="gorusme_kayitlari" id="gorusme_kayitlari" style="display:none;"><span class="final" id="final_span">  </span></div>
+		</div>
+	<!- -----------------  - -------------------------------- -->
+	<div class="entete_video2" id="entete_video2">
+		<div class="onu_yazdir" id="onu_yazdir"></div>
+		<div class="onu_kaydet" id="onu_kaydet"></div>
+	</div>
+	<div class="video2" id="video2" ></div>
+	
+	<div class="texte_video2" id="texte_video2">
+		<div class="onun_yazilari" id="onun_yazilari"></div>
+	</div>
+</section>
+ 
+
+<script src="//google.com/intl/en/chrome/assets/common/js/chrome.min.js" nonce="WduJjJyX8bQ9AYe1WCY-BQ"></script> 
+
+<script nonce="WduJjJyX8bQ9AYe1WCY-BQ">
+
+
+    </script>
+
+<!-- *********************************************** -->
+
+
+<div style="display:block; overflow:auto; height:200px; width:650px;" id="display"> </div>
+
+<script src="ndedi_main.js"></script>
+<script src="ndedi_connection.js"></script>
+</body>
+
+</html>
