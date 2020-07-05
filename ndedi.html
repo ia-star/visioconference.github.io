@@ -81,14 +81,14 @@
 	<div class="entete_video1" id="entete_video1">
 		
 		<div class="dil_secimi" id="dil_secimi">
-			<select id="select_language" onchange="updateCountry()"> </select>
+			<select id="select_language" onchange="updateCountry()" style="cursor:pointer;" title="Selectionnez ou modifier votre langue d'expression"> </select>
             
           <select id="select_dialect"> </select>
 		</div>
 		
 		<div  id="div_start" class="div_start">
-          <button id="start_button" onclick="startButton(event)">
-         <img title="Vous pouvez tester la fonction 'Transcription' en cliquant sur le microphone." alt="Start" width="15px" id="start_img" src="mic.png"></button>   
+          <button id="start_button" onclick="startButton(event)" >
+         <img style="cursor:pointer" title="Vous pouvez commencer la 'Transcription' en cliquant sur le microphone." alt="Start" width="15px" id="start_img" src="mic.png"></button>   
 		</div>
 		
 		<div class="beni_yazdir" id="beni_yazdir" data-status="0" style="display:none;"><img id="beni_yazdir_image" title="Afficher la transcription de mes paroles en texte" src="kisiyi_kaydet.jpeg" width="20px"></div>
@@ -106,8 +106,10 @@
 		</div>
 	<!- -----------------  - -------------------------------- -->
 	<div class="entete_video2" id="entete_video2">
-		<div class="onu_yazdir" id="onu_yazdir"></div>
+		
+		<div class="onu_yazdir" id="onu_yazdir" data-status="1" style="display:none;"><img id="onu_yazdir_image" title="Afficher la transcription de mon interlocuteur en texte" src="kisiyi_kaydet_Green.jpeg" width="20px"> </div>
 		<div class="onu_kaydet" id="onu_kaydet"></div>
+		<div id="google_translate_element" class="google_translate_element" title="Selectionnez ou modifiez la langue de traduction" style="display:none;"></div>
 	</div>
 	<div class="video2" id="video2" ></div>
 	
@@ -124,7 +126,67 @@
 
     </script>
 
-<!-- *********************************************** -->
+<!-- ************** Traduction *************************** -->
+
+<script type="text/javascript">
+var language = navigator.language;
+function googleTranslateElementInit() {
+  var memleket="pageLanguage: '"+language+"'";
+  console.log(memleket);
+  new google.translate.TranslateElement({
+
+  	memleket, includedLanguages: 'en,es,fr,pl,pt,zh-CN,zh-TW,ar,so,tr,ru,hy,ko,vi', 
+  	layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+/*
+            $('#google_translate_element').on("click", function () {
+
+                // Change font family and color
+                $("iframe").contents().find(".goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div") //, .goog-te-menu2 *
+                .css({
+                    'color': '#544F4B',
+                    'background-color': '#e3e3ff',
+                    'font-family': '"Open Sans",Helvetica,Arial,sans-serif',
+                    'font-size':'15px',
+                    'font-weigth':'bold'
+                });
+
+                // Change hover effects  #e3e3ff = white
+                $("iframe").contents().find(".goog-te-menu2-item div").hover(function () {
+                    $(this).css('background-color', '#17548d').find('span.text').css('color', '#e3e3ff');
+                }, function () {
+                    $(this).css('background-color', '#e3e3ff').find('span.text').css('color', '#544F4B');
+                });
+
+                // Change Google's default blue border
+                $("iframe").contents().find('.goog-te-menu2').css('border', '1px solid #17548d');
+
+                $("iframe").contents().find('.goog-te-menu2').css({'background-color': 'grey','font-size':'15px','font-weigth':'bold'});
+
+                // Change the iframe's box shadow
+                $(".goog-te-menu-frame").css({
+                    '-moz-box-shadow': '0 3px 8px 2px #666666',
+                    '-webkit-box-shadow': '0 3px 8px 2px #666',
+                    'box-shadow': '0 3px 8px 2px #666'
+                });
+                
+            });
+
+*/
+
+
+
+
+
+
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- ****************************************************** -->
+
+
+
 
 
 <div style="display:block; overflow:auto; height:200px; width:650px;" id="display"> </div>

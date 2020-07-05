@@ -249,9 +249,23 @@ function kayitButonu(){
 	
 } 
 
-function translating_data(data){
-document.getElementById("onu_yazdir").innerHTML=data;	
+function translating_data(data){	
+document.getElementById("onun_yazilari").innerHTML=data;	
 }
+
+document.getElementById('onu_yazdir').onclick = function() {
+if($("div#onu_yazdir").attr("data-status") ==1){
+	$("div#onu_yazdir").attr("data-status",0);	
+	$("#onu_yazdir_image").attr("src","kisiyi_kaydet_Green.jpeg");
+}
+else{
+	$("div#onu_yazdir").attr("data-status",1);	
+	$("#onu_yazdir_image").attr("src","kisiyi_kaydet_Red.jpeg");
+}
+
+};
+
+
 
 document.getElementById('beni_yazdir').onclick = function() {
 if($("div#beni_yazdir").attr("data-status") ==1){

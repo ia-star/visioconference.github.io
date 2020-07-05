@@ -24,10 +24,15 @@ connection.sdpConstraints.mandatory = {
 // on data connection opens
 connection.onopen = function(event) {
 	var remoteUserId = event.userid;
-	connection.send('Merhaba !');	
+	//connection.send('Merhaba !');	
     document.getElementById('chat-input').disabled = false;
     //useridBox.disabled = false;
     appendDIV('arkadasinla baglanti tamam => ' + event.userid, event.userid);
+    			document.getElementById("onu_yazdir").style.display = "block"; // onu yazdir  ac 
+              	document.getElementById("google_translate_element").style.display = "block"; //  translate ac 
+              	//$("div#onu_yazdir").show();
+	 			//$("div#google_translate_element").show();
+    
  }
 
 
@@ -77,6 +82,9 @@ connection.onopen = function(event) {
 // on data connection close
             connection.onclose = function(e) {
                 console.debug('Data connection closed. Target user id', e.userid, 'Error', e);
+             document.getElementById("onu_yazdir").style.display = "none"; // onu yazdir  kapat 
+             document.getElementById("google_translate_element").style.display = "none"; //  translate kapat    
+                
             };
 
 
@@ -86,6 +94,7 @@ connection.onstream = function(event) {
     if (event.type === 'remote') {
 	document.getElementById('video2').appendChild( event.mediaElement );
 	document.getElementById("video2").children[0].classList.add("video2");
+
 	}
 	else{ // yani ben
 		document.getElementById('video1').appendChild( event.mediaElement );
@@ -108,7 +117,7 @@ document.getElementById('btn-openjoin-room').onclick = function() {
     	document.getElementById("gorusmeyi_kaydet").style.display = "block";// gorusmeyi_kaydet ac
     	document.getElementById("texte-exit").style.display = "block";// exit yazisini ac
     	
-    	$("div#videoda_goster").addClass("videoda_goster"); 	   	
+    	//$("div#videoda_goster").addClass("videoda_goster"); 
     	}
 };
 
