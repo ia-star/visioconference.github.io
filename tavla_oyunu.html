@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Tavla version 0.3</title>
+		<link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="tavla_oyunu.css">
+	</head>
+<body>
+<div class="Kontrol" id="kontrol"> 
+<!-- /* **************  IKILI BAGLANTI KURMA ****************** */ -->
+<div id="entete" style="width: 1000px; height: 120px;"> </div>
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+
+<input  type="text" size="14" id="OdaIsmi" placeholder="Tavla Masas&#x131;n&#x131;n ad&#x131;" onclick="this.value=''" title="Arkada&#x15F;&#x131;n&#x131;zla kararla&#x15F;t&#x131;rd&#x131;&#x11F;&#x131;n&#x131;z masa ad&#x131;n&#x131; girin lütfen"   value="">
+<button style="background-color:#ffd387;cursor:pointer;" id="btn-openjoin-room" >Masaya buyrun</button>
+<br>
+<select id="mobil_tipi" onchange="mobil_tipi_secimi()"  style="display:none;">
+	<option value="">Telefonmu tabletmi kullaniyorsunuz ?</option>
+	<option value="telefon">Akilli telefon</option>
+	<option value="tablet">Tablet</option>
+</select>
+
+
+</div>	
+		
+<input type="hidden" id="arbit" data-pul_secimi_tamam="0" data-local_user_name="player1" data-local_user_pul=""  data-remote_user_name="player2" data-remote_user_pul=""  data-local_user_ref="1" data-remote_user_ref="2" >	
+<input type="hidden" id="kayit" data-position="0" position_class_player="" data-yer="0" yer_class_player="" playera_toplama_modu="0" playerb_toplama_modu="0" >
+<input type="hidden" id="dice"  data-local_user_zara="0" data-local_user_zarb="0"  data-remote_user_zara="0"  data-remote_user_zarb="0" >
+
+<!-- TAVLA burda BAsliyor -->
+<div id="board" class="board" style="display:none">
+			<div class="side left">
+			
+				<div class="quarter top">
+					<div class="point odd" data-id="13"><div class="triangle"></div></div>
+					<div class="point" data-id="14"><div class="triangle"></div></div>
+					<div class="point odd" data-id="15"><div class="triangle"></div></div>
+					<div class="point" data-id="16"><div class="triangle"></div></div>
+					<div class="point odd" data-id="17"><div class="triangle"></div></div>
+					<div class="point" data-id="18"><div class="triangle"></div></div>
+				</div>
+				
+			<!--<button id="pullari_yerlestir" class="pullari_yerlestir" > Pullar&#x131; yerlestir</button>-->
+    		<button id="zar_at" class="zar_at" style="display:none;">Zar at</button>		
+			<button id="oynadim" class="oynadim" style="display:none;">bütüm zarlari oynadim</button>	
+				<div class="quarter bottom">
+					<div class="point odd" data-id="12"><div class="triangle"></div></div>
+					<div class="point" data-id="11"><div class="triangle"></div></div>
+					<div class="point odd" data-id="10"><div class="triangle"></div></div>
+					<div class="point" data-id="9"><div class="triangle"></div></div>
+					<div class="point odd" data-id="8"><div class="triangle"></div></div>
+					<div class="point" data-id="7"><div class="triangle"></div></div>
+				</div>
+			
+
+		
+			
+			
+				
+			</div>
+						
+			
+			<div class="side right">
+			
+				<div class="quarter top">
+					<div class="point odd" data-id="19"><div class="triangle"></div></div>
+					<div class="point" data-id="20"><div class="triangle"></div></div>
+					<div class="point odd" data-id="21"><div class="triangle"></div></div>
+					<div class="point" data-id="22"><div class="triangle"></div></div>
+					<div class="point odd" data-id="23"><div class="triangle"></div></div>
+					<div class="point" data-id="24"><div class="triangle"></div></div>
+				</div>
+				
+				<div class="quarter bottom">
+					<div class="point odd" data-id="6"><div class="triangle"></div></div>
+					<div class="point" data-id="5"><div class="triangle"></div></div>
+					<div class="point odd" data-id="4"><div class="triangle"></div></div>
+					<div class="point" data-id="3"><div class="triangle"></div></div>
+					<div class="point odd" data-id="2"><div class="triangle"></div></div>
+					<div class="point" data-id="1"><div class="triangle"></div></div>
+				</div>
+				
+				<div id="message"> </div>
+				
+				<div class="kirik_pul_kutusu1" data-id="25"> </div>
+				<div class="kirik_pul_kutusu2" data-id="26"> </div>
+				
+		
+				
+				
+				
+				<div class="die" id="die1" data-value="3">
+					<div class="face" data-id="1">
+						<div class="pip center middle"></div>
+					</div>
+					<div class="face" data-id="2">
+						<div class="pip top right"></div>
+						<div class="pip bottom left"></div>
+					</div>
+					<div class="face" data-id="3">
+						<div class="pip top left"></div>
+						<div class="pip center middle"></div>
+						<div class="pip bottom right"></div>
+					</div>
+					<div class="face" data-id="4">
+						<div class="pip top left"></div>
+						<div class="pip bottom left"></div>
+						<div class="pip top right"></div>
+						<div class="pip bottom right"></div>
+					</div>
+					<div class="face" data-id="5">
+						<div class="pip top left"></div>
+						<div class="pip bottom left"></div>
+						<div class="pip center middle"></div>
+						<div class="pip top right"></div>
+						<div class="pip bottom right"></div>
+					</div>
+					<div class="face" data-id="6">
+						<div class="pip top left"></div>
+						<div class="pip middle left"></div>
+						<div class="pip bottom left"></div>
+						<div class="pip top right"></div>
+						<div class="pip middle right"></div>
+						<div class="pip bottom right"></div>
+					</div>
+				</div>
+				<div class="die" id="die2" data-value="2">
+					<div class="face" data-id="1">
+						<div class="pip center middle"></div>
+					</div>
+					<div class="face" data-id="2">
+						<div class="pip top right"></div>
+						<div class="pip bottom left"></div>
+					</div>
+					<div class="face" data-id="3">
+						<div class="pip top left"></div>
+						<div class="pip center middle"></div>
+						<div class="pip bottom right"></div>
+					</div>
+					<div class="face" data-id="4">
+						<div class="pip top left"></div>
+						<div class="pip bottom left"></div>
+						<div class="pip top right"></div>
+						<div class="pip bottom right"></div>
+					</div>
+					<div class="face" data-id="5">
+						<div class="pip top left"></div>
+						<div class="pip bottom left"></div>
+						<div class="pip center middle"></div>
+						<div class="pip top right"></div>
+						<div class="pip bottom right"></div>
+					</div>
+					<div class="face" data-id="6">
+						<div class="pip top left"></div>
+						<div class="pip middle left"></div>
+						<div class="pip bottom left"></div>
+						<div class="pip top right"></div>
+						<div class="pip middle right"></div>
+						<div class="pip bottom right"></div>
+					</div>
+				</div>
+				
+			</div> <!-- Side right sonu -->
+					
+					<div class="toplanan_pul_kutusu1" data-id="27"> </div>
+				
+					<div class="toplanan_pul_kutusu2" data-id="28"> </div>
+		
+		</div> <!-- Board sonu  Tavla sonu-->
+		
+
+<!-- *************************************************************
+ *************************** VIDEO TEST ************************ 
+ ***************************************************************-->
+
+
+<div  id="oyuncular" class="oyuncular"> </div>
+
+
+	<div id="baslik_oyuncu1" class="baslik_oyuncu1">
+		<input type="text" id="zar_1" value="3" style="width:0.7vw;height:0.7vw;margin-left:0.4vw;">
+		<input type="text" id="zar_2" value="2" style="width:0.7vw;height:0.7vw;">
+	</div>
+	
+
+	
+	<div id="baslik_oyuncu2" class="baslik_oyuncu2">	
+		<img src="odayi_terket.png"  id="salonu_terket"  title="Salonu Terket" style="margin-left:3.3vw;cursor:pointer;">
+		<img src="masayi_terket.png"  id="masayi_terket"   title="Yeni Parti" style="margin-left:0.4vw;cursor:pointer;">		
+		<img src="yeni_oyun.png"  id="yeni_oyun"  width="32px"  title="Yeni oyun" style="margin-left:0.4vw;cursor:pointer;">
+		
+		<img src="anlastik.png"  id="anlastik"  title="Anlastik" style="margin-left:0.4vw;cursor:pointer;">
+		<img src="sari_pul.png"  id="turuncu_pul"  title="Turuncu Pul" style="margin-left:0.4vw;;cursor:pointer;">
+		<img src="siyah_pul.png" id="gri_pul"  title="gri Pul" style="margin-left:0.4vw;;cursor:pointer;">
+		<img src="zar.png" id="zar"  title="Zar at" style="margin-left:0.4vw;cursor:pointer;">
+		<input type="text" id="zar_1" value="3" style="width:0.7vw;height:0.7vw;margin-left:0.4vw;">
+		<input type="text" id="zar_2" value="2" style="width:0.7vw;height:0.7vw;">
+	</div>
+ 
+	<div id="mesaj" class="mesaj" style="display:none;"> </div>
+<div id="seyirciler" class="seyirciler"> </div>	
+<!-- ************************************************************* -->
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="tavla_oyunu_dekodaj.js"></script>
+	<script src="tavla_oyunu.js"></script>
+
+	</body>
+</html>

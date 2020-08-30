@@ -1,0 +1,366 @@
+html {
+    /* To make use of full height of page*/
+    min-height: 100%;
+    margin: 0;
+}
+
+body{
+	min-height: 100%;
+	background-color:black;
+/*
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	-o-user-select:none;
+	user-select:none;*/
+	}
+	
+
+div.oyuncular {
+	position:absolute;
+	margin-top:2%;
+	margin-left:64.5%;
+	width:15vw;height:36.3vw;
+	/*border: 1px solid blue;*/
+	
+	overflow: hidden;
+}
+
+div.oyuncular video.oyuncu1{
+	width:15vw;height:12vw;
+	position: absolute;
+    top:1%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -10%);  
+    transform: translate(-50%, -10%);   
+	display:inline-block;
+ 	object-fit: cover;
+}
+
+div.baslik_oyuncu1{position:absolute;margin-left:64.6%;width:15vw;height:1.8vw;margin-top:0%; display:none; z-index:10;/*border: 1px solid red;*/
+}
+
+div.oyuncular video.oyuncu2{
+	width:15vw;height:12vw;
+	position: absolute;
+    top:74%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -10%);  
+    transform: translate(-50%, -10%);   
+	display:inline-block;
+	object-fit: cover;
+}
+
+
+div.baslik_oyuncu2{position:absolute;margin-left:64.6%;width:15vw;height:1.8vw;margin-top:25.5%;display:none; z-index:10;/*border: 1px solid red;*/
+}
+
+
+div.seyirciler {
+	position:absolute;
+	margin-top:0%;
+	margin-left:80%;
+	width:7vw;height:38.5vw;
+	/*border: 1px solid yellow;*/
+	
+	overflow: hidden;
+}
+
+div.mesaj{position:absolute;margin-left:64.5%;width:15vw;height:10.5vw;margin-top:14%; z-index:0;color:white; overflow-x: hidden;
+        overflow-y: auto;background-color:#111111;/*border: 1px solid gray;*/
+
+}
+
+
+body #board{
+	object-fit: cover;
+	grid-column-start: 1; grid-column-end: 8;grid-row-start: 1;grid-row-end: 11;
+	display:block;
+	
+	width:100%;
+	height:100%;
+	background-color:#e2c11c;
+	position:relative;
+	-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	
+	}
+body   #board div.side{float:left;background-color:#eae3d1;}
+
+body #board div.side.left{margin-right:4vw;}
+
+
+body #board div.side div.point{float:left;position:relative;width:16.66%;height:44.11%;}
+
+body #board div.side div.point div.triangle{
+	width:0;height:0;
+	/*In the example below, if the width of the viewport is 200mm, the font size of h1 elements will be 16mm (i.e. (8×200mm)/100).
+	 GENISLIK AYARI
+	 * */
+	border:2.5vw solid transparent;overflow:visible;*/
+	}
+
+body #board div.side div.quarter{height:44.11%;}
+
+/* ------------------------- TOP ---------------------------------------- */
+body     #board div.side div.quarter.top{margin-bottom:11.78%;}
+body     #board div.side div.quarter.top div.point.odd div.triangle{border-top-color:#f0f0f0;}
+/* BOY ayari */
+body     #board div.side div.quarter.top div.point div.triangle{border-top-width:18vw;border-top-color:#444549;}
+
+body     #board div.side div.quarter.top div.point div.piece{
+	position: absolute;
+    top:75%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);   
+	display:inline-block;
+}
+body     #board div.side div.quarter.top div.point div.piece:first-child{top: 10%;}
+body     #board div.side div.quarter.top div.point div.piece:nth-child(2){top: 25%;}
+body     #board div.side div.quarter.top div.point div.piece:nth-child(3){top: 40%;}
+body     #board div.side div.quarter.top div.point div.piece:nth-child(4){top:55%;}
+body     #board div.side div.quarter.top div.point div.piece:nth-child(5){top:70%;}
+
+/* ____________ BUTONLAR _________________________ */
+body     #board div.side #pullari_yerlestir{position:absolute; left:1%;margin-top:15.1%; display:block;}
+body     #board div.side #zar_at{position:absolute; left:18%;margin-top:15.1%; display:block;}
+body     #board div.side #oynadim{position:absolute; left:18%;margin-top:15.1%; display:block;}
+
+/*------------------------------- BOTTOM----------------------------------------------------------- */
+body     #board div.side div.quarter.bottom div.point.odd div.triangle{border-bottom-color:#f0f0f0;}
+/* BOY ayari */
+body     #board div.side div.quarter.bottom div.point div.triangle{border-bottom-width:18vw;border-bottom-color:#444549;border-top-width:0;}
+
+body     #board div.side div.quarter.bottom div.point div.piece{
+	position: absolute;
+	top:20%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);   
+	display:inline-block;
+}
+body     #board div.side div.quarter.bottom div.point div.piece:first-child{top: 89%;}
+body     #board div.side div.quarter.bottom div.point div.piece:nth-child(2){top: 75%;}
+body     #board div.side div.quarter.bottom div.point div.piece:nth-child(3){top: 60%;}
+body     #board div.side div.quarter.bottom div.point div.piece:nth-child(4){top:45%;}
+body     #board div.side div.quarter.bottom div.point div.piece:nth-child(5){top:30%;}
+
+
+body     #board div.side div.point div.piece{-webkit-border-radius:2vw;
+	-moz-border-radius:2vw;
+	border-radius:2vw;
+	-moz-background-clip:padding;
+	-webkit-background-clip:padding-box;
+	background-clip:padding-box;
+	z-index:100;-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	width:4vw;height:4vw;
+}
+body     #board div.side div.point div.piece.player1{background-color:#dd9300;}
+body     #board div.side div.point div.piece.player2{background-color:#778691;}
+
+/***********************/
+/*   ****** DIE ****** */
+/***********************/
+
+body     #board div.side div.die{width:2.5vw;height:2.5vw;
+	background-color:#eeeeee;
+	-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;border-radius:5px;
+	-moz-background-clip:padding;
+	-webkit-background-clip:padding-box;
+	background-clip:padding-box;
+	/*position:absolute;top:340px;*/
+	/*position:relative;-*/
+	cursor:pointer;-webkit-opacity:0.2;
+	-moz-opacity:0.2;
+	opacity:0.2;}
+body     #board div.side div.die.active{-webkit-opacity:1;-moz-opacity:1;opacity:1;}
+
+body     #board div.side div.die#die1{position:absolute; margin-left:12%;margin-top:15%; display:block;}
+body     #board div.side div.die#die2{position:absolute; margin-left:17%;margin-top:15%;  display:block;}
+
+body     #board div.side div.die[data-value="1"] div.face[data-id="1"]{display:block;}
+body     #board div.side div.die[data-value="2"] div.face[data-id="2"]{display:block;}
+body     #board div.side div.die[data-value="3"] div.face[data-id="3"]{display:block;}
+body     #board div.side div.die[data-value="4"] div.face[data-id="4"]{display:block;}
+body     #board div.side div.die[data-value="5"] div.face[data-id="5"]{display:block;}
+body     #board div.side div.die[data-value="6"] div.face[data-id="6"]{display:block;}
+body     #board div.side div.die div.face{display:none;}
+
+body     #board div.side div.die div.face div.pip{
+	width:0.4vw;
+	height:0.4vw;
+	background-color:#222222;
+	-webkit-border-radius:0.2vw;
+	-moz-border-radius:0.2vw;
+	border-radius:0.2vw;
+	-moz-background-clip:padding;
+	-webkit-background-clip:padding-box;
+	background-clip:padding-box;position:absolute;}
+body     #board div.side div.die div.face div.pip.left{left:0.3vw;}
+body     #board div.side div.die div.face div.pip.center{left:1.05vw;}
+body     #board div.side div.die div.face div.pip.right{right:0.3vw;}
+body     #board div.side div.die div.face div.pip.top{top:0.3vw;}
+body     #board div.side div.die div.face div.pip.middle{top:1.05vw;}
+body     #board div.side div.die div.face div.pip.bottom{bottom:0.3vw;}
+
+
+
+body     #board div.side div.point div.piece.isaret{cursor:pointer;}
+body     #board div.side div.point div.piece.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+body     #board div.side div.point div.piece.isaret:active{background-color:#ffff33;}
+
+body     #board div.side div.point div.piece.isaretli{background-color:#ef8686;}
+
+body     #board div.side div.quarter.top div.point.gidecegi_yer_isareti div.triangle:hover{border-top-color:#ffff95;cursor:pointer;}
+body     #board div.side div.quarter.top div.point.gidecegi_yer_isaretli div.triangle{border-top-color:#ffff33;cursor:pointer;}
+body     #board div.side div.quarter.bottom div.point.gidecegi_yer_isareti div.triangle:hover{border-bottom-color:#ffff95;cursor:pointer;}
+body     #board div.side div.quarter.bottom div.point.gidecegi_yer_isaretli div.triangle{border-bottom-color:#ffff33;cursor:pointer;}
+
+/* ********** KIRIK PULLAR ******* */
+div.kirik_pul{
+-moz-border-radius:2vw;
+	border-radius:2vw;
+	-moz-background-clip:padding;
+	-webkit-background-clip:padding-box;
+	background-clip:padding-box;
+	z-index:100;-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	width:4vw;height:4vw;			
+}
+div.kirik_pul.player1{background-color:#dd9300;}
+div.kirik_pul.player2{background-color:#778691;}
+
+div.kirik_pul_kutusu1  div.kirik_pul.isaret{cursor:pointer;}
+div.kirik_pul_kutusu1  div.kirik_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.kirik_pul_kutusu1  div.kirik_pul.isaretli{background-color:#ef8686;}
+
+div.kirik_pul_kutusu1{position:absolute;margin-left:-4vw;width:4vw;height:20vw;margin-top:-3.5vw;}
+
+div.kirik_pul_kutusu1 div.kirik_pul{
+	position: absolute;
+    top:15%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);   
+	display:inline-block;
+}
+div.kirik_pul_kutusu1 div.kirik_pul:first-child{top: 60%;}
+div.kirik_pul_kutusu1 div.kirik_pul:nth-child(2){top:45%;}
+div.kirik_pul_kutusu1 div.kirik_pul:nth-child(3){top:30%;}
+
+
+
+div.kirik_pul_kutusu2  div.kirik_pul.isaret{cursor:pointer;}
+div.kirik_pul_kutusu2  div.kirik_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.kirik_pul_kutusu2  div.kirik_pul.isaretli{background-color:#ef8686;}
+
+div.kirik_pul_kutusu2{position:absolute;margin-left:-4vw;width:4vw;height:20vw;margin-top:15vw;}
+
+div.kirik_pul_kutusu2 div.kirik_pul{
+	position: absolute;
+    top:60%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);   
+	display:inline-block;
+}
+div.kirik_pul_kutusu2 div.kirik_pul:first-child{top: 15%;}
+div.kirik_pul_kutusu2 div.kirik_pul:nth-child(2){top:30%;}
+div.kirik_pul_kutusu2 div.kirik_pul:nth-child(3){top:45%;}
+
+/* ********** TIPLANAN PULLAR ******* */
+div.toplanan_pul{
+-webkit-border-radius:2vw;
+	-moz-border-radius:2vw;
+	border-radius:2vw;
+	-moz-background-clip:padding;
+	-webkit-background-clip:padding-box;
+	background-clip:padding-box;
+	z-index:100;-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
+	width:4vw;height:4vw;				
+}
+/* PUL RENKLERI */
+div.toplanan_pul.player1{background-color:#dd9300;}
+div.toplanan_pul.player2{background-color:#778691;}
+
+div.toplanan_pul_kutusu1  div.toplanan_pul.isaret{cursor:pointer;}
+div.toplanan_pul_kutusu1  div.toplanan_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.toplanan_pul_kutusu1  div.toplanan_pul.isaretli{background-color:#ef8686;}
+
+div.toplanan_pul_kutusu1{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:0.1vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.toplanan_pul_kutusu1.gidecegi_yer_isaretli{background-color:#e6ff73; cursor:pointer;}
+
+div.toplanan_pul_kutusu1 div.toplanan_pul{
+	position: absolute;
+    top:15%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);   
+	display:inline-block;
+}
+div.toplanan_pul_kutusu1 div.toplanan_pul:first-child{top: 90%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(2){top:80%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(3){top:70%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(4){top:60%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(5){top:50%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(6){top:40%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(7){top:30%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(8){top:20%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(9){top:10%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(10){top:25%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(11){top:35%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(12){top:45%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(13){top:55%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(14){top:65%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(15){top:75%;}
+
+
+
+
+div.toplanan_pul_kutusu2  div.toplanan_pul.isaret{cursor:pointer;}
+div.toplanan_pul_kutusu2  div.toplanan_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.toplanan_pul_kutusu2  div.toplanan_pul.isaretli{background-color:#ef8686;}
+
+div.toplanan_pul_kutusu2{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:19.5vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.toplanan_pul_kutusu2.gidecegi_yer_isaretli{background-color:#e6ff73;cursor:pointer;}
+
+div.toplanan_pul_kutusu2 div.toplanan_pul{
+	position: absolute;
+    top:15%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);   
+	display:inline-block;
+}
+div.toplanan_pul_kutusu2 div.toplanan_pul:first-child{top: 90%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(2){top:80%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(3){top:70%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(4){top:60%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(5){top:50%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(6){top:40%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(7){top:30%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(8){top:20%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(9){top:10%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(10){top:25%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(11){top:35%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(12){top:45%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(13){top:55%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(14){top:65%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(15){top:75%;}
+
+
+
+
