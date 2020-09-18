@@ -300,7 +300,9 @@ div.toplanan_pul_kutusu1  div.toplanan_pul.isaret{cursor:pointer;}
 div.toplanan_pul_kutusu1  div.toplanan_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
 div.toplanan_pul_kutusu1  div.toplanan_pul.isaretli{background-color:#ef8686;}
 
-div.toplanan_pul_kutusu1{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:0.1vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+/*div.toplanan_pul_kutusu1{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:0.1vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}*/
+div.toplanan_pul_kutusu1{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:19.5vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+
 div.toplanan_pul_kutusu1.gidecegi_yer_isaretli{background-color:#e6ff73; cursor:pointer;}
 
 div.toplanan_pul_kutusu1 div.toplanan_pul{
@@ -334,7 +336,9 @@ div.toplanan_pul_kutusu2  div.toplanan_pul.isaret{cursor:pointer;}
 div.toplanan_pul_kutusu2  div.toplanan_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
 div.toplanan_pul_kutusu2  div.toplanan_pul.isaretli{background-color:#ef8686;}
 
-div.toplanan_pul_kutusu2{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:19.5vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+/*div.toplanan_pul_kutusu2{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:19.5vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}*/
+div.toplanan_pul_kutusu2{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:0.1vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+
 div.toplanan_pul_kutusu2.gidecegi_yer_isaretli{background-color:#e6ff73;cursor:pointer;}
 
 div.toplanan_pul_kutusu2 div.toplanan_pul{
