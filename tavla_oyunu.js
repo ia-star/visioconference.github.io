@@ -67,8 +67,12 @@ connection.onopen = function(event) {
 				
 				if (event.type === 'remote') {  // yani arkadasim
 					parent.children[1].classList.add("oyuncu1");
-						
-					$("div#baslik_oyuncu1").hide();
+					
+					$("div#baslik_oyuncu1").show();	
+					$("div#baslik_oyuncu1 img#zar_1").hide();
+					$("div#baslik_oyuncu1 input#zar_2").hide();
+					$("div#baslik_oyuncu1 img#information").show();
+					
 					$("div#baslik_oyuncu2 img#zar").hide();
 					$("div#baslik_oyuncu2 input#zar_1").hide();
 					$("div#baslik_oyuncu2 input#zar_2").hide();
@@ -84,6 +88,11 @@ connection.onopen = function(event) {
 			  		var ilk_oyuncuya_mesaj="<span style='color:White; font-weigth:bold;'> HOS HELDINIZ  iyi oyunlar </span><br><br> <span style='font-weight: normal;'> Arkada&#351;&#x131;n&#x131;z hemen ba&#287;lanam&#x131;yorsa payla&#351;t&#x131;&#287;&#x131;n&#x131;z TAVLA MASASI  ad&#x131;ndan emin olun.<br><br>Küçük - Büyük harflere dikkat !</span>";
 			  		showMessage(ilk_oyuncuya_mesaj);
 			  		
+			  		$("div#baslik_oyuncu1").show();	
+			  		$("div#baslik_oyuncu1 input#zar_1").hide();
+					$("div#baslik_oyuncu1 input#zar_2").hide();
+			  		$("div#baslik_oyuncu1 img#information").show();
+			  		
 			  		$("div#baslik_oyuncu2").show();
 			  		$("div#baslik_oyuncu2 img#masayi_terket").hide();
 			  		$("div#baslik_oyuncu2 img#turuncu_pul").hide();
@@ -98,6 +107,38 @@ connection.onopen = function(event) {
 
 			} // onstream sonu 
 
+
+/* =========================== */
+/* =====   INFORMATION ========*/
+/* =========================== */
+
+$("img#info").click(function(){
+	$("#aciklamalar" ).show();
+	 $("#aciklamalar" ).dialog({
+      autoOpen: true,
+      modal: true,
+      width: 500,
+      height: 300,
+      buttons: [
+
+		{
+			text: "Kapat",
+			click: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	],
+      show: {
+        effect: "slide",
+        duration: 1500
+      },
+      hide: {
+        effect: "fade",
+        duration: 1000
+      }
+    });
+    
+});
 
 
 
@@ -121,12 +162,18 @@ $("img#masayi_terket").click(function(){
 	showMessage(oyunculara_ilk_mesaj);
 connection.send('mesaj_simple!'+oyunculara_ilk_mesaj+ '!');
 
-	$("div#baslik_oyuncu2").show();	
-	$("div#baslik_oyuncu1").show();	
+		
+	$("div#baslik_oyuncu1").show();
+	$("div#baslik_oyuncu1 input#zar_1").hide();
+	$("div#baslik_oyuncu1 input#zar_2").hide();	
+	
+	$("div#baslik_oyuncu2").show();
 	$("div#baslik_oyuncu2 img#turuncu_pul").show();
 	$("div#baslik_oyuncu2 img#gri_pul").show();
 	$("div#baslik_oyuncu2 img#masayi_terket").hide();
 	$("div#baslik_oyuncu2 img#yeni_oyun").hide();
+	$("div#baslik_oyuncu2 input#zar_1").hide();
+	$("div#baslik_oyuncu2 input#zar_2").hide();
 	
 	// Önce bütün pullari sil
 	$("div.piece").remove();
@@ -301,7 +348,7 @@ function showMessage(str) {
 		$message.html(str).fadeIn();
 	}
 
-function rakip_zari_goster(zar1,zar2){
+function rakip__baslama_zari_goster(zar1,zar2){
 	$("div#baslik_oyuncu1").show();
 	$("div#die1").addClass("active").attr("data-value",zar1)
 	$("div#die2").addClass("active").attr("data-value",zar2);
@@ -312,6 +359,23 @@ function rakip_zari_goster(zar1,zar2){
 	$("input#dice").attr("data-remote_user_zara",zar1); 
 	$("input#dice").attr("data-remote_user_zarb",zar2); 
 	
+	$("div#baslik_oyuncu1 input#zar_1").show();
+	$("div#baslik_oyuncu1 input#zar_2").show();	
+	}
+
+
+
+function rakip_zari_goster(zar1,zar2){
+	$("div#baslik_oyuncu1").show();
+	$("div#die1").addClass("active").attr("data-value",zar1)
+	$("div#die2").addClass("active").attr("data-value",zar2);
+	
+	$("div#baslik_oyuncu1 input#zar_1").val(zar1);
+	$("div#baslik_oyuncu1 input#zar_2").val(zar2);
+	
+	$("input#dice").attr("data-remote_user_zara",zar1); 
+	$("input#dice").attr("data-remote_user_zarb",zar2); 
+		
 	}
 
 /* ************************************************ */

@@ -23,12 +23,20 @@
  		   	}
  		   	
  		   	 else if(res_element=="yeni_parti"){
- 		   	 	$("div#baslik_oyuncu2").show();	
-			 	$("div#baslik_oyuncu1").show();	
+ 		   	 	$("div#baslik_oyuncu1").show();
+ 		   	 	$("div#baslik_oyuncu1 input#zar_1").hide();
+				$("div#baslik_oyuncu1 input#zar_2").hide();	
+ 		   	 	
+ 		   	 	$("div#baslik_oyuncu2").show();		
 				$("div#baslik_oyuncu2 img#turuncu_pul").show();
 				$("div#baslik_oyuncu2 img#gri_pul").show();
 				$("div#baslik_oyuncu2 img#masayi_terket").hide();
 				$("div#baslik_oyuncu2 img#yeni_oyun").hide();
+				$("div#baslik_oyuncu2 input#zar_1").hide();
+				$("div#baslik_oyuncu2 input#zar_2").hide();
+
+				
+				
 					// Önce bütün pullari sil
 				$("div.piece").remove();
 				$("div.toplanan_pul").remove();
@@ -363,7 +371,7 @@ console.log("pul sil: "+pul_id);
 		   		
 		   		//zarlari salla
 		   		$("div.die").effect( "shake" );
-		   		rakip_zari_goster(zar1,zar2);
+		   		rakip__baslama_zari_goster(zar1,zar2);
 
 		   	}
 		   	

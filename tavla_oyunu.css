@@ -7,14 +7,6 @@ html {
 body{
 	min-height: 100%;
 	background-color:black;
-/*
-	-webkit-touch-callout:none;
-	-webkit-user-select:none;
-	-khtml-user-select:none;
-	-moz-user-select:none;
-	-ms-user-select:none;
-	-o-user-select:none;
-	user-select:none;*/
 	}
 	
 
@@ -23,10 +15,30 @@ div.oyuncular {
 	margin-top:2%;
 	margin-left:64.5%;
 	width:15vw;height:36.3vw;
-	/*border: 1px solid blue;*/
+
 	
 	overflow: hidden;
 }
+
+/* ----- Modal popup için  ----*/
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close {
+    display: none;
+}
+.ui-dialog .ui-dialog-content {
+    font-size: 14px;;
+}
+
+ul {
+  list-style: none; /* Remove list bullets */
+  padding: 0;
+  margin: 0;
+}
+/*li { height: 12px; object-fit: contain;}*/
+/* --------------------------- */
+
 
 div.oyuncular video.oyuncu1{
 	width:15vw;height:12vw;
