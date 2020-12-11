@@ -8,15 +8,17 @@
 		<link rel="stylesheet" href="tavla_oyunu.css">
 	</head>
 <body>
-<div class="Kontrol" id="kontrol"> 
-<!-- /* **************  IKILI BAGLANTI KURMA ****************** */ -->
+<div class="Kontrol" id="kontrol" style="display:block;"> 
 <div id="entete" style="width: 1000px; height: 120px;"> </div>
+
+
+	<!-- /* **************  IKILI BAGLANTI KURMA ****************** */ -->
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <input  type="text" size="14" id="OdaIsmi" placeholder="Tavla Masas&#x131;n&#x131;n ad&#x131;" onclick="this.value=''" title="Arkada&#x15F;&#x131;n&#x131;zla kararla&#x15F;t&#x131;rd&#x131;&#x11F;&#x131;n&#x131;z masa ad&#x131;n&#x131; girin lütfen"   value="">
 <button style="background-color:#ffd387;cursor:pointer;" id="btn-openjoin-room" >Masaya buyrun</button>
-<br>
+<br><br><br>
 <select id="mobil_tipi" onchange="mobil_tipi_secimi()"  style="display:none;">
 	<option value="">Telefonmu tabletmi kullaniyorsunuz ?</option>
 	<option value="telefon">Akilli telefon</option>
@@ -43,9 +45,9 @@
 					<div class="point" data-id="18"><div class="triangle"></div></div>
 				</div>
 				
-			<!--<button id="pullari_yerlestir" class="pullari_yerlestir" > Pullar&#x131; yerlestir</button>-->
-    		<button id="zar_at" class="zar_at" style="display:none;">Zar at</button>		
-			<button id="oynadim" class="oynadim" style="display:none;">bütüm zarlari oynadim</button>	
+    		<button id="zar_at" class="zar_at" style="display:none; z-index:30;">Zar at</button>		
+			<button id="oynadim" class="oynadim" style="display:none;z-index:30;">bütüm zarlari oynadim</button>	
+				
 				<div class="quarter bottom">
 					<div class="point odd" data-id="12"><div class="triangle"></div></div>
 					<div class="point" data-id="11"><div class="triangle"></div></div>
@@ -61,7 +63,7 @@
 			
 				
 			</div>
-						
+	
 			
 			<div class="side right">
 			
@@ -165,9 +167,9 @@
 				
 			</div> <!-- Side right sonu -->
 					
-					<div class="toplanan_pul_kutusu1" data-id="27"> </div>
+					<div class="toplanan_pul_kutusu1" data-id="27"></div>
 				
-					<div class="toplanan_pul_kutusu2" data-id="28"> </div>
+					<div class="toplanan_pul_kutusu2" data-id="28"></div>
 		
 		</div> <!-- Board sonu  Tavla sonu-->
 		
@@ -181,15 +183,16 @@
 
 
 	<div id="baslik_oyuncu1" class="baslik_oyuncu1">
-		<input type="text" id="zar_1" value="3" style="width:0.7vw;height:0.7vw;margin-left:0.4vw;">
-		<input type="text" id="zar_2" value="2" style="width:0.7vw;height:0.7vw;">
-		<img src="information.png" width="18px;" id="info"  title="Açiklamalar" style="margin-left:3vw;;cursor:pointer;">
+		<input type="text" id="zar_1" value="3" >
+		<input type="text" id="zar_2" value="2" >
+		<img src="information.png" width="18px;" id="info"  title="Açiklamalar" style="cursor:pointer;">
+		<img src="retour.png" width="18px;" id="retour"  title="Ana sayfaya dönüs" style="cursor:pointer;">
 	</div>
 	
 
 	
 	<div id="baslik_oyuncu2" class="baslik_oyuncu2">	
-		<img src="odayi_terket.png"  id="salonu_terket"  title="Salonu Terket" style="margin-left:3.3vw;cursor:pointer;">
+		<img src="odayi_terket.png"  id="salonu_terket"  title="Salonu Terket" style="margin-left:0.4vw;cursor:pointer;">
 		<img src="masayi_terket.png"  id="masayi_terket"   title="Yeni Parti" style="margin-left:0.4vw;cursor:pointer;">		
 		<img src="yeni_oyun.png"  id="yeni_oyun"  width="32px"  title="Yeni oyun" style="margin-left:0.4vw;cursor:pointer;">
 		
@@ -197,8 +200,8 @@
 		<img src="sari_pul.png"  id="turuncu_pul"  title="Turuncu Pul" style="margin-left:0.4vw;;cursor:pointer;">
 		<img src="siyah_pul.png" id="gri_pul"  title="gri Pul" style="margin-left:0.4vw;;cursor:pointer;">
 		<img src="zar.png" id="zar"  title="Zar at" style="margin-left:0.4vw;cursor:pointer;">
-		<input type="text" id="zar_1" value="3" style="width:0.7vw;height:0.7vw;margin-left:0.4vw;">
-		<input type="text" id="zar_2" value="2" style="width:0.7vw;height:0.7vw;">
+		<input type="text" id="zar_1" value="3" >
+		<input type="text" id="zar_2" value="2" >
 	</div>
  
 	<div id="mesaj" class="mesaj" style="display:none;"> </div>
@@ -218,13 +221,14 @@
   </ul>
   
 </div>	
+<!--- BOYUTLAR -->
+<div id="boyutlar"> </div>
 
-
-<!--************************************************************ -->	
+<!--************************************************************ -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="tavla_oyunu_dekodaj.js"></script>
-	<script src="tavla_oyunu.js"></script>
+	<script src="tavla_oyunu_dekodaj.js"></script>
+	<script src='tavla_oyunu.js'></script>
 
-	</body>
+  </body>
 </html>

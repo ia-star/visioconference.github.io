@@ -4,6 +4,8 @@
 /* ************************************************ */
 
 /* ************** ENTETE ************************* */
+
+
 var logo="<img src='toplanti.png' width=35px> Kozeri <span style='font-size:35px;font-weight:bold;'> - Oyun Saray&#x131;  </span>";
 var texte_L1="<br><span  style='font-size:25px;color:grey;' ><img src='tavla_masasi.jpeg' width=25px> Tavla Oyunu ";
 document.getElementById("entete").innerHTML = "	<div style='padding: 12px 15px 20px 2px;font-size:45px;font-weight:bold; color:#515151;'>"+logo+texte_L1+"</div>";
@@ -36,7 +38,7 @@ connection.videosContainer = document.getElementById('videos-container');
 // on data connection opens
 connection.onopen = function(event) {
 	var remoteUserId = event.userid;
-	var oyunculara_ilk_mesaj="<span style='color:white; font-weigth:bold;'> OYUNA BA&#x15E;LAMADAN önce genellikle<br> - Pullar&#x131;n Seçimi yap&#x131;l&#x131;r<br> - Oyuna kimin ba&#x15F;l&#x131;iyaca&#x11F;&#x131; belirlenir<br>PUL SECOMI için;<br>  - Oyunculardan biri, diger oyuncu ile anla&#x15F;&#x131;p  seçti&#x11F;i pula t&#x131;klayabilir<br>  - Di&#x11F;er oyuncu 'Anla&#x15F;tik' butonuna t&#x131;klay&#x131;nca pullar seçilmis olur</span> ";
+	var oyunculara_ilk_mesaj="<span style='color:white; font-weigth:bold;'> OYUNA BA&#x15E;LAMADAN önce genellikle<br> - Pullar&#x131;n Seçimi yap&#x131;l&#x131;r<br> - Oyuna kimin ba&#x15F;l&#x131;iyaca&#x11F;&#x131; belirlenir<br>PUL SECMI için;<br>  - Oyunculardan biri, diger oyuncu ile anla&#x15F;&#x131;p  seçti&#x11F;i pula t&#x131;klayabilir<br>  - Di&#x11F;er oyuncu 'Anla&#x15F;tik' butonuna t&#x131;klay&#x131;nca pullar seçilmis olur</span> ";
 	showMessage(oyunculara_ilk_mesaj);
 	connection.send('mesaj_simple!'+oyunculara_ilk_mesaj+ '!');	
  }
@@ -107,6 +109,16 @@ connection.onopen = function(event) {
 
 			} // onstream sonu 
 
+/* ========================= */
+/* ==== RETOUR HOME ======== */
+/* ========================= */
+$("img#retour").click(function(){
+	if (window.confirm("Tavla masasini terketmek mi istiyorsunuz?")) {
+		window.location.href = "tavla_oyunu.html";
+	   }
+	   else {reurn;}
+    
+});
 
 /* =========================== */
 /* =====   INFORMATION ========*/
@@ -118,7 +130,8 @@ $("img#info").click(function(){
       autoOpen: true,
       modal: true,
       width: 500,
-      height: 300,
+	  height: 300,
+	  position:['middle',200],
       buttons: [
 
 		{
@@ -395,38 +408,273 @@ document.getElementById('btn-openjoin-room').onclick = function() {
     	}
     }
        	
-// Mobil telefon veya Tablet mi PC mi ?
-var hasTouchscreen = 'ontouchstart' in window;
-if(hasTouchscreen){var isMobile=1;}
-else{var isMobile=0;}
-if(isMobile==1){
-	init_mobile();
-}
-
-
-
-function init_mobile(){	
-	$("div#mesaj").css({'font-size':'9px'});
-	$("div#baslik_oyuncu2 img#salonu_terket").css({'height':'20px'});
-	$("div#baslik_oyuncu2 img#masayi_terket").css({'height':'20px'});
-	$("div#baslik_oyuncu2 img#anlastik").css({'width':'20px'});
-	$("div#baslik_oyuncu2 img#gri_pul").css({'width':'20px'});
-	$("div#baslik_oyuncu2 img#turuncu_pul").css({'width':'20px'});
-	$("div#baslik_oyuncu2 img#zar").css({'width':'20px'});
-	$("div#baslik_oyuncu2 img#yeni_oyun").css({'width':'20px'});
-	
-	$("div#baslik_oyuncu1 img#zar").css({'width':'20px'});
-	
-	$("div#baslik_oyuncu2 input#zar_1").css({'width':'1.1vw', 'height':'1.1vw'});
-	$("div#baslik_oyuncu2 input#zar_2").css({'width':'1.1vw', 'height':'1.1vw'});
-	$("div#baslik_oyuncu1 input#zar_1").css({'width':'1.1vw', 'height':'1.1vw'});
-	$("div#baslik_oyuncu1 input#zar_2").css({'width':'1.1vw', 'height':'1.1vw'});
-
+	var hasTouchscreen = 'ontouchstart' in window;
+	if(hasTouchscreen){var isMobile=1;}
+	else{var isMobile=0;}
+	if(isMobile==1){init_mobile();}
+	else {init_pc();}
 	
 	
-	return;
-}
+	
+	
+	function init_mobile(){
+		var  kanat_genislik=20; // giris
+		var ucgen_ust_boy=16; //vw
+		var ucgen_alt_boy=ucgen_ust_boy;
+	
+		var sol_kanat_marji=0.1;
+		/* ******************************* */
+		/***** Cerceve kalinlik hesaplari  */
+		/* ******************************** */
+		var kanat_kenar_katsayisi=0.04;
+		var sol_kanat_sag_kenar_katsayisi=0.1;
+		
+		var sol_kenar_sol_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
+		var sol_kenar_ust_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
+		var sol_kenar_alt_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
+		var sol_kenar_sag_kalinlik=kanat_genislik*sol_kanat_sag_kenar_katsayisi;
+	   
+		var sag_kenar_sol_kalinlik=sol_kenar_sag_kalinlik;
+		var sag_kenar_ust_kalinlik=sol_kenar_ust_kalinlik;
+		var sag_kenar_alt_kalinlik=sol_kenar_alt_kalinlik;
+		var sag_kenar_sag_kalinlik=sol_kenar_sol_kalinlik;
+		
+		var point_genislik=16.66; //% olarak
+		var point_yukseklik=45.16; //% olarak
+	
+		$("div.side").css({'width': kanat_genislik+"vw"});
+		$("div.side.left").css({'margin-right': sol_kanat_marji+'vw',"border-top-width" : sol_kenar_ust_kalinlik+"vw", "border-right-width" : sol_kenar_sag_kalinlik+"vw ","border-left-width" : sol_kenar_sol_kalinlik+"vw ", "border-bottom-width" : sol_kenar_alt_kalinlik+"vw"});
+		$("div.side.right").css({"border-top-width" : sag_kenar_ust_kalinlik+"vw", "border-right-width" : sag_kenar_sag_kalinlik+"vw ","border-left-width" : sag_kenar_sol_kalinlik+"vw ", "border-bottom-width" : sag_kenar_alt_kalinlik+"vw"});
+	
+	   /* *******POINT Boyutlari ********** */
+	   $("div.side div.point").css({"width":point_genislik+"%" , "height": point_yukseklik+"%"});
+	
+		/* ******* KANAT UCGEN BOYLARI *****************  */
+		$("div.quarter.top div.point div.triangle").css({"border-top-width":ucgen_ust_boy+"vw"});
+		$("div.quarter.bottom div.point div.triangle").css({"border-bottom-width":ucgen_alt_boy+"vw"});
+	
+		/* ******* OYNANAN ZARLAR **** */
+		var zar_boyut_katsayisi=0.125;
+		var zar_boyut=zar_boyut_katsayisi*kanat_genislik; // 2.5 vw
+	
+		var zar_pip_left=0.12*zar_boyut;  //0.3 vw
+		var zar_pip_center=0.42*zar_boyut; //1.05vw
+		var zar_pip_right=0.12*zar_boyut;
+		var zar_pip_top=0.12*zar_boyut;
+		var zar_pip_middle=0.42*zar_boyut;
+		var zar_pip_bottom=0.12*zar_boyut;
+	
+		$("div.die").css({"width": zar_boyut+"vw", "height": zar_boyut+"vw"});
+		
+		$("div.die div.face div.pip.left").css({"left":zar_pip_left+"vw"});
+		$("div.die div.face div.pip.center").css({"left":zar_pip_center+"vw"});
+		$("div.die div.face div.pip.right").css({"right":zar_pip_right+"vw"});
+		$("div.die div.face div.pip.top").css({"top":zar_pip_top+"vw"});
+		$("div.die div.face div.pip.middle").css({"top":zar_pip_middle+"vw"});
+		$("div.die div.face div.pip.bottom").css({"bottom":zar_pip_bottom+"vw"});
+	
+		/* ************* BOYUTLARI GOSTER ***************** */
+		var boyut_top=1.75*kanat_genislik;
+	 
+		var kanat_border_kalinlik=sol_kenar_sol_kalinlik+sol_kenar_sag_kalinlik;
+		var kanat_genislik=kanat_genislik+kanat_border_kalinlik;
+		var masa_genislik=(kanat_genislik*2)+sol_kanat_marji;
+		var masa_genislik_px=parseInt(masa_genislik*window.innerWidth/100);
+		
+		var masa_yukseklik=(point_yukseklik+sol_kenar_ust_kalinlik);
+		var masa_yukseklik_px=parseInt(masa_yukseklik*window.innerWidth/100);
+		/*
+		$("div#boyutlar").css({"position":"absolute","margin-top":boyut_top+"%", "color":"white"});
+		
+		$("div#boyutlar").html(
+			"Ekran geni&#351;li&#287;i: "+window.screen.width+ "px <-->   yüksekli&#287;i: "+window.screen.height+"px<br>"+
+			"Pencere geni&#351;li&#287;i: "+window.innerWidth +"px  <--> yüksekli&#287;i: "+ window.innerHeight + "px<br>"
+			
+		);
+	
+		window.addEventListener('resize', function() {
+			// viewport and full window dimensions will change
+			$("div#boyutlar").html(
+				"Ekran genisli&#287;i: "+window.screen.width+ "px <-->   yüksekli&#287;i: "+window.screen.height+"px<br>"+
+				"Pencere genisli&#287;i:"+window.innerWidth +"px  <--> yüksekli&#287;i: "+ window.innerHeight + "px<br>"
+				);
+		});*/
+		/* ************* TOPLAMA KUTULARI *********** */
+	
+		var toplama_kutulari_sol_marj=2.005*kanat_genislik; // 45.8 pour kanat genislik=20
+		var toplama_kutulari_genislik=0.2*kanat_genislik; //4
+		var toplama_kutulari_yukseklik=1.065*ucgen_ust_boy; //17
+		var toplama_kutu1_ust_marj=1.10*ucgen_ust_boy; //17.6
+		var toplama_kutu2_ust_marj=0; //0
+		$("div.toplanan_pul_kutusu1").css({"margin-left": toplama_kutulari_sol_marj+"vw" , "width":toplama_kutulari_genislik+"vw" ,"height":toplama_kutulari_yukseklik+"vw", "margin-top":toplama_kutu1_ust_marj+"vw"});
+		$("div.toplanan_pul_kutusu2").css({"margin-left": toplama_kutulari_sol_marj+"vw" , "width":toplama_kutulari_genislik+"vw" ,"height":toplama_kutulari_yukseklik+"vw","margin-top":toplama_kutu2_ust_marj+"vw"});
+	
+		/* ************ OYUNCULAR ****************************  */
+		/* Oyunculari çerçevele */
+		var oyuncular_sol_marji=2.23*kanat_genislik;
+		var oyuncular_genislik=0.69*kanat_genislik;
+		var oyuncular_yukseklik=1.535*kanat_genislik;
+		
+		var mesaj_sol_marj=2.235*kanat_genislik;
+		var mesaj_yukseklik=10.5;// vw
+		var mesaj_ust_marj=12; //%
+		
+		var baslik_sol=2.25*kanat_genislik;//51.5%
+		var baslik_genislik=0.682*kanat_genislik; //15.6 vw
+		var baslik_yukseklik= 0.067*kanat_genislik;
+		var baslik_oyuncu2_ust_marj=0.995*kanat_genislik;   //39.5vh
+	
+		$("div.oyuncular").css({"margin-left":oyuncular_sol_marji+"%","margin-top":"0%","width":oyuncular_genislik+"vw","height":oyuncular_yukseklik+"vw"/*,"border-style":"solid", "border-width":"1px","border-color":"yellow"*/});
+		
+		$("div.oyuncular video.oyuncu1").css({"left": baslik_sol+"%", "width":baslik_genislik+"vw","height":"12vw","top":"2%"});
+		$("div.baslik_oyuncu1").css({"left":baslik_sol+"%","width":baslik_genislik+"vw","height":baslik_yukseklik+"vw","margin-top":"0vh"/*, "border-style":"solid", "border-width":"1px","border-color":"red"*/});
+	
+		$("div.mesaj").css({"margin-left":mesaj_sol_marj+"%","width":oyuncular_genislik+"vw","height":mesaj_yukseklik+"vw","margin-top":mesaj_ust_marj+"%"/*,"border-style":"solid", "border-width":"1px","border-color":"blue"*/});
+	
+		$("div.oyuncular video.oyuncu2").css({ "left":baslik_sol+"%","width":baslik_genislik+"vw","height":"12vw","top":"60%"});
+		$("div.baslik_oyuncu2").css({"left":baslik_sol+"%","width":baslik_genislik+"vw","height":baslik_yukseklik+"vw","margin-top":baslik_oyuncu2_ust_marj+"vw"/*, "border-style":"solid", "border-width":"1px","border-color":"green"*/});
+	
+	
+	
+		
+	
+	
+	
+		$("div#mesaj").css({'font-size':'9px'});
+		$("div#baslik_oyuncu1 img#zar").css({'width':'1.1vw'});
+		
+		$("div#baslik_oyuncu2 input#zar_1").css({'width':'1.1vw', 'height':'1.1vw'});
+		$("div#baslik_oyuncu2 input#zar_2").css({'width':'1.1vw', 'height':'1.1vw'});
+		$("div#baslik_oyuncu1 input#zar_1").css({'width':'1.1vw', 'height':'1.1vw'});
+		$("div#baslik_oyuncu1 input#zar_2").css({'width':'1.1vw', 'height':'1.1vw'});
+	
+		$("img").css({'width':'1.4vw','height':'1.4vw'});
+		
+		return;
+	}
+	
+	
+	function init_pc(){	
+	
+		var  kanat_genislik=20; // giris
+		var ucgen_ust_boy=16; //vw
+		var ucgen_alt_boy=ucgen_ust_boy;
+	
+		var sol_kanat_marji=0.1;
+		/* ******************************* */
+		/***** Cerceve kalinlik hesaplari  */
+		/* ******************************** */
+		var kanat_kenar_katsayisi=0.04;
+		var sol_kanat_sag_kenar_katsayisi=0.1;
+		
+		var sol_kenar_sol_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
+		var sol_kenar_ust_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
+		var sol_kenar_alt_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
+		var sol_kenar_sag_kalinlik=kanat_genislik*sol_kanat_sag_kenar_katsayisi;
+	   
+		var sag_kenar_sol_kalinlik=sol_kenar_sag_kalinlik;
+		var sag_kenar_ust_kalinlik=sol_kenar_ust_kalinlik;
+		var sag_kenar_alt_kalinlik=sol_kenar_alt_kalinlik;
+		var sag_kenar_sag_kalinlik=sol_kenar_sol_kalinlik;
+		
+		var point_genislik=16.66; //% olarak
+		var point_yukseklik=45.16; //% olarak
+	
+		$("div.side").css({'width': kanat_genislik+"vw"});
+		$("div.side.left").css({'margin-right': sol_kanat_marji+'vw',"border-top-width" : sol_kenar_ust_kalinlik+"vw", "border-right-width" : sol_kenar_sag_kalinlik+"vw ","border-left-width" : sol_kenar_sol_kalinlik+"vw ", "border-bottom-width" : sol_kenar_alt_kalinlik+"vw"});
+		$("div.side.right").css({"border-top-width" : sag_kenar_ust_kalinlik+"vw", "border-right-width" : sag_kenar_sag_kalinlik+"vw ","border-left-width" : sag_kenar_sol_kalinlik+"vw ", "border-bottom-width" : sag_kenar_alt_kalinlik+"vw"});
+	
+	   /* *******POINT Boyutlari ********** */
+	   $("div.side div.point").css({"width":point_genislik+"%" , "height": point_yukseklik+"%"});
+	
+		/* ******* KANAT UCGEN BOYLARI *****************  */
+		$("div.quarter.top div.point div.triangle").css({"border-top-width":ucgen_ust_boy+"vw"});
+		$("div.quarter.bottom div.point div.triangle").css({"border-bottom-width":ucgen_alt_boy+"vw"});
+	
+		/* ******* OYNANAN ZARLAR **** */
+		var zar_boyut_katsayisi=0.125;
+		var zar_boyut=zar_boyut_katsayisi*kanat_genislik; // 2.5 vw
+	
+		var zar_pip_left=0.12*zar_boyut;  //0.3 vw
+		var zar_pip_center=0.42*zar_boyut; //1.05vw
+		var zar_pip_right=0.12*zar_boyut;
+		var zar_pip_top=0.12*zar_boyut;
+		var zar_pip_middle=0.42*zar_boyut;
+		var zar_pip_bottom=0.12*zar_boyut;
+	
+		$("div.die").css({"width": zar_boyut+"vw", "height": zar_boyut+"vw"});
+		
+		$("div.die div.face div.pip.left").css({"left":zar_pip_left+"vw"});
+		$("div.die div.face div.pip.center").css({"left":zar_pip_center+"vw"});
+		$("div.die div.face div.pip.right").css({"right":zar_pip_right+"vw"});
+		$("div.die div.face div.pip.top").css({"top":zar_pip_top+"vw"});
+		$("div.die div.face div.pip.middle").css({"top":zar_pip_middle+"vw"});
+		$("div.die div.face div.pip.bottom").css({"bottom":zar_pip_bottom+"vw"});
+	
+		/* ************* BOYUTLARI GOSTER ***************** */
+		var boyut_top=1.75*kanat_genislik;
+	 
+		var kanat_border_kalinlik=sol_kenar_sol_kalinlik+sol_kenar_sag_kalinlik;
+		var kanat_genislik=kanat_genislik+kanat_border_kalinlik;
+		var masa_genislik=(kanat_genislik*2)+sol_kanat_marji;
+		var masa_genislik_px=parseInt(masa_genislik*window.innerWidth/100);
+		
+		var masa_yukseklik=(point_yukseklik+sol_kenar_ust_kalinlik);
+		var masa_yukseklik_px=parseInt(masa_yukseklik*window.innerWidth/100);
 
+		/* ************* TOPLAMA KUTULARI *********** */
+	
+		var toplama_kutulari_sol_marj=2.005*kanat_genislik; // 45.8 pour kanat genislik=20
+		var toplama_kutulari_genislik=0.2*kanat_genislik; //4
+		var toplama_kutulari_yukseklik=1.065*ucgen_ust_boy; //17
+		var toplama_kutu1_ust_marj=1.10*ucgen_ust_boy; //17.6
+		var toplama_kutu2_ust_marj=0; //0
+		$("div.toplanan_pul_kutusu1").css({"margin-left": toplama_kutulari_sol_marj+"vw" , "width":toplama_kutulari_genislik+"vw" ,"height":toplama_kutulari_yukseklik+"vw", "margin-top":toplama_kutu1_ust_marj+"vw"});
+		$("div.toplanan_pul_kutusu2").css({"margin-left": toplama_kutulari_sol_marj+"vw" , "width":toplama_kutulari_genislik+"vw" ,"height":toplama_kutulari_yukseklik+"vw","margin-top":toplama_kutu2_ust_marj+"vw"});
+	
+		/* ************ OYUNCULAR ****************************  */
+		 var oyuncular_sol_marji=2.23*kanat_genislik;
+		var oyuncular_genislik=0.69*kanat_genislik;
+		var oyuncular_yukseklik=1.535*kanat_genislik;
+		
+		var mesaj_sol_marj=2.235*kanat_genislik;
+		var mesaj_yukseklik=10.5;// vw
+		var mesaj_ust_marj=12; //%
+		
+		var baslik_sol=2.25*kanat_genislik;//51.5%
+		var baslik_genislik=0.682*kanat_genislik; //15.6 vw
+		var baslik_yukseklik= 0.067*kanat_genislik;
+		var baslik_oyuncu2_ust_marj=0.995*kanat_genislik;   //39.5vh
+	
+		$("div.oyuncular").css({"margin-left":oyuncular_sol_marji+"%","margin-top":"0%","width":oyuncular_genislik+"vw","height":oyuncular_yukseklik+"vw"/*,"border-style":"solid", "border-width":"1px","border-color":"yellow"*/});
+		
+		$("div.oyuncular video.oyuncu1").css({"left": baslik_sol+"%", "width":baslik_genislik+"vw","height":oyuncular_yukseklik+"vw","top":"2%"});
+		$("div.baslik_oyuncu1").css({"left":baslik_sol+"%","width":baslik_genislik+"vw","height":baslik_yukseklik+"vw","margin-top":"0vh"/*, "border-style":"solid", "border-width":"1px","border-color":"red"*/});
+	
+		$("div.mesaj").css({"margin-left":mesaj_sol_marj+"%","width":oyuncular_genislik+"vw","height":mesaj_yukseklik+"vw","margin-top":mesaj_ust_marj+"%"/*,"border-style":"solid", "border-width":"1px","border-color":"blue"*/});
+	
+		$("div.oyuncular video.oyuncu2").css({ "left":baslik_sol+"%","width":baslik_genislik+"vw","height":oyuncular_yukseklik+"vw","top":"60%"});
+		$("div.baslik_oyuncu2").css({"left":baslik_sol+"%","width":baslik_genislik+"vw","height":baslik_yukseklik+"vw","margin-top":baslik_oyuncu2_ust_marj+"vw"/*, "border-style":"solid", "border-width":"1px","border-color":"green"*/});
+		
+	
+	
+		$("div#mesaj").css({'font-size':'13px'});
+		$("div#baslik_oyuncu1 img#zar").css({'width':'1vw'});
+		
+		$("div#baslik_oyuncu2 input#zar_1").css({'width':'1vw', 'height':'1vw'});
+		$("div#baslik_oyuncu2 input#zar_2").css({'width':'1vw', 'height':'1vw'});
+		$("div#baslik_oyuncu1 input#zar_1").css({'width':'1vw', 'height':'1vw'});
+		$("div#baslik_oyuncu1 input#zar_2").css({'width':'1vw', 'height':'1vw'});
+		
+	
+	
+	
+	
+		var resim_boyut=kanat_genislik*0.06;
+		$("img").css({'width':resim_boyut+'vw','height':resim_boyut+'vw'});
+		
+		return;
+	}
 
 /* *********************************************************************** */
 /* * ZAR at BUTON u acik ve PULLARI TAVLAYA  YERLESTIR acik  ************* */
@@ -546,7 +794,8 @@ function zar_at(){
 			$("div#die" + i).addClass("active").attr("data-value", roll);
 			var rakibe_mesaj_texte=rakibe_mesaj_texte+roll+"!";		
 		}						
-
+		$("button#zar_at").hide();
+		$("button#oynadim").show();
 connection.send(rakibe_mesaj_texte);
 
 //===== ONCE oyniyacagin pulu sec ====

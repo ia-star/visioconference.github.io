@@ -12,11 +12,9 @@ body{
 
 div.oyuncular {
 	position:absolute;
-	margin-top:2%;
-	margin-left:64.5%;
+	margin-top:0%;
+	margin-left:62.3%;
 	width:15vw;height:36.3vw;
-
-	
 	overflow: hidden;
 }
 
@@ -43,7 +41,7 @@ ul {
 div.oyuncular video.oyuncu1{
 	width:15vw;height:12vw;
 	position: absolute;
-    top:1%;
+    top:2%;
     left: 50%;
     -webkit-transform: translate(-50%, -10%);  
     transform: translate(-50%, -10%);   
@@ -51,7 +49,7 @@ div.oyuncular video.oyuncu1{
  	object-fit: cover;
 }
 
-div.baslik_oyuncu1{position:absolute;margin-left:64.6%;width:15vw;height:1.8vw;margin-top:0%; display:none; z-index:10;/*border: 1px solid red;*/
+div.baslik_oyuncu1{position:absolute;left:62.5%;width:15vw;height:1.8vw;margin-top:0%; display:none; z-index:10;/*border: 1px solid red;*/
 }
 
 div.oyuncular video.oyuncu2{
@@ -63,10 +61,11 @@ div.oyuncular video.oyuncu2{
     transform: translate(-50%, -10%);   
 	display:inline-block;
 	object-fit: cover;
+	
 }
 
 
-div.baslik_oyuncu2{position:absolute;margin-left:64.6%;width:15vw;height:1.8vw;margin-top:25.5%;display:none; z-index:10;/*border: 1px solid red;*/
+div.baslik_oyuncu2{position:absolute;left:62.5%;width:15vw;height:1.8vw;margin-top:24%;display:none; z-index:10;/*border: 1px solid red;*/
 }
 
 
@@ -80,7 +79,7 @@ div.seyirciler {
 	overflow: hidden;
 }
 
-div.mesaj{position:absolute;margin-left:64.5%;width:15vw;height:10.5vw;margin-top:14%; z-index:0;color:white; overflow-x: hidden;
+div.mesaj{position:absolute;margin-left:62.5%;width:15vw;height:10.5vw;margin-top:12%; z-index:0;color:white; overflow-x: hidden;
         overflow-y: auto;background-color:#111111;/*border: 1px solid gray;*/
 
 }
@@ -100,19 +99,31 @@ body #board{
 	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	
 	}
-body   #board div.side{float:left;background-color:#eae3d1;}
+body   #board div.side{float:left;background-image: url("tavla1.png"); /*width:25vw;*/}
 
-body #board div.side.left{margin-right:4vw;}
+body #board div.side.left { 
+	/*margin-right:0.1vw;*/
+	border-image-source: url(tavla3.png);
+	border-image-slice: 20;
+	border-style: solid;
+	/*border-width: 1vw 2.5vw 1vw 1vw;*/
+}
+body #board div.side.right{
+	border-image-source: url(tavla3.png);
+	border-image-slice: 20;
+	border-style: solid;
+	/*border-width: 1vw 1vw 1vw 2.5vw;*/
 
+}
 
-body #board div.side div.point{float:left;position:relative;width:16.66%;height:44.11%;}
+body #board div.side div.point{float:left;position:relative;/*width:16.66%;height:44.11%;*/}
 
 body #board div.side div.point div.triangle{
 	width:0;height:0;
 	/*In the example below, if the width of the viewport is 200mm, the font size of h1 elements will be 16mm (i.e. (8×200mm)/100).
 	 GENISLIK AYARI
 	 * */
-	border:2.5vw solid transparent;overflow:visible;*/
+	border:1.6vw solid transparent; overflow:visible;
 	}
 
 body #board div.side div.quarter{height:44.11%;}
@@ -121,7 +132,7 @@ body #board div.side div.quarter{height:44.11%;}
 body     #board div.side div.quarter.top{margin-bottom:11.78%;}
 body     #board div.side div.quarter.top div.point.odd div.triangle{border-top-color:#f0f0f0;}
 /* BOY ayari */
-body     #board div.side div.quarter.top div.point div.triangle{border-top-width:18vw;border-top-color:#444549;}
+body     #board div.side div.quarter.top div.point div.triangle{border-top-color:#444549;/*border-top-width:16vw;*/}
 
 body     #board div.side div.quarter.top div.point div.piece{
 	position: absolute;
@@ -131,7 +142,7 @@ body     #board div.side div.quarter.top div.point div.piece{
     transform: translate(-50%, -50%);   
 	display:inline-block;
 }
-body     #board div.side div.quarter.top div.point div.piece:first-child{top: 10%;}
+body     #board div.side div.quarter.top div.point div.piece:first-child{top: 9.5%;}
 body     #board div.side div.quarter.top div.point div.piece:nth-child(2){top: 25%;}
 body     #board div.side div.quarter.top div.point div.piece:nth-child(3){top: 40%;}
 body     #board div.side div.quarter.top div.point div.piece:nth-child(4){top:55%;}
@@ -139,13 +150,13 @@ body     #board div.side div.quarter.top div.point div.piece:nth-child(5){top:70
 
 /* ____________ BUTONLAR _________________________ */
 body     #board div.side #pullari_yerlestir{position:absolute; left:1%;margin-top:15.1%; display:block;}
-body     #board div.side #zar_at{position:absolute; left:18%;margin-top:15.1%; display:block;}
-body     #board div.side #oynadim{position:absolute; left:18%;margin-top:15.1%; display:block;}
+body     #board div.side #zar_at{position:absolute; left:7%;margin-top:13.5%; display:block;cursor:pointer;}
+body     #board div.side #oynadim{position:absolute; left:12%;margin-top:13.5%; display:block;cursor:pointer;}
 
 /*------------------------------- BOTTOM----------------------------------------------------------- */
 body     #board div.side div.quarter.bottom div.point.odd div.triangle{border-bottom-color:#f0f0f0;}
 /* BOY ayari */
-body     #board div.side div.quarter.bottom div.point div.triangle{border-bottom-width:18vw;border-bottom-color:#444549;border-top-width:0;}
+body     #board div.side div.quarter.bottom div.point div.triangle{border-bottom-color:#444549;border-top-width:0;/*border-bottom-width:16vw;*/}
 
 body     #board div.side div.quarter.bottom div.point div.piece{
 	position: absolute;
@@ -155,14 +166,15 @@ body     #board div.side div.quarter.bottom div.point div.piece{
     transform: translate(-50%, -50%);   
 	display:inline-block;
 }
-body     #board div.side div.quarter.bottom div.point div.piece:first-child{top: 89%;}
+body     #board div.side div.quarter.bottom div.point div.piece:first-child{top: 89.5%;}
 body     #board div.side div.quarter.bottom div.point div.piece:nth-child(2){top: 75%;}
 body     #board div.side div.quarter.bottom div.point div.piece:nth-child(3){top: 60%;}
 body     #board div.side div.quarter.bottom div.point div.piece:nth-child(4){top:45%;}
 body     #board div.side div.quarter.bottom div.point div.piece:nth-child(5){top:30%;}
 
 
-body     #board div.side div.point div.piece{-webkit-border-radius:2vw;
+body     #board div.side div.point div.piece{
+	-webkit-border-radius:2vw;
 	-moz-border-radius:2vw;
 	border-radius:2vw;
 	-moz-background-clip:padding;
@@ -171,8 +183,9 @@ body     #board div.side div.point div.piece{-webkit-border-radius:2vw;
 	z-index:100;-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
-	width:4vw;height:4vw;
+	width:3.3vw;height:3.3vw;
 }
+
 body     #board div.side div.point div.piece.player1{background-color:#dd9300;}
 body     #board div.side div.point div.piece.player2{background-color:#778691;}
 
@@ -248,7 +261,7 @@ div.kirik_pul{
 	z-index:100;-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
-	width:4vw;height:4vw;			
+	width:3.3vw;height:3.3vw;			
 }
 div.kirik_pul.player1{background-color:#dd9300;}
 div.kirik_pul.player2{background-color:#778691;}
@@ -262,7 +275,7 @@ div.kirik_pul_kutusu1{position:absolute;margin-left:-4vw;width:4vw;height:20vw;m
 div.kirik_pul_kutusu1 div.kirik_pul{
 	position: absolute;
     top:15%;
-    left: 50%;
+    left: 38%;
     -webkit-transform: translate(-50%, -50%);  
     transform: translate(-50%, -50%);   
 	display:inline-block;
@@ -282,7 +295,7 @@ div.kirik_pul_kutusu2{position:absolute;margin-left:-4vw;width:4vw;height:20vw;m
 div.kirik_pul_kutusu2 div.kirik_pul{
 	position: absolute;
     top:60%;
-    left: 50%;
+    left: 38%;
     -webkit-transform: translate(-50%, -50%);  
     transform: translate(-50%, -50%);   
 	display:inline-block;
@@ -302,7 +315,7 @@ div.toplanan_pul{
 	z-index:100;-webkit-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	-moz-box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
 	box-shadow:5px 5px 20px 5px rgba(0, 0, 0, 0.25);
-	width:4vw;height:4vw;				
+	width:3.3vw;height:3.3vw;				
 }
 /* PUL RENKLERI */
 div.toplanan_pul.player1{background-color:#dd9300;}
@@ -312,10 +325,16 @@ div.toplanan_pul_kutusu1  div.toplanan_pul.isaret{cursor:pointer;}
 div.toplanan_pul_kutusu1  div.toplanan_pul.isaret:hover{-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
 div.toplanan_pul_kutusu1  div.toplanan_pul.isaretli{background-color:#ef8686;}
 
-/*div.toplanan_pul_kutusu1{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:0.1vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}*/
-div.toplanan_pul_kutusu1{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:19.5vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.toplanan_pul_kutusu1{position:absolute;margin-left:57.5vw;width:4vw;height:17vw;margin-top:18.5vw;z-index:200;}
 
-div.toplanan_pul_kutusu1.gidecegi_yer_isaretli{background-color:#e6ff73; cursor:pointer;}
+div.toplanan_pul_kutusu1.gidecegi_yer_isaretli{
+	background-image: url("tavla1.png"); cursor:pointer;
+	border-image-source: url(tavla3.png);
+	border-image-slice: 20;
+	border-style: solid;
+	border-width: 0.3vw;
+
+}
 
 div.toplanan_pul_kutusu1 div.toplanan_pul{
 	position: absolute;
@@ -325,7 +344,7 @@ div.toplanan_pul_kutusu1 div.toplanan_pul{
     transform: translate(-50%, -50%);   
 	display:inline-block;
 }
-div.toplanan_pul_kutusu1 div.toplanan_pul:first-child{top: 90%;}
+div.toplanan_pul_kutusu1 div.toplanan_pul:first-child{top: 88%;}
 div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(2){top:80%;}
 div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(3){top:70%;}
 div.toplanan_pul_kutusu1 div.toplanan_pul:nth-child(4){top:60%;}
@@ -349,9 +368,19 @@ div.toplanan_pul_kutusu2  div.toplanan_pul.isaret:hover{-webkit-opacity:0.5;-moz
 div.toplanan_pul_kutusu2  div.toplanan_pul.isaretli{background-color:#ef8686;}
 
 /*div.toplanan_pul_kutusu2{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:19.5vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}*/
-div.toplanan_pul_kutusu2{position:absolute;margin-left:64vw;width:4vw;height:19vw;margin-top:0.1vw;z-index:200;-webkit-opacity:0.5;-moz-opacity:0.5;opacity:0.5;}
+div.toplanan_pul_kutusu2{position:absolute;margin-left:57.5vw;width:4vw;height:17vw;margin-top:0.1vw;z-index:200;}
 
-div.toplanan_pul_kutusu2.gidecegi_yer_isaretli{background-color:#e6ff73;cursor:pointer;}
+div.toplanan_pul_kutusu2.gidecegi_yer_isaretli{
+	cursor:pointer;
+	background-image: url("tavla1.png"); cursor:pointer;
+	border-image-source: url(tavla3.png);
+	border-image-slice: 20;
+	border-style: solid;
+	border-width: 0.3vw;
+
+
+
+}
 
 div.toplanan_pul_kutusu2 div.toplanan_pul{
 	position: absolute;
@@ -361,7 +390,7 @@ div.toplanan_pul_kutusu2 div.toplanan_pul{
     transform: translate(-50%, -50%);   
 	display:inline-block;
 }
-div.toplanan_pul_kutusu2 div.toplanan_pul:first-child{top: 90%;}
+div.toplanan_pul_kutusu2 div.toplanan_pul:first-child{top: 88%;}
 div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(2){top:80%;}
 div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(3){top:70%;}
 div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(4){top:60%;}
@@ -376,7 +405,3 @@ div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(12){top:45%;}
 div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(13){top:55%;}
 div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(14){top:65%;}
 div.toplanan_pul_kutusu2 div.toplanan_pul:nth-child(15){top:75%;}
-
-
-
-
