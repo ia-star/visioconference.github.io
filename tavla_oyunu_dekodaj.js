@@ -62,6 +62,7 @@
 				start_layout(); 
 				$("button#zar_at").show();
 				$("button#oynadim").hide();
+				alert("Rakibiniz oyunu siz kazandiniz diyor. zar atip yeni oyuna baslayin lütfen");
  		   		
  		   	}
  		   	
