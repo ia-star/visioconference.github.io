@@ -564,7 +564,7 @@ document.getElementById('btn-openjoin-room').onclick = function() {
 		/* ******************************* */
 		/***** Cerceve kalinlik hesaplari  */
 		/* ******************************** */
-		var kanat_kenar_katsayisi=0.04;
+		var kanat_kenar_katsayisi=0.07;
 		var sol_kanat_sag_kenar_katsayisi=0.1;
 		
 		var sol_kenar_sol_kalinlik=kanat_genislik*kanat_kenar_katsayisi;
