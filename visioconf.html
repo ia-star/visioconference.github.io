@@ -632,8 +632,7 @@ connection.onstream = function(event) {
 // ********************************* */
 document.getElementById('Sortir').onclick = function() {
   var video_sayisi = document.getElementById("wrapper").childElementCount;
-  if(video_sayisi==1){ location.reload();}
-  else {
+
   //alert("Kapat");
       // disconnect with all users
       connection.getAllParticipants().forEach(function(pid) {
@@ -650,7 +649,7 @@ document.getElementById('Sortir').onclick = function() {
     location.reload();
     this.disabled = true;
     
-  }
+ 
 
 };
 
