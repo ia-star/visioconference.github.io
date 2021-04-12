@@ -153,7 +153,8 @@ video {
     <img src="hang-up-icon.png" style="width: 50px;border-radius: 10px;" id="Sortir" class="sortir" onclick="stopMedia();" title="Leave room">
     <img src="openScreenShare.png" style="width: 50px; border-color: black; border-width: 15px;" id="open_screen_share" class="sortir" onclick="open_screen_share();" title="Ekranini paylas">
     <img src="closeScreenShare.png" style="width: 50px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="close_screen_share();" title="Paylasmayi terket">
-    <!--<img src="stopMic.png" style="margin-left:10px; width: 35px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="mute_mic();" title="Stop micro">-->
+    <div id="room_name" style="color:rgb(238, 20, 20); font-weight: bold;">Salon adi </div>
+	    <!--<img src="stopMic.png" style="margin-left:10px; width: 35px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="mute_mic();" title="Stop micro">-->
     
 
     <!--<select id="doluluk" class="doluluk" > </select>--> 
@@ -645,8 +646,18 @@ var isMobile="";
 --------ODAYI AC /  ACIK ODAYA ODAYA GIR ------
 // ******************************************** */
 document.getElementById('btn-openjoin-room').onclick = function() {
-  if(location.search){var oda = document.getElementById("MasaIsmi").value;}
-	else {var oda = document.getElementById("OdaIsmi").value;}
+  if(location.search){
+    var oda = document.getElementById("MasaIsmi").value;
+    // oda adini ekrana yaz
+    var secilen_oda=document.getElementById("MasaIsmi");
+    var secilen_oda_adi=secilen_oda.options[secilen_oda.selectedIndex].text;
+    document.getElementById("room_name").innerHTML=secilen_oda_adi;
+  }
+  else {
+     var oda = document.getElementById("OdaIsmi").value;
+    // oda adini ekrana yaz
+    document.getElementById("room_name").innerHTML=oda;
+  }
 	
   if (oda =="" || oda==0) { alert(odaadiyok)}
     else {
