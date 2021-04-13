@@ -4,7 +4,18 @@
 </head>
 <body>
   <script>
-window.location.href = "http://6toyens.free.fr/doluluk/index.php?action=show_rooms";
+var xhttp = new XMLHttpRequest();
+xhttp.open("GET", "http://6toyens.free.fr/doluluk/index.php?action=show_rooms", true);
+xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xhttp.onreadystatechange = function() {
+   if (this.readyState == 4 && this.status == 200) {
+
+      // Response
+      var response = this.responseText; 
+
+   }
+};
+xhttp.send();
   </script>
   </body>
 </html>
