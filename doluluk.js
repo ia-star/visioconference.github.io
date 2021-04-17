@@ -9,7 +9,7 @@ function loadText(){
     
     //OPEN - type, url/file, async
 
-    xhr.open('GET', 'https://github.com/ia-star/visioconference.github.io/doluluk.txt', true);
+    xhr.open('GET', 'doluluk.txt', true);
 
     console.log('READYSTATE: ', xhr.readyState);
 
