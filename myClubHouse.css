@@ -1,0 +1,229 @@
+body {
+    display: grid;
+    grid-template-rows: min-content auto min-content;
+    background-color: black;
+  }
+  
+  :root {
+    --max-height:33vh;
+    --height: 33vh;
+    --width : 33vw;
+    --max-width :33vw;
+    --flex-direction: row;
+    --font-size:2.5vh;
+  }
+  
+  
+  audio {
+   width:0px;
+    height:0px;
+    /*display:block;*/
+    object-fit:cover;
+  visibility: hidden;
+  }
+  
+  .container{
+    position: absolute;
+    top:0vh;
+    visibility:hidden;
+    margin-top: 0vh;
+   z-index:100;
+
+  }
+  .wrapper {
+      height: 80vh;
+      background-color: black;
+      padding: 0;
+      margin-top: 0vh;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      /*align-items: center;*/
+      /*justify-content: center;*/
+      flex-wrap: wrap;
+     flex-direction: var(--flex-direction);
+  
+  }
+  
+  .media-controls{
+    height: var(--height);
+    max-height: var(--max-height);
+    width : var(--width);
+    max-width: var(--max-width);
+    font-size: var(--font-size);
+    display: grid;	
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: 2px;
+    min-width: 0;   /* NEW; needed for Firefox */
+    margin: 0 5px;
+  
+  flex-grow: 0;
+  }
+  .imagex{
+    height: var(--height);
+    max-height: var(--max-height);
+    width : var(--width);
+    max-width: var(--max-width);
+    
+    object-fit: cover;
+    border-radius: 100%;
+    border-style: solid;
+    border-top-width: 0px;
+    border-color: white;
+    grid-column-start: 1; grid-column-end: 5;grid-row-start: 1;grid-row-end: 5;
+    
+  }
+  .namex{
+    display:block; width: 100%;height: 100%;      object-fit: cover; z-index:1;
+      grid-column-start: 2; grid-column-end: 9;grid-row-start: 3;grid-row-end: 3; 
+    color:blanchedalmond;  font-weight: normal; 
+  }
+  
+  .mesajx{
+    display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;z-index:1;
+      grid-column-start: 2; grid-column-end: 3;grid-row-start: 2;grid-row-end: 2; 
+     font-weight:normal;
+  }
+  
+  .konusx{
+    display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;z-index:1;
+    grid-column-start: 7; grid-column-end: 8;grid-row-start: 2;grid-row-end: 2; 
+   font-weight:normal;
+
+  }
+
+.moderx{
+
+  display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;z-index:1;
+  grid-column-start: 4; grid-column-end: 6;grid-row-start: 4;grid-row-end: 5; 
+ font-weight:normal;
+
+}
+
+  .audiox{
+  
+    display:block;
+  }
+  
+  .fields{
+    background-color: #fff;
+    border: 1px solid #0376da;
+      outline: 0;
+      border-radius: 3px;
+      font-size: 15px;
+      line-height: 12px;
+      color: #1c2025;
+      padding: 4px 0;
+      text-align: center;
+      width: 286px;
+      margin-top:6px;
+  }
+  .title{
+    color: #fff;
+      font-size: 24px;
+      line-height: 32px;
+      margin-bottom: 5px;
+  }
+  .kontrol{
+    align-items: center;
+      display: flex;
+      flex: 1;
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0%;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 24px;
+      z-index: 352;
+        }
+  .aksyon_butonu{
+    border-radius: 3px;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 15px;
+      line-height: 24px;
+      margin-top: 22px;
+      padding: 7px 16px;
+      position: relative;
+      text-align: center;
+      width: 286px;
+      
+  }
+  .salona_gir_butonu{
+    background: #0376da;
+    border: 1px solid #0376da;
+  
+  }
+  
+  .resim_islemi{
+    background: #edf5a5;
+    border: 1px solid #edf5a5;
+    color:black;
+    margin-top:6px;
+  
+  }
+  .kirmizi_cerceve{
+    /*background-color: red;*/
+    border:2px solid red;
+  }
+  
+  .toolbox{
+      bottom: 5%;
+      left: 0;
+      position: absolute;
+      right: 0;
+      transition: bottom .3s ease-in;
+      width: 100%;
+  }
+
+  .myButton {
+    box-shadow: 2px 3px 0px 0px #899599;
+    background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+    background-color:#ededed;
+    border-radius:6px;
+    border:1px solid #d6bcd6;
+    display:inline-block;
+    cursor:pointer;
+    color:#3a8a9e;
+    font-family:Arial;
+    font-size:10px;
+    font-weight:bold;
+    padding:1px 1px;
+    text-decoration:none;
+    /*text-shadow:-18px -10px 0px #e1e2ed;*/
+  }
+  .myButton:hover {
+    background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+    background-color:#bab1ba;
+  }
+  .myButton:active {
+    position:relative;
+    top:1px;
+    z-index:900;
+  }
+  
+ /*select{
+  box-shadow: 2px 3px 0px 0px #899599;
+  background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+  background-color:#ededed;
+  border-radius:6px;
+  border:1px solid #d6bcd6;
+  display:inline-block;
+  cursor:pointer;
+  color:#3a8a9e;
+  font-family:Arial;
+  font-size:10px;
+  font-weight:bold;
+  padding:1px 1px;
+  text-decoration:none;
+ } */
+  .open_clicked{
+position:absolute;
+top:50%;
+left:50%;
+
+  }

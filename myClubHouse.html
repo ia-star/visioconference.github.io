@@ -1,0 +1,977 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Audio Conferencing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+  <link href='myClubHouse.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body onresize="screenSize()" onload="screenSize()" >
+  
+  <header>
+   <input type="hidden" id="local_status" value="" data-enter=1 data-com=0 data-screen=0 data-all_micro="ON" data-admin=0 data-actif_speaker=0 data-waiting_speaker="OFF">
+    <input type="hidden" id="orientation" value="" data-l="" data-h="">
+   <input type="hidden" id="touch" name="touch" value="0"> 
+  </header>
+  
+  <section  class="kontrol" id="kontrol">
+    <div class="title">Kozeri Toplanti Salonu</div>
+    <input type="text"  class="fields" placeholder="Buraya kendi adinizi girin" id="name" value="" title=" Tolanti sirasinda katilimcilar bu adi görecekler !">
+    <input type="text"  class="fields" placeholder="Buraya Toplanti salonunun adini girin"  id="OdaIsmi" value="" title ="Katilimcilarla paylasilan toplanti yerinin adi ">
+    <button  class="aksyon_butonu salona_gir_butonu" id="btn-openjoin-room"> Tolantiya buyrun !</button>        
+  </section>
+
+   <!-- TOOL BOX-->
+  <section class="container" id="container" >
+    <button class="myButton" id="kontrol-micro" onClick='local_micro_control();' >Microfonu kapat</button>
+    <button class="myButton" id="moderatorluge_basvur" onClick='moderatorluge_basvur();' >Moderator ol</button>
+   
+   <button class="myButton" style="display:none;" id="soz_kontrolu" onClick='soz_kontrolu();' >Söz Istiyorum</button>
+    
+    <button class="myButton" id="ekran_paylas" onClick='ekran_paylas();'>Ekran paylas</button> 
+    
+  <div id="moderator" style="display:none;">
+      <button  class="myButton" id="mikrofonlarin_kontrolu" onClick='mikrofonlarin_kontrolu();' > Mikrofonlari kapat</button>
+      <button  class="myButton" id="soz_ver" onClick='soz_ver();' style="display: none;"> Söz Ver</button>
+
+  </div>
+   
+    <iframe id="ekranim" src="capture_html.html" height="400" width="800" title="ekran paylas" style="display: none;"></iframe>
+    <img id="ekran_goster" src="" style="display:none"></div>
+  </section>
+
+  <div id="moderator_tool"  class="open_clicked" style="display:none;">
+      <select id="open_clicked">
+        <option value="0" > Islemler  </option>
+        <option value="mute_clicked" > Mikrofonu nu kapat </option>
+        <option value="unmute_clicked" > Mikrofonu nu aç </option>
+        <option  value="data_update"> Verleri tazele</option>
+      </select>
+  </div>
+  
+  <div id="soz_sirasi" style="display:none"> </div>
+  
+  
+  <div id='wrapper' class="wrapper"></div>
+
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+
+
+<script>
+
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+  document.getElementById("ekran_paylas").style.display="none";
+}
+
+/* ******************************************** */
+/* ========  TOOL BOX ========================= */
+/* ******************************************** */
+/*//const tool=document.getElementById("wrapper");
+const tool=document.body;
+var statusElem=document.getElementById("local_status");
+tool.onmouseover = logMouseOver;
+tool.onmouseout = logMouseOut; 
+function logMouseOver() {
+  if(statusElem.getAttribute("data-enter")!=1){
+    setTimeout(() => {
+    document.getElementById('container').style.visibility = "visible"; 
+  }, 100);
+  }
+}
+function logMouseOut() { 
+  setTimeout(() => {
+    document.getElementById('container').style.visibility = "hidden"; 
+  }, 6000);
+}
+*/
+/* ******************************************** */
+/* ========  ACTION ON USERS  ================= */
+/* ******************************************** */
+
+    document.addEventListener('click', function(e) {
+      var U=e.target.id;
+      
+      var Class_Image = U.substring(0, 3);
+      var Class_Name  = U.substring(0, 4);
+      var idareci_id=document.getElementById("local_status").getAttribute("data-admin");
+      var benim_id=document.getElementById("wrapper").firstElementChild.id;
+      if(Class_Image=="img") {
+        var gelen_veri= e.target.id;
+        var veri_boyu= gelen_veri.length;
+        var user_ID=gelen_veri.substring(3, veri_boyu);
+        // touch a yaz
+        document.getElementById("touch").setAttribute('value',user_ID);
+      }
+      else if(Class_Name=="name") {
+        var gelen_veri= e.target.id;
+        var veri_boyu= gelen_veri.length;
+        var user_ID=gelen_veri.substring(4, veri_boyu);
+        // touch a yaz
+        document.getElementById("touch").setAttribute('value',user_ID);
+      }
+
+      else{
+        document.getElementById("moderator_tool").style.display="none";}
+
+      // sayet be inadreci isem
+      if(idareci_id==benim_id && (U=="open_clicked" || Class_Name=="name" || Class_Image=="img")){
+        // touch tan oku
+        User_ID=document.getElementById("touch").getAttribute('value'); 
+        document.getElementById("moderator_tool").style.display="inline";
+        
+        document.getElementById("open_clicked").onchange=function(){
+          var opsyon=document.getElementById("open_clicked").value;
+          if (opsyon=="mute_clicked"){connection.send("mikrofonunu_kapat!"+User_ID+"!"); document.getElementById("moderator_tool").style.display="none";  }
+          if (opsyon=="unmute_clicked"){ connection.send("mikrofonunu_ac!"+User_ID+"!"); document.getElementById("moderator_tool").style.display="none";  }
+          if (opsyon=="data_update"){
+            
+            // kim moderateur
+            var moderateur_id= document.getElementById("local_status").getAttribute("data-admin");
+            // kim konusuyor
+            var konusan_id=document.getElementById("local_status").getAttribute("data-actif_speaker");
+            
+            connection.send("data_update!"+moderateur_id+"!"+konusan_id+"!"); document.getElementById("moderator_tool").style.display="none";  
+          }
+          
+          if (opsyon=="0"){ document.getElementById("moderator_tool").style.display="none"; }
+      
+        }
+      }     
+   // }
+        
+  }, false);
+
+
+function screenSize(){
+  if(window.innerWidth !== undefined && window.innerHeight !== undefined) { 
+    var largeur = window.innerWidth;
+    var hauteur = window.innerHeight;
+  } else {  
+    var largeur = document.documentElement.clientWidth;
+    var hauteur = document.documentElement.clientHeight;
+  }
+    
+  document.getElementById("orientation").dataset.l = largeur;
+  document.getElementById("orientation").dataset.h = hauteur;
+ yerlestir();
+}
+
+// ******************************************* //
+// ********** Ad Kontrolu ***************** //
+// Bakalim benim adim kaydedimismi ?
+var mon_nom=localStorage.getItem('dataIsim');
+// adimin kaydi yok
+if(mon_nom=="" || mon_nom === undefined || mon_nom === null ){ }
+// adimin kaydi var
+else  { document.getElementById("name").setAttribute('value',mon_nom);}
+
+
+function ekran_paylas(){
+document.getElementById("ekranim").style.display="block";
+}
+
+
+function soz_ver(){
+  var sira_id=document.getElementById("soz_sirasi").firstElementChild.id;
+  var sira_id_lenght=sira_id.length;
+  var soz_id = sira_id.substring(5, sira_id_lenght);
+   /*lokal islemeler
+    - Resmini degistir
+    - beklemeden çikart
+  */
+  
+  var speak_larg = document.getElementById("orientation").dataset.l;
+  var speak_resim_w= parseInt(speak_larg/40);
+  
+  
+  
+  // Konusan varmi ?
+  var konusan_id=document.getElementById("local_status").getAttribute("data-actif_speaker");
+  if(konusan_id==0){
+    // konusan yok
+  } 
+ else{   // konusanin resmini sil
+    document.getElementById("konus"+konusan_id).innerHTML="";
+    document.getElementById(konusan_id).setAttribute("data-bekleme_sirasi",0);
+    document.getElementById(konusan_id).setAttribute("data-konusma",0);
+  
+  }
+
+  // soz istiyenin resmini koy  konusan olarak kaydet
+  document.getElementById("konus"+soz_id).innerHTML="<img src='speak_on.png' width='"+speak_resim_w+"px'>";
+  document.getElementById("local_status").setAttribute("data-actif_speaker",soz_id);
+  //beklemeden çikart
+  var sira = document.getElementById('soz_sirasi');
+  sira.removeChild(sira.getElementsByTagName('input')[0]);
+  //  Sirada çiktigini statuse ekle
+  document.getElementById(soz_id).setAttribute("data-bekleme_sirasi",0);
+  document.getElementById(soz_id).setAttribute("data-konusma",1);    
+
+  // Mesaj gönder
+ var mesaj= "soz_ver!"+soz_id+"!"+konusan_id+"!";
+ connection.send(mesaj);
+// sirada kimse yoksa soz ver butonunu kaldir
+if(document.getElementById("soz_sirasi").childElementCount >0){}
+else {document.getElementById('soz_ver').style.display="none";}
+
+
+
+}
+
+
+function soz_kontrolu(){ // soz istiyor/istemiyor
+  var soz_id=document.getElementById("wrapper").firstChild.id;
+  // soz almismi?
+  var beklemede =document.getElementById("local_status").getAttribute("data-waiting_speaker");
+
+if(beklemede=="ON"){
+  var mesajoff="soz_istemiyor!"+soz_id+"!";
+  connection.send(mesajoff);
+  // sira resmini çikart
+  document.getElementById("konus"+soz_id).innerHTML="";
+  
+  // siradan çik
+  var element = document.getElementById("soz_sirasi");
+  var child=document.getElementById("input"+soz_id);
+  element.removeChild(child);
+   // Sirada çiktigini statuse ekle
+   document.getElementById(soz_id).setAttribute("data-bekleme_sirasi",0);
+
+  // buton yazisini degistir
+  document.getElementById("soz_kontrolu").innerText="Söz iste";
+  // durumu kaydet
+  document.getElementById("local_status").setAttribute("data-waiting_speaker","OFF");
+ 
+
+
+}
+
+ else if(beklemede =="OFF"){
+  console.log("beleme="+beklemede);
+  // sira resmini ekle
+  var speak_larg = document.getElementById("orientation").dataset.l;
+  var speak_resim_w= parseInt(speak_larg/40);
+  document.getElementById("konus"+soz_id).innerHTML="<img src='speak_wait.png' width='"+speak_resim_w+"px'>";
+  
+  // siraya gir 
+  var siradaki = document.createElement('input');
+  siradaki.id="input"+soz_id;
+  document.getElementById("soz_sirasi").appendChild(siradaki);
+  // Sirada girdigini statuse ekle
+  document.getElementById(soz_id).setAttribute("data-bekleme_sirasi",1);
+  //alert("statue ekle:"+soz_id);
+
+  // buton yazisini degistir
+  document.getElementById("soz_kontrolu").innerText="Konusma sirami terkediyorum";
+  // durumu kaydet
+  document.getElementById("local_status").setAttribute("data-waiting_speaker","ON");
+  // Sirada oldugunu statuse ekle
+  document.getElementById("local_status").setAttribute("data-bekleme_sirasi",1);
+  // mesaj gonder
+  var mesajon="soz_istiyor!"+soz_id+"!";
+  connection.send(mesajon);
+
+}
+
+
+}
+
+function adimi_gonder(){    
+    var kendi_adim=document.getElementById("wrapper").firstChild.title;  
+    var kendi_id=document.getElementById("wrapper").firstChild.id;
+    var mesaj="adim!"+kendi_adim+"!"+kendi_id+"!";
+    console.log("sending:",kendi_adim);
+    connection.send(mesaj);
+    // adimi kaydet
+    localStorage.setItem('dataIsim', kendi_adim);
+};
+
+function moderateur_gonder(){
+  var kendi_id=document.getElementById("wrapper").firstChild.id;
+  var moderateur_id= document.getElementById("wrapper").firstChild.getAttribute("data-admin");
+  if(moderateur_id==kendi_id) {
+    var mesaj="moderator!ON!"+kendi_id+"!";
+    connection.send(mesaj);
+  }
+}
+
+function microfon_gonder(){
+ var mikrofon_status= document.getElementById("wrapper").firstChild.getAttribute("data-mikrofon");
+if(mikrofon_status=="true"){var mesaj="mikrofonum!1!"+document.getElementById("wrapper").firstChild.id+"!";}
+else if(mikrofon_status=="false"){var mesaj="mikrofonum!0!"+document.getElementById("wrapper").firstChild.id+"!";}
+connection.send(mesaj);
+}
+
+
+
+
+function konusma_durumumu_gonder(){
+var konusma_status= document.getElementById("wrapper").firstChild.getAttribute("data-konusma");
+if(konusma_status==1){var mesaj="konusma!1!"+document.getElementById("wrapper").firstChild.id+"!";}
+else if(konusma_status==0){var mesaj="konusma!0!"+document.getElementById("wrapper").firstChild.id+"!";}
+connection.send(mesaj);
+
+}
+
+function mikrofonlarin_kontrolu(){
+  all_micro_status=document.getElementById("local_status").getAttribute("data-all_micro");
+   if(all_micro_status=="OFF"){ //Kapali
+    connection.send("mikrofolari_ac!");
+    document.getElementById("mikrofonlarin_kontrolu").innerText="Mikrofonlari kapat";
+    document.getElementById("local_status").setAttribute("data-all_micro","ON");
+    }
+   else { // hepsi açik
+      connection.send("mikrofolari_kapat!");
+      document.getElementById("mikrofonlarin_kontrolu").innerText="Mikrofonlari aç";
+      document.getElementById("local_status").setAttribute("data-all_micro","OFF");
+      
+    }
+
+
+}
+
+function local_micro_control(){
+  var local_micro_status=document.getElementById("wrapper").firstChild.getAttribute("data-mikrofon");
+  if(local_micro_status=="true"){
+    // micro açik ozaman kapatalim;
+    document.getElementById("kontrol-micro").innerText="Mikrofonu Aç";
+    mute_local_micro();
+  }
+  else if(local_micro_status=="false"){
+    // micro kapali o zaman açalim
+    document.getElementById("kontrol-micro").innerText="Mikrofonu Kapat";
+    unmute_local_micro();
+  }
+  else {
+    document.getElementById("kontrol-micro").innerText="Mikrofonu Aç";
+    unmute_local_micro();
+  }
+}
+
+
+function mute_local_micro(){
+var larg = document.getElementById("orientation").dataset.l;
+var resim_w= parseInt(larg/40);
+var localStream = connection.attachStreams[0];
+localStream.mute('audio');
+document.getElementById("wrapper").firstChild.setAttribute("data-mikrofon", false);
+document.getElementById("mesaj"+document.getElementById("wrapper").firstChild.id).innerHTML="<img src='micro_off.png' width='"+resim_w+"px'>";
+var mesaj="mikrofonum!0!"+document.getElementById("wrapper").firstChild.id+"!";
+connection.send(mesaj);
+
+}
+function unmute_local_micro(){
+var larg = document.getElementById("orientation").dataset.l;
+var resim_w= parseInt(larg/40);
+var localStream = connection.attachStreams[0];
+localStream.unmute('audio');
+document.getElementById("wrapper").firstChild.setAttribute("data-mikrofon", true);
+document.getElementById("mesaj"+document.getElementById("wrapper").firstChild.id).innerHTML="<img src='micro_on.png' width='"+resim_w+"px'>";
+var mesaj="mikrofonum!1!"+document.getElementById("wrapper").firstChild.id+"!";
+connection.send(mesaj);
+}
+
+function moderatorluge_basvur(){
+  var action="";
+  var kendi_id=document.getElementById("wrapper").firstChild.id;
+// Moderator varmi? 
+  var moderateur_id =document.getElementById("local_status").getAttribute("data-admin");
+// moderateur benmiyim ?
+  if(moderateur_id==0){ // kimse yok OK
+    action="ON";
+    document.getElementById("local_status").setAttribute("data-admin",kendi_id);
+    document.getElementById(kendi_id).setAttribute("data-admin",kendi_id);
+    // Moderateur _basvuruyu OFF a getir
+    document.getElementById("moderator").style.display="inline";
+    document.getElementById("moderatorluge_basvur").innerText="Moderatörlügü terket";
+    // Moderateur resmini koy
+    var long = document.getElementById("orientation").dataset.h;
+    var resim_h= parseInt(long/50);
+    document.getElementById("moder"+kendi_id).innerHTML="<img src='moderateur.png' height='"+resim_h+"px'>";
+
+
+  }
+  else if(moderateur_id==kendi_id){
+    action="OFF";
+    document.getElementById("local_status").setAttribute("data-admin",0);
+    document.getElementById(kendi_id).setAttribute("data-admin",0);
+    // Moderateur _basvuruyu ON a getir
+    document.getElementById("moderator").style.display="none";
+    document.getElementById("moderatorluge_basvur").innerText="Moderator ol";
+    // moderateur resmini kaldir
+    document.getElementById("moder"+kendi_id).innerHTML="";
+  }
+
+var mesaj="moderator!"+action+"!"+kendi_id+"!";
+connection.send(mesaj);
+
+}
+
+
+
+/* ***************************************************/
+/* ****  Telefonun tutulus yönünü  anlamak icin **** */
+/*****************************************************/
+if ( window.orientation == 0 || window.orientation == 180) {
+  document.getElementById("orientation").setAttribute('value','Portrait'); 
+  screenSize();
+  } 
+else {
+  document.getElementById("orientation").setAttribute('value','Landscape');
+  screenSize();
+  }
+
+ /* ****  Telefonun tutulus yönünü  degistirdi **** */
+window.addEventListener("orientationchange", function() {
+  
+  if ( window.orientation == 0 || window.orientation == 180) {
+    document.getElementById("orientation").setAttribute('value','Portrait');
+    screenSize();
+  } else {
+    document.getElementById("orientation").setAttribute('value','Landscape');
+    screenSize();
+  }
+}, false)
+
+/****************************************
+ * ************YERLESTIR *****************
+ * **************************************/
+ function yerlestir(){
+  var Larg = document.getElementById("orientation").dataset.l;
+  var Haut =document.getElementById("orientation").dataset.h;
+  var tutma_yonu=document.getElementById("orientation").value;
+  
+    if (tutma_yonu=="Landscape") {
+      document.documentElement.style.setProperty('--height', '100vh');
+      document.documentElement.style.setProperty('--width', '100vw');
+      document.documentElement.style.setProperty('--max-height', parseInt(Haut/5)+"px");
+      document.documentElement.style.setProperty('--max-width',  parseInt(Haut/5)+"px");
+      document.documentElement.style.setProperty('--font-size',  parseInt(Haut/40)+"px");
+    }
+      else {
+      document.documentElement.style.setProperty('--height', '100vh');
+      document.documentElement.style.setProperty('--width', '100vw');
+      document.documentElement.style.setProperty('--max-height', parseInt(Larg/5)+"px");
+      document.documentElement.style.setProperty('--max-width', parseInt(Larg/5)+"px");
+      document.documentElement.style.setProperty('--font-size',  parseInt(Larg/40)+"px");
+    }
+}
+
+
+
+// ======================================= //
+// =============== BAGLANTI ============== //
+// ======================================= //
+var connection = new RTCMultiConnection();
+connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+// Baglanti opsiyonlari.
+connection.socketCustomParameters ='&fullName=Deniz&country=FR&meetingId=xyz';
+
+// ======================================= //
+// =============== AYARALAR ============== //
+// ======================================= //
+connection.session = {
+    audio: true,
+    video: false,
+    data:true
+};
+connection.mediaConstraints = {
+    audio: true,
+    video: false,
+    data:true
+
+};
+
+connection.sdpConstraints.mandatory = {
+    OfferToReceiveAudio: true,
+    OfferToReceiveVideo: true
+
+};
+
+
+// first step, ignore default STUN+TURN servers
+connection.iceServers = [];
+
+// second step, set STUN url
+connection.iceServers.push({
+    urls: [
+            'stun:stun.l.google.com:19302',
+            'stun:stun1.l.google.com:19302',
+            'stun:stun2.l.google.com:19302',
+            'stun:stun.l.google.com:19302?transport=udp',
+        ]
+});
+
+// last step, set TURN url (recommended)
+connection.iceServers.push({
+    urls: 'turn:numb.viagenie.ca:3478',
+    credential: 'Acil6toyens',
+    username: 'deniz.tulbent@gmail.com'
+});
+
+/* ***********************************************
+  --------ODAYI AC /  ACIK ODAYA ODAYA GIR ------
+// ******************************************** */
+document.getElementById('btn-openjoin-room').onclick = function() {
+	  var oda = document.getElementById("OdaIsmi").value;
+    var isim=document.getElementById("name").value;
+ 
+    if(isim==""){alert("Lütfen isminizi yazin"); document.getElementById("name").className += "  kirmizi_cerceve";}
+   
+    else if (oda =="") { 
+      alert("oda adi yok");
+      document.getElementById("name").classList.remove("kirmizi_cerceve"); 
+      document.getElementById("OdaIsmi").className += "  kirmizi_cerceve";
+    }    
+    else {
+    	connection.openOrJoin(oda);
+    	document.getElementById('btn-openjoin-room').style.visibility = "hidden";
+    	document.getElementById("kontrol").style.display = "none"; // Kontrolu kapat 
+      document.getElementById("container").style.visibility ="visible"; // container aç
+      document.getElementById("local_status").setAttribute("data-enter", 0);
+      document.getElementById("local_status").setAttribute("data-com", 1);
+    	}
+};
+
+connection.onstream = function(event) {
+  if (event.type === 'remote') {
+    var kisi_sayisi=document.getElementById("wrapper").childElementCount+1;
+
+     // önce bir div kur
+    var mediaElementContainer = document.getElementById("wrapper")
+    var mediaControls = document.createElement('div');
+        mediaControls.className = 'media-controls';
+        mediaControls.id = event.userid;
+        mediaControls.title="kisi_adi";
+        mediaControls.setAttribute("data-user_name", kisi_adi);
+        mediaControls.setAttribute("data-mikrofon", true);
+        mediaControls.setAttribute("data-admin", false);
+        mediaControls.setAttribute("data-konusma", 0);
+        mediaControls.setAttribute("data-bekleme_sirasi", 0);
+    mediaElementContainer.appendChild(mediaControls);
+    
+   // namex div kur 
+   var namex=document.createElement('div');
+   namex.id="name"+event.userid;
+   mediaControls.appendChild(namex);  
+   namex.className="namex"; 
+
+   // mesajx div kur
+   var mesajx=document.createElement('div');
+   mesajx.id="mesaj"+event.userid;
+   mediaControls.appendChild(mesajx);  
+   mesajx.className="mesajx"; 
+  
+   // moderateur div kur
+  var moderx=document.createElement('div');
+  moderx.id="moder"+event.userid;
+   mediaControls.appendChild(moderx); 
+   moderx.className="moderx"; 
+
+
+    // konusx div kur
+    var konusx=document.createElement('div');
+   konusx.id="konus"+event.userid;
+   mediaControls.appendChild(konusx); 
+   konusx.className="konusx"; 
+
+   // audio div kur
+   var audiox=document.createElement('div');
+   audiox.id="audio"+event.userid;
+   mediaControls.appendChild(audiox); 
+   audiox.className="audiox"; 
+   
+/* **** audio element i div audiox e yukle **** */
+     document.getElementById("audio"+event.userid).appendChild(event.mediaElement); 
+
+/* **** AVATAR Yükle **** */
+     var imagex=document.createElement('img');
+     imagex.src= "avatar.png";
+     imagex.id="img"+event.userid;
+     mediaControls.appendChild(imagex); 
+     imagex.className="imagex"; 
+
+     screenSize();
+  }
+  // *******************
+  // ****** yani ben ***
+  // *******************
+  else {
+    var kisi_adi=	document.getElementById('name').value;
+    var kisi_id=event.userid;
+    // önce bir div kur
+    var mediaElementContainer = document.getElementById("wrapper")
+    var mediaControls = document.createElement('div');
+        mediaControls.className = 'media-controls';
+        mediaControls.id = event.userid;
+        mediaControls.title=kisi_adi;
+        mediaControls.setAttribute("data-user_name", kisi_adi);
+        mediaControls.setAttribute("data-mikrofon", true);
+        mediaControls.setAttribute("data-admin", false);
+        mediaControls.setAttribute("data-konusma", 0);
+        mediaControls.setAttribute("data-bekleme_sirasi", 0);
+    mediaElementContainer.appendChild(mediaControls);   
+   
+    // namex div kur 
+   var namex=document.createElement('div');
+   namex.id="name"+event.userid;
+   mediaControls.appendChild(namex); 
+   namex.className="namex"; 
+
+   // mesajx div kur
+   var mesajx=document.createElement('div');
+   mesajx.id="mesaj"+event.userid;
+   mediaControls.appendChild(mesajx); 
+   mesajx.className="mesajx"; 
+
+  // moderateur div kur
+  var moderx=document.createElement('div');
+  moderx.id="moder"+event.userid;
+   mediaControls.appendChild(moderx); 
+   moderx.className="moderx"; 
+
+
+   // konusx div kur
+   var konusx=document.createElement('div');
+   konusx.id="konus"+event.userid;
+   mediaControls.appendChild(konusx); 
+   konusx.className="konusx"; 
+   
+   // audio div kur
+   var audiox=document.createElement('div');
+   audiox.id="audio"+event.userid;
+   mediaControls.appendChild(audiox);
+   audiox.className="audiox"; 
+   
+   
+   // audio element i div audiox e yukle
+   document.getElementById("audio"+event.userid).appendChild(event.mediaElement); 
+
+   // adimi namex e yukle
+   document.getElementById("name"+event.userid).innerText=kisi_adi;
+
+/* **** AVATAR Yükle **** */
+var imagex=document.createElement('img');
+     imagex.src= "avatar.png";
+     imagex.id="img"+event.userid;
+     mediaControls.appendChild(imagex); 
+     imagex.className="imagex"; 
+
+
+
+   screenSize();
+/*
+  // mikrofonu göster
+  var mikro_larg = document.getElementById("orientation").dataset.l;
+  var mikro_resim_w= parseInt(mikro_larg/40);
+  document.getElementById("mesaj"+event.userid).innerHTML="<img src='micro_on.png' width='"+mikro_resim_w+"px'>";
+
+  // konusma durumumu göster
+  var speak_larg = document.getElementById("orientation").dataset.l;
+  var speak_resim_w= parseInt(speak_larg/40);
+  document.getElementById("konus"+event.userid).innerHTML="<img src='speak_on.png' width='"+speak_resim_w+"px'>";
+   */
+  
+  }
+
+  
+}
+
+
+// on data connection opens
+connection.onopen = function(event) { 
+    
+  adimi_gonder(); 
+  // resmim varsa Gönder
+  //resmimi_gonder(); 
+  //microfon_gonder();
+  //konusma_durumumu_gonder();
+  //moderateur_gonder();
+}
+ 
+// on message 		   
+           connection.onmessage = function(event) {
+            decoding_data(event.data);
+            };
+
+// on data connection error
+            connection.onerror = function(e) {
+                console.debug('Veri transfer Hatasi. Hedef user id', e.userid, 'Error', e);
+                
+            };
+
+// on data connection close
+            connection.onclose = function(e) {
+                console.debug('Veri baglantisi kapali. Hedef user id', e.userid, 'Error', e);
+                
+            };
+
+
+
+
+/* *************************************
+/ ======= SALONDAN CIKIYOR ============= /
+ ****************************************/
+ connection.onleave = connection.streamended = connection.onclose = function(event){
+	// çikanin <div> inin sil
+  document.getElementById("mesaj"+event.userid).remove(); 
+  document.getElementById("name"+event.userid).remove(); 
+  document.getElementById("audio"+event.userid).remove(); 
+	document.getElementById(event.userid).remove();
+
+} //onclose
+
+
+
+
+
+// ====== DECODAGE ========= //
+function decoding_data(data){
+		   	var pos_element = data.indexOf("!");
+		   	var res_element = data.substring(0,pos_element);
+
+         if(res_element=="data_update"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var moderateur_id=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+				  var konusan_id = data.substring(pos_1+1,pos_2); 
+          var larg = document.getElementById("orientation").dataset.l;
+          var resim_w= parseInt(larg/40);
+          var long = document.getElementById("orientation").dataset.h;
+          var resim_h= parseInt(long/50);
+          // moderatoru kaydet ve isareti goster
+          document.getElementById("local_status").setAttribute("data-admin",moderateur_id);
+          document.getElementById("moder"+moderateur_id).innerHTML="<img src='moderateur.png' height='"+resim_h+"px'>";
+          document.getElementById("moderatorluge_basvur").style.display="none";
+            // soz isteme butonunu aç
+            document.getElementById("soz_kontrolu").style.display="inline";
+          document.getElementById("soz_kontrolu").innerText="söz iste";
+          
+          // konusani kaydet ve resmini goster
+          document.getElementById("local_status").setAttribute("data-actif_speaker",konusan_id);
+          document.getElementById("konus"+konusan_id).innerHTML="<img src='speak_on.png' width='"+resim_w+"px'>";
+         }
+         if(res_element=="mikrofonunu_kapat"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var kullanici_id=data.substring(pos_element+1,pos_1);
+          var benim_id=document.getElementById("wrapper").firstElementChild.id;
+          if(kullanici_id==benim_id){mute_local_micro();}
+         }
+
+         if(res_element=="mikrofonunu_ac"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var kullanici_id=data.substring(pos_element+1,pos_1);
+          var benim_id=document.getElementById("wrapper").firstElementChild.id;
+          if(kullanici_id==benim_id){unmute_local_micro();}
+         }
+        
+         if(res_element=="alarm"){ 
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var mesaj=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+				  var son_id = data.substring(pos_1+1,pos_2); 
+          alert(son_id+"->"+mesaj);
+         }
+         
+         // Biz baglandik baglandiklarimiz sirayla bize adlarini ve id lerini gönderiyor
+         if(res_element=="adim"){  
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var son_nom=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+				  var son_id = data.substring(pos_1+1,pos_2); 
+          document.getElementById(son_id).title= son_nom;
+          document.getElementById(son_id).setAttribute("data-user_name", son_nom);
+ 		   	// kurulu dive adini ekle 
+          document.getElementById("name"+son_id).innerText=son_nom;
+          document.getElementById("mesaj"+son_id).remove;
+         
+        }
+
+        else if(res_element=="mikrofonum"){
+          var larg = document.getElementById("orientation").dataset.l;
+          var resim_w= parseInt(larg/40);
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          if(data.substring(pos_element+1,pos_1)>0){var status="true"; var text="<img src='micro_on.png' width='"+resim_w+"px'>";}
+          else {var status="false"; var text="<img src='micro_off.png' width='"+resim_w+"px'>";}
+          var pos_2 = data.lastIndexOf("!");
+				  var son_id = data.substring(pos_1+1,pos_2); 
+          document.getElementById(son_id).setAttribute("data-mikrofon",status);
+          document.getElementById("mesaj"+son_id).innerHTML=text;
+        }
+       
+        else if(res_element=="konusma"){
+          var larg = document.getElementById("orientation").dataset.l;
+          var resim_w= parseInt(larg/40);
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          if(data.substring(pos_element+1,pos_1)>0){var status=1; var text="<img src='speak_on.png' width='"+resim_w+"px'>";}
+          else {var status=0; var text="<img src='speak_off.png' width='"+resim_w+"px'>";}
+          var pos_2 = data.lastIndexOf("!");
+				  var son_id = data.substring(pos_1+1,pos_2); 
+          document.getElementById(son_id).setAttribute("data-konusma",status);
+          document.getElementById("konus"+son_id).innerHTML=text;
+        }
+
+        else if(res_element=="resim"){
+              var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+              var resim_data=data.substring(pos_element+1,pos_1);
+              var pos_2 = data.lastIndexOf("!");
+              var son_id = data.substring(pos_1+1,pos_2); 
+
+              // daha önce gönderilmismi
+              var mevcut_resim=document.getElementById("img"+son_id);
+             
+             // if(mevcut_resim==null){
+              // image kur 
+                  var imagex=document.createElement('img');
+                  var mediaControls=document.getElementById(son_id);
+                    imagex.src=resim_data;
+                    imagex.id="img"+son_id;
+                    mediaControls.appendChild(imagex); 
+                    imagex.className="imagex"; 
+
+             // }
+        
+        }
+        else if(res_element=="resmini_paylas"){
+            alert("resmini görmek istiyorlar, Kabul ediyorsan ' Resmimi Pylas' Butonuna bas");
+        }
+
+
+        else if(res_element=="ekranim"){ 
+          //alert("Measaj geldi !");
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var ekran_data=data.substring(pos_element+1,pos_1);
+          document.getElementById("ekran_goster").style.display="block";
+          document.getElementById("ekran_goster").setAttribute('src', ekran_data) ; // resmi goster
+        }
+
+        else if(res_element=="stop_capture"){ 
+        document.getElementById("ekran_goster").style.display="none";
+        }
+
+        else if(res_element=="moderator"){ 
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var action=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+          var kendi_id = data.substring(pos_1+1,pos_2); 
+          if(action=="ON"){
+            document.getElementById("local_status").setAttribute("data-admin",kendi_id);
+            document.getElementById(kendi_id).setAttribute("data-admin",kendi_id);
+            // Moderateur resmini koy
+            var long = document.getElementById("orientation").dataset.h;
+            var resim_h= parseInt(long/50);
+            document.getElementById("moder"+kendi_id).innerHTML="<img src='moderateur.png' height='"+resim_h+"px'>";
+            document.getElementById("moderatorluge_basvur").style.display="none";
+            document.getElementById("soz_kontrolu").style.display="inline";
+            
+          }
+          else if(action=="OFF"){
+            document.getElementById("local_status").setAttribute("data-admin",0);
+            document.getElementById(kendi_id).setAttribute("data-admin",0);
+            // moderateur resmini kaldir
+            document.getElementById("moder"+kendi_id).innerHTML="";
+            document.getElementById("moderatorluge_basvur").style.display="inline";
+            document.getElementById("soz_kontrolu").style.display="none";
+          }
+        
+        }
+
+        else if(res_element=="mikrofolari_kapat"){mute_local_micro();}
+        else if(res_element=="mikrofolari_ac"){unmute_local_micro();}
+
+        else if(res_element=="soz_istiyor"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var soz_id=data.substring(pos_element+1,pos_1);
+          // sira resmini ekle
+          var speak_larg = document.getElementById("orientation").dataset.l;
+          var speak_resim_w= parseInt(speak_larg/40);
+          document.getElementById("konus"+soz_id).innerHTML="<img src='speak_wait.png' width='"+speak_resim_w+"px'>";
+          // siraya gir 
+          var siradaki = document.createElement('input');
+          siradaki.id="input"+soz_id;
+          document.getElementById("soz_sirasi").appendChild(siradaki);
+
+          // Siraya girdigini status e yaz
+          document.getElementById(soz_id).setAttribute("data-bekleme_sirasi",1);
+          // Sôz verme butonunu aç
+          document.getElementById("soz_ver").style.display="inline";
+        }
+
+        else if(res_element=="soz_istemiyor"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var soz_id=data.substring(pos_element+1,pos_1);
+          // sira resmini çikart
+          document.getElementById("konus"+soz_id).innerHTML="";
+            
+          // siradan çik
+            var element = document.getElementById("soz_sirasi");
+            var child=document.getElementById("input"+soz_id);
+            element.removeChild(child);
+          
+          // Sirada çiktigini status e yaz
+          document.getElementById(soz_id).setAttribute("data-bekleme_sirasi",0);
+
+          // sirada kalan varmi ?
+          var bekleyen_sayisi=document.getElementById("soz_sirasi").childElementCount;
+          if(bekleyen_sayisi==0){
+            document.getElementById("soz_ver").style.display="none";
+          }
+        }
+        else if(res_element=="soz_ver"){ // moderateur --> herkeze
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var soz_id=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+          var konusan_id = data.substring(pos_1+1,pos_2); 
+          var speak_larg = document.getElementById("orientation").dataset.l;
+          var speak_resim_w= parseInt(speak_larg/40);
+         
+            // Konusan varmi ?
+            if(konusan_id==0){
+              // konusan yok
+            } 
+          else{   // konusanin resmini sil
+              document.getElementById("konus"+konusan_id).innerHTML="";
+              document.getElementById(konusan_id).setAttribute("data-bekleme_sirasi",0);
+              document.getElementById(konusan_id).setAttribute("data-konusma",0);
+            
+            }
+          
+          
+          // ======== ESKI KONUSAN ICIN ISLEMLER ========= //    
+          
+          var ben = document.getElementById("wrapper").firstChild;
+          if(ben.id==konusan_id){
+          // soz isteme butonunu aç
+          document.getElementById("soz_kontrolu").style.display="inline";
+          document.getElementById("soz_kontrolu").innerText="söz iste";
+          document.getElementById("local_status").setAttribute("data-waiting_speaker","OFF");
+          }
+           
+          // ========= SOZ ALAN ICIN ISLEMLER ================== //
+           // resmini koy
+           document.getElementById("konus"+soz_id).innerHTML="<img src='speak_on.png' width='"+speak_resim_w+"px'>";
+          //beklemeden çikart
+          var sira = document.getElementById('soz_sirasi');
+          sira.removeChild(sira.getElementsByTagName('input')[0]);
+           // konusan olarak kaydet
+           document.getElementById("local_status").setAttribute("data-actif_speaker",soz_id);
+          //  Sirada çiktigini statuse ekle
+          document.getElementById(soz_id).setAttribute("data-bekleme_sirasi",0);
+          document.getElementById(soz_id).setAttribute("data-konusma",1);
+          
+          
+         if(ben.id==soz_id){
+            // soz isteme butonunu kapat
+          document.getElementById("soz_kontrolu").style.display="none";
+          document.getElementById("local_status").setAttribute("data-waiting_speaker","OFF");
+          document.getElementById("soz_kontrolu").innerText="söz iste"; 
+        }
+      }
+}
+</script>
+</body>
+</html>
