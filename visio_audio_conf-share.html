@@ -1,0 +1,1154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+		<title>Meeting</title>
+		<meta name="author" content="Deniz" />
+		<!-- Date: 2020-04-10 -->
+
+    <style>
+:root {
+  --max-height:33vh;
+  --height: 33vh;
+  --width : 33vw;
+  --max-width :33vw;
+  --flex-direction: row;
+  --flex-grow:1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background-color: black;
+  max-height: 100vh;
+  overflow: auto;
+}
+/*
+body {
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+}
+*/
+
+header {
+display:none;
+position:absolute;
+top:1vh;
+left:2vw;
+z-index:550;
+width:60vw;
+height:5vh;
+opacity : 0.6;
+
+}
+
+#copyright{
+ 	font-size:15px;
+ 	color:grey;
+ 	font-style: italic;
+ }
+
+.Kontrol{
+	font-size: 10px;
+	font-family: Arial;
+  position:absolute;
+top:1vh;
+left:1vw;
+color:white;
+}	
+input, textarea, select, option {
+ background-color:#FFF3F3;
+ font-size: 20px;
+ }	
+button {
+  
+  border-radius: 4px;
+  background-color: #e7e7e7; 
+  color: black;
+  
+  padding: 2px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+
+video {
+  display:block; width: 100%;height: 100%;      object-fit: cover; z-index:2;
+  color:blanchedalmond;  font-weight: normal; 
+
+}
+
+audio {
+  display:block; width: 100%; height: 100%;      object-fit: cover; z-index:1;
+  color:blanchedalmond;  font-weight: normal; 
+
+}
+
+
+audio::-webkit-media-controls-panel{
+background-color:grey;
+}
+
+audio::-webkit-media-controls-enclosure {
+    border-radius: 0px;
+    display: none;
+}
+
+.screen{
+  height:100%;
+  width:100%;
+  max-width:100%;
+  max-height:100%;
+  position: absolute;
+  display:block;
+  top:0vh;
+  left:0vw;
+  flex-direction: var(--flex-direction);
+  z-index:10;
+}
+.wrapper {
+    height: 100%;
+    background-color: black;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: var(--flex-direction);
+    align-items: flex-start;
+   
+}
+.box {
+  float:right;
+  border-radius: 5px;
+  width:100%;
+  height:100%;
+  border-style: solid;
+  border-color: #92a8d1;
+}
+.sortir{
+ /*display:none;*/
+  cursor:pointer;
+  transition: 1s all;
+  font-size: 15px;
+  /*font-family: ' Arial';*/
+  float: left;
+}
+.fields{
+    background-color: #fff;
+    border: 1px solid #0376da;
+      outline: 0;
+      border-radius: 3px;
+      font-size: 15px;
+      line-height: 12px;
+      color: #1c2025;
+      padding: 4px 0;
+      text-align: center;
+      width: 286px;
+      margin-top:6px;
+  }
+
+  .salona_gir_butonu{
+    background: #0376da;
+    border: 1px solid #0376da;
+  
+  }
+  .namex{
+    display:block; width: 100%;height: 100%;      object-fit: cover; z-index:5;
+     grid-column-start:4; grid-column-end:9; grid-row-start:2; grid-row-end:3; 
+    color:blanchedalmond;  font-weight: normal; font-size: 2vw;
+    
+  }
+.imagex{
+  display:block; width: 100%;height: 100%;      object-fit: cover; z-index:0;
+     grid-column-start:1; grid-column-end:9; grid-row-start:1; grid-row-end:12; 
+    color:blanchedalmond;  font-weight: normal; 
+
+
+}
+  .mediax{
+    display:block; width: 100%;height: 100%;      object-fit: cover; z-index:1;
+     grid-column-start:1; grid-column-end:9; grid-row-start:1; grid-row-end:11; 
+    color:blanchedalmond;  font-weight: normal; 
+  }
+  .media-controls{
+    height: var(--height);
+    max-height: var(--max-height);
+    width : var(--width);
+    max-width: var(--max-width);
+    font-size: var(--font-size);
+    display: grid;	
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    /*grid-gap: 2px;*/
+    min-width: 0;   /* NEW; needed for Firefox */
+   /* margin: 0 5px;*/
+  
+  flex-grow: 0;
+  }
+    </style>
+
+    </head>
+<!-- ****************************************
+     ********** BODY ************************
+     **************************************** -->
+<body onresize="screenSize()" onload="screenSize()" >
+   <!--<header  id="baslik" ontouchstart="touch_flipflop()";  onClick="touch_flipflop()";>-->
+    <header  id="baslik" >
+      <div id="room_name" style="float:left;color:rgb(238, 20, 20); font-weight: bold;">Salon adi </div>
+    <img src="hang-up-icon.png" style="float:left;width: 40px;border-radius: 10px;" id="Sortir" class="sortir" onclick="stopMedia();" title="Leave room">
+    <img src="openScreenShare.png" style="float:left;width: 30px; border-color: black; border-width: 15px;" id="open_screen_share" class="sortir" onclick="open_screen_share();" title="Ekranini paylas">
+    <img src="closeScreenShare.png" style="float:left;width: 30px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="close_screen_share();" title="Paylasmayi terket">
+    <img src="speak_on.png" style="margin-left:5px;float:left;width: 25px; border-color: black; border-width: 15px;" id="speakUp" class="sortir" onclick="shift2speak();" title=" Sadece sesli toplanti">
+    <img src="camera.png" style=" display:none; margin-left:5px;float:left;width: 25px; border-color: black; border-width: 15px;" id="videoUp" class="sortir" onclick="shift2video();" title="Videolu  toplanti">
+    
+    <input type="hidden" id="local_status" value="" data-conf_type="video" data-enter=1 data-com=0 data-screen=0 data-all_micro="ON" data-admin=0 data-actif_speaker=0 data-waiting_speaker="OFF">
+    <input type="hidden" id="orientation" value="" data-l="" data-h="">
+   <input type="hidden" id="touch" name="touch" value="0"> 
+   <input type="hidden" id="screen_id"  data-user_id="paylasmayok" data-screen_id="paylasmayok">  
+  </header>
+
+  <div  class="Kontrol" id="kontrol">
+    <div id="entete" style="width: 300px; height: 100px;"> </div>
+    <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+    <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+    <script src="https://cdn.rawgit.com/muaz-khan/DetectRTC/master/DetectRTC.js"></script>
+  
+    <input type="text" class="fields" size="10" placeholder="Your name" id="name" value="" title=" Tolanti sirasinda katilimcilar bu adi görecekler !"><br>
+    <input type="text" class="fields" size="8" id="OdaIsmi" placeholder="Room Name" value="">
+    
+    <select id="MasaIsmi" name="MasaIsmi" placeholder="Room Name">
+      <option value="0"> Salon seçimi</option>
+      <option value="opt0">ITU Gumussuyu Lokali</option>
+      <option value="opt1">Istanbul Divan</option>
+      <option value="opt2">Ankara Atakosk</option>
+      <option value="opt3">Izmir Palas hotel</option>
+      <option value="opt4">Gaziantep Divan</option>
+      <option value="opt5">Eskisehir Dedeman</option>
+      <option value="opt6">Bursa Divan</option>
+      <option value="opt7">Trabzon Dedeman</option>
+      <option value="opt8">Mersin Hilton</option>
+    </select>
+
+    <button class="salona_gir_butonu" id="btn-openjoin-room"> Open/Join Room</button>
+    <br>
+    <!-- ************ MESAJ Bolumu ********** -->
+    <div id="copyright"> VisioConf V1.0 - 2021 D.TULBENT</div> <!-- Ayak kismi -->
+    <div style="display:inline;"> <span id="mesaj"> </span > <span id="butondetay" title=" " style="color:blue;cursor:pointer; font-size:30px;" > </span></div>
+      <div id="detaymesaji"> </div>
+
+  <div  id="win_dimensions" style="color:rgb(139, 139, 139); font-size: 10px; width:50vw;"></div>
+
+</div> <!-- Kontrol -->	
+
+  <!--************* VIDEO CONTAINER **********-->	
+<!--<section class="container"  id="container">-->
+	<div class="wrapper" id="wrapper" >	</div>	
+<!--</section>-->
+ 
+</body>
+<!-- ************ FIN BODY *********************************** -->
+
+<script>
+
+function screenSize(beni_arayan){
+  
+  if(window.innerWidth !== undefined && window.innerHeight !== undefined) { 
+    var largeur = window.innerWidth;
+    var hauteur = window.innerHeight;
+  } else {  
+    var largeur = document.documentElement.clientWidth;
+    var hauteur = document.documentElement.clientHeight;
+  }
+  var txt = PageSize+": "+ Width+"=  " + largeur + ","+ Height+"=  " + hauteur;
+  document.getElementById("win_dimensions").innerHTML = txt;
+  
+  document.getElementById("orientation").dataset.l = largeur;
+  document.getElementById("orientation").dataset.h = hauteur;
+  console.log("ScreenSize->Arayan:"+beni_arayan+" Durum=>"+txt); 
+
+    yerlestir(beni_arayan);
+}
+
+
+
+/* ***************************************************************************
+// ----------- <input  > creator----------------------
+// *************************************************************************** */
+
+/* ***************************************************/
+/* ****  Telefonun tutulus yönünü  anlamak icin **** */
+/*****************************************************/
+if   ( window.orientation == 0 || window.orientation == 180) { document.getElementById("orientation").setAttribute('value','Portrait'); } 
+else {document.getElementById("orientation").setAttribute('value','Landscape');}
+
+ /* ****  Telefonun tutulus yönünü  degistirdi **** */
+window.addEventListener("orientationchange", function() {
+  
+  if ( window.orientation == 0 || window.orientation == 180) {
+    document.getElementById("orientation").setAttribute('value','Portrait');
+    screenSize("Portrait");
+  } else {
+    document.getElementById("orientation").setAttribute('value','Landscape');
+    screenSize("Landscape");
+  }
+}, false)
+
+
+/****************************************
+ * ************YERLESTIR *****************
+ * **************************************/
+
+function yerlestir(arayan){
+  var Larg = document.getElementById("orientation").dataset.l;
+  var Haut =document.getElementById("orientation").dataset.h;
+  var tutma_yonu=document.getElementById("orientation").value;
+  var yonumuz=document.getElementById("orientation").getAttribute('value');
+
+  var mevcut_video_sayisi = document.getElementById("wrapper").childElementCount;
+  var screen_share =document.getElementById("screen_id").getAttribute("data-screen_id");
+console.log("Yerlestir->"+arayan+" video sayisi: "+mevcut_video_sayisi+" screen_share:"+screen_share+ "Yönümüz: "+yonumuz);
+  if(screen_share =="paylasmayok"){
+      document.documentElement.style.setProperty('--flex-direction',  "row");
+      document.documentElement.style.setProperty('--flex-grow', '0');
+  
+      if(mevcut_video_sayisi==1){
+          if (tutma_yonu=="Landscape") {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', Haut + "px");
+          document.documentElement.style.setProperty('--max-width', parseInt(Larg/2)+"px");
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', Haut+"px");
+          document.documentElement.style.setProperty('--max-width', Larg+"px");
+          }
+      }
+
+      else if(mevcut_video_sayisi==2){
+        if (tutma_yonu=="Landscape") {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', Haut+"px");
+          document.documentElement.style.setProperty('--max-width',  parseInt(Larg/2)+"px"); 
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/2)+"px");
+          document.documentElement.style.setProperty('--max-width', Larg+"px");
+          }
+      }
+
+      else if(mevcut_video_sayisi==3){
+        if (tutma_yonu=="Landscape") {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', Haut+"px");
+          document.documentElement.style.setProperty('--max-width',  parseInt(Larg/3)+"px");
+  
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/2)+"px");
+          document.documentElement.style.setProperty('--max-width', parseInt(Larg/2)+"px");
+          
+        }
+
+      }
+
+      else if(mevcut_video_sayisi>3 && mevcut_video_sayisi<5){
+        if (tutma_yonu=="Landscape") {
+        document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/2)+"px");
+          document.documentElement.style.setProperty('--max-width',  parseInt(Larg/2)+"px");
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/2)+"px");
+          document.documentElement.style.setProperty('--max-width', parseInt(Larg/2)+"px");
+          
+        }
+
+      }
+
+        else if(mevcut_video_sayisi>4 && mevcut_video_sayisi<7){
+          if (tutma_yonu=="Landscape") {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/2)+"px");
+          document.documentElement.style.setProperty('--max-width',  parseInt(Larg/3)+"px");
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/3)+"px");
+          document.documentElement.style.setProperty('--max-width', parseInt(Larg/2)+"px");
+          
+        }
+      }
+        else if(mevcut_video_sayisi>6 && mevcut_video_sayisi<10){
+          if (tutma_yonu=="Landscape") {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/3)+"px");
+          document.documentElement.style.setProperty('--max-width',  parseInt(Larg/3)+"px");
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/3)+"px");
+          document.documentElement.style.setProperty('--max-width', parseInt(Larg/3)+"px");
+          
+        }
+
+
+        }
+        else {
+          if (tutma_yonu=="Landscape") {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/3)+"px");
+          document.documentElement.style.setProperty('--max-width',  parseInt(Larg/4.1)+"px");
+          }
+          else {
+          document.documentElement.style.setProperty('--height', '100vh');
+          document.documentElement.style.setProperty('--width', '100vw');
+          document.documentElement.style.setProperty('--max-height', parseInt(Haut/4)+"px");
+          document.documentElement.style.setProperty('--max-width', parseInt(Larg/3)+"px");
+
+
+        }
+    }
+
+} // Paylasmayok
+
+
+// ******************************
+// ****** **Screen share var ****
+// ******************************
+else{
+   // ******* sadece screen share için*************
+   var shared_screen_id=document.getElementById("screen_id").getAttribute("data-screen_id");
+   document.getElementById(shared_screen_id).classList.add("screen");
+    
+      if (tutma_yonu=="Landscape") {
+      //*** Butun videolar için
+        document.documentElement.style.setProperty('--height', '100vh');
+        document.documentElement.style.setProperty('--width', '100vw');
+        document.documentElement.style.setProperty('--max-height', "100vh");
+        document.documentElement.style.setProperty('--max-width',  "100vw");
+        document.documentElement.style.setProperty('--flex-direction',  "column");
+        document.documentElement.style.setProperty('--flex-grow', '1');
+      
+      }
+        else {
+        document.documentElement.style.setProperty('--height', '100vh');
+        document.documentElement.style.setProperty('--width', '100vw');
+        document.documentElement.style.setProperty('--max-height', "100vh");
+        document.documentElement.style.setProperty('--max-width',  "100vw");
+        document.documentElement.style.setProperty('--flex-direction',  "column");
+        document.documentElement.style.setProperty('--flex-grow', '1');
+
+
+      }
+
+
+} // screen share var
+
+
+} // yerlestir 
+
+/* ***************************************************************************
+// ----------- NAVIGATORUN DILINI BUL Ve Mesajlari Ayarla----------------------
+// *************************************************************************** */
+var language = navigator.language;
+if (language.indexOf('fr') > -1) {
+	document.getElementById("btn-openjoin-room").innerHTML ="Entrez!";
+	document.getElementById('OdaIsmi').placeholder = 'Nom de la salle';
+  document.getElementById('name').placeholder = 'Votre Nom';
+  document.getElementById("name").setAttribute("title","Votre nom sera visible par les participants de la réunion");
+  document.getElementById('Sortir').setAttribute('title', "Quitter la salle!");
+  document.getElementById('open_screen_share').setAttribute('title', "Partager un ecran déjà ouvert!");
+  document.getElementById('close_screen_share').setAttribute('title', "Attêter la partage!");
+  var adin_eksik="Votre nom manque !! ";
+  var Meeting = "Réunion";
+  var odadancik="Quittez la Salle";
+	var odaadiyok="Le Nom de la salle manque !";
+	var kisisayisi=  " Utilisateur(s) connecté(s)";
+	var navOK="Navigateur bon pour la visiocoférence ";
+	var navNotOK="Votre navigateur n'est pas adapté à faire une bonne  visioconférence !";
+	var dataylari_incele="Voir les détails";
+	
+	var ScreenCapturingSupported_OK="Capture d\'écran OK";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Capture d\'écran n\'est pas supportée</span>";
+	var SctpDataChannelsSupported_OK="Sctp Data Channel OK";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel n\'est pas supporté</span>";
+	var RtpDataChannelsSupported_OK="Rtp Data Channel OK";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel n\'est pas supporté</span>";
+	var WebRTCSupported_OK="WebRTC est OK";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>WebRTC n\'est pas supporté </span>";
+	var WebSocketsSupported_OK="Web Socket OK";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket n\'est pas supporté</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket est bloqué</span>";
+	var WebSocketsBlocked_notOK="Web Socket n\'est pas bloqué";
+	var VideoSupportsStreamCapturing_OK="Caputre video est possible";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Caputre video n\'est pas possible</span>";
+	var System="Système: ";
+	var Browser="Navigateur: ";
+  var PageSize="Dimensions";
+  var Width="Largeur";
+  var Height="Hauteur";
+  var Ayarlar="Paramètres d\'affichage";
+  var Automatic="Automatique";
+;	}
+else if (language.indexOf('tr') > -1) {
+	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
+  document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
+  document.getElementById('name').placeholder = 'Adiniz ?';
+  document.getElementById('Sortir').setAttribute('title', "Salonu terket!");
+  document.getElementById('open_screen_share').setAttribute('title', "Daha önce açilan bir sekme veya pencereyi paylasın!");
+  document.getElementById('close_screen_share').setAttribute('title', "Paylaşmayı sonlandırın!");
+  var adin_eksik="Adiniz eksik ! ";
+  var Meeting = "Toplanti";
+	var odadancik="Salonu terket";
+	var odaadiyok="Salon adi eksik !";
+	var kisisayisi=  " Kisi Salondayiz";
+	var navOK="Web Browseriniz uygundur";
+	var navNotOK="Bu Web Browser size kaliteli bir visoconferans yapama imkani sunmuyor!";
+	var dataylari_incele="Detaylari incele";
+	
+	var ScreenCapturingSupported_OK="Ekrak koyalama mümkün";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Ekran kopyalama imkansiz</span>";
+	var SctpDataChannelsSupported_OK="Sctp Data Channel Tamam";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel çalismiyor</span>";
+	var RtpDataChannelsSupported_OK="Rtp Data Channel Tamam";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel çalismiyor</span>";
+	var WebRTCSupported_OK="Internet üzerinden direk baglanti Tamam";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>Internet üzerinden direk baglanti çalismiyor </span>";
+	var WebSocketsSupported_OK="Web Socket Tamam";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket çalismiyor</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket kapali</span>";
+	var WebSocketsBlocked_notOK="Web Socket açik";
+	var VideoSupportsStreamCapturing_OK="Video kopyalama mümkün";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Video kopyalama çalismiyor</span>";
+	var System="Isletme sistemi: ";
+	var Browser="Browser: ";
+  var PageSize="Ekran boyutlari";
+  var Width="Genislik";
+  var Height="Yükseklik";
+  var Ayarlar="Ekran ayarlari";
+  var Automatic="Otomatik";
+	}
+else {
+	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
+  document.getElementById('OdaIsmi').placeholder = "Room Name ?";
+  document.getElementById('name').placeholder = 'Your Name ?';
+  document.getElementById("name").setAttribute("title","Your name will be visible to meeting participants");
+  document.getElementById('Sortir').setAttribute('title', "Leave the Room!");
+  document.getElementById('open_screen_share').setAttribute('title', "Share your screen !");
+  document.getElementById('close_screen_share').setAttribute('title', "Stop sharing your screen!");
+  var adin_eksik="Please  enter your name ! ";
+  var Meeting = "Meeting";
+	var odadancik="Leave the Room";
+	var odaadiyok="Please enter Room Name !";
+	var kisisayisi=  " Users connected now";
+	var navOK=" Your browser is OK !";
+	var navNotOK="Your browser is not suitable for a good videoconference!";
+	var dataylari_incele="See the details";
+	
+	var ScreenCapturingSupported_OK="Screen Capturing Supported";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Screen Capturing not supported</span>";
+	var SctpDataChannelsSupported_OK="Sctp Data Channel Supported";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel not supported</span>";
+	var RtpDataChannelsSupported_OK="Rtp Data Channel Supported";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel not Supported</span>";
+	var WebRTCSupported_OK="WebRTC supported";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>WebRTC not supported </span>";
+	var WebSocketsSupported_OK="Web Socket supported";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket not supported</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket is Blocked</span>";
+	var WebSocketsBlocked_notOK="Web Socket is Not Blocked";
+	var VideoSupportsStreamCapturing_OK="Video Supports Stream Capturing";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Video does not Supports Stream Capturing</span>";
+	var System="System: ";
+	var Browser="Browser: ";
+  var PageSize="Page size";
+  var Width="Witdh";
+  var Height="Height";
+  var Ayarlar="Layout setting";
+  var Automatic="Automatic";
+	}
+
+  // ******************************************* //
+// ********** Ad Kontrolu ***************** //
+// Bakalim benim adim kaydedimismi ?
+var mon_nom=localStorage.getItem('dataIsim');
+// adimin kaydi yok
+if(mon_nom=="" || mon_nom === "undefined" || mon_nom === null ){ }
+// adimin kaydi var
+else  { document.getElementById("name").setAttribute('value',mon_nom);}
+
+
+
+
+/* ******************************************************
+ ------------ TARIH HESAPLA ve ENTETE Yazdir --- ------
+//****************************************************** */
+
+var today = new Date(); 
+var dd = today.getDate(); 
+var mm = today.getMonth()+1; //January is 0! 
+var yyyy = today.getFullYear(); 
+if(dd<10){dd='0'+dd} 
+if(mm<10){mm='0'+mm} 
+var today = dd+'/'+mm+'/'+yyyy; 
+document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:25px;font-weight:bold;color:white;display:inline;width:40px;'>"+
+     "<img src='toplanti.png' width=26px> Kozeri "+Meeting+"  <span style='font-size:20px;font-weight:normal;'>   "+today+ "</span></div>";
+
+
+/* ************************************************************
+ ----------------BAGLANTIYA BASLIYORUZ ----------------------
+// *********************************************************** */
+
+var connection = new RTCMultiConnection();
+
+// Soket server baglanti adresi
+connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+// ------------ Video audio degerleri ---------------------------------
+connection.socketCustomParameters ='&fullName=Deniz&country=FR&meetingId=xyz';
+
+/* ****** Connection parametres ***** */
+var GET_POST = location.search.substring(1).split("&");
+var grub_degeri = GET_POST[0].split("=");
+var grup = unescape(grub_degeri[1]); // makina62 vs
+var article=unescape(grub_degeri[0]); // grup, oda vs
+
+var conf_type= document.getElementById("local_status").getAttribute("data-conf_type");
+
+if(article=="audioconf" || conf_type=="audioconf"){
+  document.getElementById("local_status").setAttribute("data-conf_type","audioconf");
+  connection.session = {
+    audio: true,
+	  video: false,
+	  data:  true
+};
+
+connection.sdpConstraints.mandatory = {
+    OfferToReceiveAudio: true,
+    OfferToReceiveVideo: false
+};
+
+connection.mediaConstraints = {
+    video: false,
+    audio: true
+};
+
+}
+else {
+  document.getElementById("local_status").setAttribute("data-conf_type","videoconf");  
+connection.session = {
+    audio: true,
+	video: true,
+	data:  true
+};
+
+connection.sdpConstraints.mandatory = {
+    OfferToReceiveAudio: true,
+    OfferToReceiveVideo: true
+};
+
+connection.mediaConstraints = {
+    video: true,
+    audio: true
+};
+
+}
+/* ****** ************** ********** */
+
+var displayMediaOptions = {
+  video: {
+    cursor: "always"
+  },
+  audio: false
+};
+
+// first step, ignore default STUN+TURN servers
+connection.iceServers = [];
+
+// second step, set STUN url
+connection.iceServers.push({
+  urls: [
+            'stun:stun.l.google.com:19302',
+            'stun:stun1.l.google.com:19302',
+            'stun:stun2.l.google.com:19302',
+            'stun:stun.l.google.com:19302?transport=udp',
+        ]
+});
+
+// last step, set TURN url (recommended)
+connection.iceServers.push({
+    urls: 'turn:numb.viagenie.ca:3478',
+    credential: 'Acil6toyens',
+    username: 'deniz.tulbent@gmail.com'
+});
+
+/* ********************************************
+---- kullanicinin salona girmesi olayi ------
+//******************************************** */
+var user_id=[];
+var LocalUserID=[];
+var RemoteUserID=[];
+var kullanici=[];
+var kalanlar=[];
+var isMobile="";
+/* *********************************************
+--------ODAYI AC /  ACIK ODAYA ODAYA GIR ------
+// ******************************************** */
+/* ********************************/
+/********* SALONA OTOMATIK GIRIS ******* */
+/***********************************/
+var GET_POST = location.search.substring(1).split("&");
+var grub_degeri = GET_POST[0].split("=");
+var grup = unescape(grub_degeri[1]); // makina62 vs
+var article=unescape(grub_degeri[0]); // grup, oda vs
+ // Program girisi kozeri.altervista.org?grup=xxxxxx ise
+
+ if(location.search && article=="grup"){
+    document.getElementById("OdaIsmi").style.display="none";
+    // Masa Isminin value  degerlerini düzenle
+    var nbr_option = document.getElementById("MasaIsmi").length;
+          var i;
+          for (i = 1; i < nbr_option; i++) {document.getElementById("MasaIsmi").options.item(i).value=grup+i;}
+    }
+
+else if(location.search && (article=="oda" || article=="audioconf" || article=="videoconf")){
+  document.getElementById("OdaIsmi").value=grup;
+  document.getElementById("room_name").innerHTML=grup;
+  if(article=="audioconf"){
+    document.getElementById("local_status").setAttribute("data-conf_type","audioconf");
+    document.getElementById("speakUp").style.display="none";
+    document.getElementById("videoUp").style.display="block";
+     // imagex.src= "avatar.png";
+     document.getElementsByClassName("imagex").src="avatar.png";
+
+  }
+  else{
+    document.getElementById("local_status").setAttribute("data-conf_type","videoconf");
+    document.getElementById("speakUp").style.display="block";
+    document.getElementById("videoUp").style.display="none";
+  }
+  
+  // direk baglanti
+  connection.openOrJoin(grup);
+     
+  document.getElementById('btn-openjoin-room').style.visibility = "hidden";
+  document.getElementById("kontrol").style.display = "none"; // Kontrolu kapat
+  if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    isMobile="yes";
+    document.getElementById("open_screen_share").style.display="none";
+    document.getElementById("close_screen_share").style.display="none";
+  }
+  else {isMobile="no";} 
+  
+  document.getElementById("baslik").style.display = "block"; 
+  document.getElementById("close_screen_share").style.display="none";
+  document.getElementById('win_dimensions').style.display='none'
+  }
+
+
+
+
+// Düz giris
+else{
+  document.getElementById("MasaIsmi").style.display="none";
+
+}
+
+/* ****************************************************** */
+/* ***************** SALONA TIKLIYARAK GIRIS  *********** */
+/* ****************************************************** */
+
+document.getElementById('btn-openjoin-room').onclick = function() {
+  if(location.search){
+    var oda = document.getElementById("MasaIsmi").value; 
+    // oda adini ekrana yaz
+    var secilen_oda=document.getElementById("MasaIsmi");
+    var secilen_oda_adi=secilen_oda.options[secilen_oda.selectedIndex].text;
+    document.getElementById("room_name").innerHTML=secilen_oda_adi;
+  }
+	else {
+    var oda = document.getElementById("OdaIsmi").value; 
+    // oda adini ekrana yaz
+    document.getElementById("room_name").innerHTML=oda;}
+    var kendi_adim=document.getElementById("name").value;
+  
+  if (oda =="" || oda==0) { alert(odaadiyok);}
+  else if(kendi_adim==""){alert(adin_eksik); }
+  else {
+      // adimi kaydet
+    localStorage.setItem('dataIsim', kendi_adim);
+  
+    	connection.openOrJoin(oda);
+     
+
+
+
+    	document.getElementById('btn-openjoin-room').style.visibility = "hidden";
+    	document.getElementById("kontrol").style.display = "none"; // Kontrolu kapat
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        isMobile="yes";
+        document.getElementById("open_screen_share").style.display="none";
+        document.getElementById("close_screen_share").style.display="none";
+        }
+       else {isMobile="no";} 
+      document.getElementById("baslik").style.display = "block"; 
+      document.getElementById("close_screen_share").style.display="none";
+      document.getElementById('win_dimensions').style.display='none'
+    	  	   	
+    	}
+};
+
+function adimi_gonder(){    
+    //var kendi_adim=document.getElementById("wrapper").firstElementChild.title;
+    var kendi_id=document.getElementById("wrapper").firstElementChild.id;
+    var kendi_adim=document.getElementById("wrapper").firstElementChild.title;
+console.log("ADIMI GONDER ->"+kendi_adim+"/"+kendi_id);
+    var mesaj="adim!"+kendi_adim+"!"+kendi_id+"!";
+    console.log("sending:",kendi_adim);
+    connection.send(mesaj);
+    
+};
+
+connection.onstream = function(event) {
+  var MediaTag=event.mediaElement.tagName;
+//alert(event.mediaElement.tagName);
+	var conf_type=document.getElementById("local_status").getAttribute("data-conf_type");
+  if(event.type=="remote"){ 
+
+    var kisi_id=event.userid;
+    // önce bir div kur
+    var mediaElementContainer = document.getElementById("wrapper")
+    var mediaControls = document.createElement('div');
+        mediaControls.className = 'media-controls';
+        mediaControls.id = event.userid;
+        mediaControls.title="kisi_adi";
+        mediaControls.setAttribute("data-stream_type", "remote");
+        mediaControls.setAttribute("data-conf_type", conf_type);
+        mediaControls.setAttribute("data-mikrofon", true);
+
+    mediaElementContainer.appendChild(mediaControls);  // wrappere ekledik  
+   
+    // namex div kur 
+   var namex=document.createElement('div');
+   namex.id="name"+event.userid;
+   mediaControls.appendChild(namex); 
+   namex.className="namex"; 
+
+   // mesajx div kur
+   var mesajx=document.createElement('div');
+   mesajx.id="mesaj"+event.userid;
+   mediaControls.appendChild(mesajx); 
+   mesajx.className="mesajx";
+
+   // media div kur
+   var mediax=document.createElement('div');
+   mediax.id="media"+event.userid;
+   mediax.setAttribute("conf_type","");
+   mediaControls.appendChild(mediax);
+   mediax.className="mediax";
+  
+    /* **** AVATAR için img kur **** */
+  var imagex=document.createElement('img');
+     imagex.id="img"+event.userid;
+     mediaControls.appendChild(imagex); 
+     imagex.className="imagex"; 
+     if(MediaTag=="AUDIO" || conf_type=="audioconf"){ document.getElementById("img"+event.userid).src= "avatar.png";}
+   /* **** media element i div mediax e yukle **** */
+     document.getElementById("media"+event.userid).appendChild(event.mediaElement);     
+}
+// yani BEN
+else {
+    var kisi_adi=	document.getElementById('name').value;
+    var kisi_id=event.userid;
+    // önce bir div kur
+    var mediaElementContainer = document.getElementById("wrapper")
+    var mediaControls = document.createElement('div');
+        mediaControls.className = 'media-controls';
+        mediaControls.id = event.userid;
+        mediaControls.title=kisi_adi;
+        mediaControls.setAttribute("data-stream_type", "local");
+        mediaControls.setAttribute("data-conf_type", conf_type);
+        mediaControls.setAttribute("data-mikrofon", true);
+
+// daha önce baska bir local kaydi varmi ?
+//let temp = document.getElementById('element').parentNode;
+var media_kontrol= document.className="media-controls";
+
+//console.log("ONSTREAM LOCAL count-> "+media_kontrol.getAttribute("data-stream_type"));   
+
+mediaElementContainer.appendChild(mediaControls);   
+   
+    // namex div kur 
+   var namex=document.createElement('div');
+   namex.id="name"+event.userid;
+   mediaControls.appendChild(namex); 
+   namex.className="namex"; 
+
+   // mesajx div kur
+   var mesajx=document.createElement('div');
+   mesajx.id="mesaj"+event.userid;
+   mediaControls.appendChild(mesajx); 
+   mesajx.className="mesajx";
+
+   // media div kur
+   var mediax=document.createElement('div');
+   mediax.id="media"+event.userid;
+   mediax.setAttribute("conf_type","");
+   mediaControls.appendChild(mediax);
+   mediax.className="mediax";
+   
+   /* **** media element i div audiox e yukle **** */
+     document.getElementById("media"+event.userid).appendChild(event.mediaElement); 
+  
+  /* **** AVATAR Yükle **** */
+  var imagex=document.createElement('img');
+     imagex.id="img"+event.userid;
+     mediaControls.appendChild(imagex); 
+     imagex.className="imagex"; 
+     if(MediaTag=="AUDIO"|| conf_type=="audioconf"){ document.getElementById("img"+event.userid).src= "avatar.png";}
+     // adimi namex e yukle
+   document.getElementById("name"+event.userid).innerText=kisi_adi;
+
+  }
+
+  // mediax a eklenen video mu audio mu bul ve islem yap?
+    document.getElementById("media"+event.userid).setAttribute("conf_type",MediaTag);  
+    //Yerlestir 
+    screenSize("onstream");
+  
+  } // onsream sonu
+
+  connection.onstreamended = function(event) {
+    var video = document.getElementById(event.streamid);
+    if (video && video.parentNode) {
+        video.parentNode.removeChild(video);
+        screenSize("onstreamended");
+    }
+};
+
+
+
+// on data connection opens
+connection.onopen = function(event) {
+  setTimeout(function(){ adimi_gonder();  }, 1000); 
+ 
+}
+ 
+
+
+// on message 		   
+connection.onmessage = function(event) { decoding_data(event.data);};
+
+// ************************
+// Ekran paylasiyoruz
+// *************************
+  function open_screen_share(){
+  connection.addStream({
+    screen: true,
+    oneway: true,
+    streamCallback: function(stream) {
+         
+  console.log('OPEN_SCREEN8SHARE stream_id: ' + stream.id);
+      const share_user_id=document.getElementById("wrapper").firstElementChild.id;
+         // içi bos olan local typteki  media-controls u id sine share ekle
+        var elms = document.querySelectorAll("#"+share_user_id);
+        for(var i = 0; i < elms.length; i++) {
+          if(i==1) {
+            elms[i].setAttribute("id","share"+share_user_id);
+          }
+        } 
+        
+      document.getElementById("screen_id").setAttribute("data-screen_id",stream.id);
+      document.getElementById("screen_id").setAttribute("data-user_id",share_user_id);
+      connection.send("open_screen_share!"+stream.id+"!"+share_user_id+"!");
+      if(isMobile=="no"){
+            document.getElementById("open_screen_share").style.display="none";
+            document.getElementById("close_screen_share").style.display="block";
+          }
+      // isaretlenmis id li yi sil
+      document.getElementById("share"+share_user_id).remove();    
+      // video/audio geçisleri kapat
+      document.getElementById("speakUp").style.display="none";
+      document.getElementById("videoUp").style.display="none";
+
+
+      screenSize("open_screen_share");
+    }
+});
+
+}
+
+// ************************
+//Paylasmaya son veriyoruz
+// *************************
+
+function close_screen_share(evt) {
+  const  stream_id=document.getElementById("screen_id").getAttribute("data-screen_id");
+  const share_user_id=document.getElementById("screen_id").getAttribute("data-user_id");
+ const durum = document.getElementById("local_status").getAttribute("data-conf_type");
+  // stream stop
+  var localStream = connection.attachStreams[1];
+  localStream.stop();
+  
+  // paylasma videosu nu wrapper-> media_controller den sil
+  var paylasim_ekrani=document.getElementById(stream_id);
+  paylasim_ekrani.remove();
+
+ if(durum=="videoconf") { 
+      document.getElementById("speakUp").style.display="block";
+      document.getElementById("videoUp").style.display="none";
+    }
+   else{
+      document.getElementById("speakUp").style.display="none";
+      document.getElementById("videoUp").style.display="block";
+   } 
+
+  document.getElementById("screen_id").setAttribute("data-screen_id","paylasmayok");
+  document.getElementById("screen_id").setAttribute("data-user_id","paylasmayok");
+
+  //--------------------------------
+  connection.send("close_screen_share!"+stream_id+"!"+share_user_id+"!"); 
+  if(isMobile=="no"){
+            document.getElementById("open_screen_share").style.display="block";
+            document.getElementById("close_screen_share").style.display="none";
+          }
+  screenSize("close_screen_share");
+}
+
+
+/* *************************************
+/ ======= SALONDAN CIKIYOR ============= /
+ ****************************************/
+ connection.onleave = connection.streamended = connection.onclose = function(event){
+  document.getElementById(event.userid).remove();
+} //onclose
+
+
+/* **********************************
+------- KENDI  ODANI TERKET ------
+// ********************************* */
+function stopMedia() {
+  var r = confirm(odadancik+" ?");
+  
+    if (r == true) {
+      var yol = window.location.pathname;
+      window.location=yol;
+    }
+    else {return false; }
+}
+/* ===================================== */
+/* ============== DECODAGE ============= */
+/* ===================================== */
+function decoding_data(data){
+		   	var pos_element = data.indexOf("!");
+		   	var res_element = data.substring(0,pos_element);
+
+         if(res_element=="open_screen_share"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var screen_id=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+				  var screen_user_id = data.substring(pos_1+1,pos_2); 
+          document.getElementById("screen_id").setAttribute("data-screen_id",screen_id);
+          document.getElementById("screen_id").setAttribute("data-user_id",screen_user_id); 
+          // butonlari kapat
+          if(isMobile=="no"){
+            document.getElementById("open_screen_share").style.display="none";
+            document.getElementById("close_screen_share").style.display="none";
+          }
+
+          screenSize("open_screen_share");
+         }
+
+         else if(res_element=="close_screen_share"){
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var screen_id=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+				  var screen_user_id = data.substring(pos_1+1,pos_2); 
+          
+          document.getElementById(screen_id).remove();
+
+          document.getElementById("screen_id").setAttribute("data-screen_id","paylasmayok");
+          document.getElementById("screen_id").setAttribute("data-user_id","paylasmayok");
+
+         // butonlari aç
+         if(isMobile=="no"){
+            document.getElementById("open_screen_share").style.display="block";
+            document.getElementById("close_screen_share").style.display="none";
+          }
+          screenSize("close_screen_share");
+          
+         }
+
+
+          // Biz baglandik baglandiklarimiz sirayla bize adlarini ve id lerini gönderiyor
+          if(res_element=="adim"){ 
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          var son_nom=data.substring(pos_element+1,pos_1);
+          var pos_2 = data.lastIndexOf("!");
+				  var son_id = data.substring(pos_1+1,pos_2); 
+          document.getElementById(son_id).title=son_nom;
+console.log("DEKODAJ TITLE Yazim ve Okudum ===>"+document.getElementById(son_id).title+"("+son_id+")");    
+          //document.getElementById(son_id).setAttribute("data-user_name",son_nom);
+console.log("DECODAGE -> "+son_id + "/"+son_nom);
+ 		   	// kurulu dive adini ekle 
+          document.getElementById("name"+son_id).innerText=son_nom;
+         
+         
+        }
+}
+
+/* ===================================== */
+/* =============AUDI CONFERENCING======= */
+/* ===================================== */
+
+function shift2speak(){
+var oda = document.getElementById("OdaIsmi").value;
+var yol = window.location.pathname;
+window.location=yol+"?audioconf="+oda;
+
+}
+
+function shift2video(){
+var oda = document.getElementById("OdaIsmi").value; 
+var yol = window.location.pathname;
+window.location=yol+"?videoconf="+oda;
+
+}
+
+
+
+
+
+
+    </script>
+</html>
