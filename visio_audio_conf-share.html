@@ -521,7 +521,8 @@ if (language.indexOf('fr') > -1) {
   var Height="Hauteur";
   var Ayarlar="Paramètres d\'affichage";
   var Automatic="Automatique";
-;	}
+  var Informations="Informations";	
+}
 else if (language.indexOf('tr') > -1) {
 	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
   document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
@@ -559,9 +560,10 @@ else if (language.indexOf('tr') > -1) {
   var Height="Yükseklik";
   var Ayarlar="Ekran ayarlari";
   var Automatic="Otomatik";
+  var Informations="Ek bilgiler";
 	}
 else {
-	document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
+  document.getElementById("btn-openjoin-room").innerHTML ="Open/Join Room ";
   document.getElementById('OdaIsmi').placeholder = "Room Name ?";
   document.getElementById('name').placeholder = 'Your Name ?';
   document.getElementById("name").setAttribute("title","Your name will be visible to meeting participants");
@@ -598,6 +600,7 @@ else {
   var Height="Height";
   var Ayarlar="Layout setting";
   var Automatic="Automatic";
+  var Informations="Informations";
 	}
 
   // ******************************************* //
@@ -624,7 +627,10 @@ if(dd<10){dd='0'+dd}
 if(mm<10){mm='0'+mm} 
 var today = dd+'/'+mm+'/'+yyyy; 
 document.getElementById("entete").innerHTML = "<div style='padding: 12px 15px 20px 2px;font-size:25px;font-weight:bold;color:white;display:inline;width:40px;'>"+
-     "<img src='toplanti.png' width=26px> Kozeri "+Meeting+"  <span style='font-size:20px;font-weight:normal;'>   "+today+ "</span></div>";
+     "<img src='toplanti.png' width=26px> Kozeri "+Meeting+
+     "&nbsp; <img src='info.png' id='info' width=22px  onclick='open_info();' title='"+Informations+"'>"+
+     "<span style='font-size:20px;font-weight:normal;'>   "+today+ "</span>"+
+     "</div>";
 
 
 /* ************************************************************
