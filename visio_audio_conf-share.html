@@ -896,57 +896,66 @@ connection.onstream = function(event) {
 }
 // yani BEN
 else {
-    var kisi_adi=	document.getElementById('name').value;
-    var kisi_id=event.userid;
-    // önce bir div kur
-    var mediaElementContainer = document.getElementById("wrapper")
-    var mediaControls = document.createElement('div');
-        mediaControls.className = 'media-controls';
-        mediaControls.id = event.userid;
-        mediaControls.title=kisi_adi;
-        mediaControls.setAttribute("data-stream_type", "local");
-        mediaControls.setAttribute("data-conf_type", conf_type);
-        mediaControls.setAttribute("data-mikrofon", true);
+ // Ecran Share yüzünden Ikinci bir local baglanti varmi 
+ var nbr_local=document.getElementById("wrapper").childElementCount;
+ console.log("ONSTREAM LOCAL nbr_local"+nbr_local);
+      // Bu 2ci Baglanti
+      if(nbr_local==1) { document.getElementById("media"+event.userid).appendChild(event.mediaElement);}
+      
+      // bu 1ci baglanti
+      else {
+          var kisi_adi=	document.getElementById('name').value;
+          var kisi_id=event.userid;
+          // önce bir div kur
+          var mediaElementContainer = document.getElementById("wrapper")
+          var mediaControls = document.createElement('div');
+              mediaControls.className = 'media-controls';
+              mediaControls.id = event.userid;
+              mediaControls.title=kisi_adi;
+              mediaControls.setAttribute("data-stream_type", "local");
+              mediaControls.setAttribute("data-conf_type", conf_type);
+              mediaControls.setAttribute("data-mikrofon", true);
 
-// daha önce baska bir local kaydi varmi ?
-//let temp = document.getElementById('element').parentNode;
-var media_kontrol= document.className="media-controls";
+      // daha önce baska bir local kaydi varmi ?
+      //let temp = document.getElementById('element').parentNode;
+      var media_kontrol= document.className="media-controls";
 
-//console.log("ONSTREAM LOCAL count-> "+media_kontrol.getAttribute("data-stream_type"));   
+      //console.log("ONSTREAM LOCAL count-> "+media_kontrol.getAttribute("data-stream_type"));   
 
-mediaElementContainer.appendChild(mediaControls);   
-   
-    // namex div kur 
-   var namex=document.createElement('div');
-   namex.id="name"+event.userid;
-   mediaControls.appendChild(namex); 
-   namex.className="namex"; 
+      mediaElementContainer.appendChild(mediaControls);   
+        
+          // namex div kur 
+        var namex=document.createElement('div');
+        namex.id="name"+event.userid;
+        mediaControls.appendChild(namex); 
+        namex.className="namex"; 
 
-   // mesajx div kur
-   var mesajx=document.createElement('div');
-   mesajx.id="mesaj"+event.userid;
-   mediaControls.appendChild(mesajx); 
-   mesajx.className="mesajx";
+        // mesajx div kur
+        var mesajx=document.createElement('div');
+        mesajx.id="mesaj"+event.userid;
+        mediaControls.appendChild(mesajx); 
+        mesajx.className="mesajx";
 
-   // media div kur
-   var mediax=document.createElement('div');
-   mediax.id="media"+event.userid;
-   mediax.setAttribute("conf_type","");
-   mediaControls.appendChild(mediax);
-   mediax.className="mediax";
-   
-   /* **** media element i div audiox e yukle **** */
-     document.getElementById("media"+event.userid).appendChild(event.mediaElement); 
-  
-  /* **** AVATAR Yükle **** */
-  var imagex=document.createElement('img');
-     imagex.id="img"+event.userid;
-     mediaControls.appendChild(imagex); 
-     imagex.className="imagex"; 
-     if(MediaTag=="AUDIO"|| conf_type=="audioconf"){ document.getElementById("img"+event.userid).src= "avatar.png";}
-     // adimi namex e yukle
-   document.getElementById("name"+event.userid).innerText=kisi_adi;
-
+        // media div kur
+        var mediax=document.createElement('div');
+        mediax.id="media"+event.userid;
+        mediax.setAttribute("conf_type","");
+        mediaControls.appendChild(mediax);
+        mediax.className="mediax";
+        
+        /* **** media element i div audiox e yukle **** */
+          document.getElementById("media"+event.userid).appendChild(event.mediaElement); 
+        
+        /* **** AVATAR Yükle **** */
+        var imagex=document.createElement('img');
+          imagex.id="img"+event.userid;
+          mediaControls.appendChild(imagex); 
+          imagex.className="imagex"; 
+          if(conf_type=="audioconf"){ document.getElementById("img"+event.userid).src= "avatar.png";}
+          // adimi namex e yukle
+        document.getElementById("name"+event.userid).innerText=kisi_adi;
+      }
+      
   }
 
   // mediax a eklenen video mu audio mu bul ve islem yap?
@@ -994,29 +1003,17 @@ function open_info(){
     streamCallback: function(stream) {
          
   console.log('OPEN_SCREEN8SHARE stream_id: ' + stream.id);
-      const share_user_id=document.getElementById("wrapper").firstElementChild.id;
-         // içi bos olan local typteki  media-controls u id sine share ekle
-        var elms = document.querySelectorAll("#"+share_user_id);
-        for(var i = 0; i < elms.length; i++) {
-          if(i==1) {
-            elms[i].setAttribute("id","share"+share_user_id);
-          }
-        } 
-        
+      const share_user_id=document.getElementById("wrapper").firstElementChild.id;     
       document.getElementById("screen_id").setAttribute("data-screen_id",stream.id);
       document.getElementById("screen_id").setAttribute("data-user_id",share_user_id);
       connection.send("open_screen_share!"+stream.id+"!"+share_user_id+"!");
       if(isMobile=="no"){
             document.getElementById("open_screen_share").style.display="none";
             document.getElementById("close_screen_share").style.display="block";
-          }
-      // isaretlenmis id li yi sil
-      document.getElementById("share"+share_user_id).remove();    
+          }   
       // video/audio geçisleri kapat
       document.getElementById("speakUp").style.display="none";
       document.getElementById("videoUp").style.display="none";
-
-
       screenSize("open_screen_share");
     }
 });
