@@ -140,12 +140,11 @@ audio::-webkit-media-controls-enclosure {
   border-color: #92a8d1;
 }
 .sortir{
- /*display:none;*/
   cursor:pointer;
   transition: 1s all;
   font-size: 15px;
-  /*font-family: ' Arial';*/
   float: left;
+  margin-left:2vh;
 }
 .fields{
     background-color: #fff;
@@ -172,6 +171,13 @@ audio::-webkit-media-controls-enclosure {
     color:blanchedalmond;  font-weight: normal; font-size: 2vw;
     
   }
+  .mesajx{
+    display:block;width: 100%;height: 100%;  display:block;    object-fit: cover;z-index:1;
+      grid-column-start: 3; grid-column-end: 3;grid-row-start: 2;grid-row-end: 2; 
+     font-weight:normal; opacity : 0.4;
+
+  }
+
 .imagex{
   display:block; width: 100%;height: 100%;      object-fit: cover;
      grid-column-start:1; grid-column-end:9; grid-row-start:1; grid-row-end:12; 
@@ -206,16 +212,23 @@ audio::-webkit-media-controls-enclosure {
      ********** BODY ************************
      **************************************** -->
 <body onresize="screenSize()" onload="screenSize()" >
-   <!--<header  id="baslik" ontouchstart="touch_flipflop()";  onClick="touch_flipflop()";>-->
+   
     <header  id="baslik" >
-      <div id="room_name" style="float:left;color:rgb(238, 20, 20); font-weight: bold;">Salon adi </div>
-    <img src="hang-up-icon.png" style="float:left;width: 40px;border-radius: 10px;" id="Sortir" class="sortir" onclick="stopMedia();" title="Leave room">
-    <img src="openScreenShare.png" style="float:left;width: 30px; border-color: black; border-width: 15px;" id="open_screen_share" class="sortir" onclick="open_screen_share();" title="Ekranini paylas">
-    <img src="closeScreenShare.png" style="float:left;width: 30px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="close_screen_share();" title="Paylasmayi terket">
-    <img src="speak_on.png" style="margin-left:5px;float:left;width: 25px; border-color: black; border-width: 15px;" id="speakUp" class="sortir" onclick="shift2speak();" title=" Sadece sesli toplanti">
-    <img src="camera.png" style=" display:none; margin-left:5px;float:left;width: 25px; border-color: black; border-width: 15px;" id="videoUp" class="sortir" onclick="shift2video();" title="Videolu  toplanti">
+      <div id="room_name" style="float:left;color:rgb(238, 20, 20); font-weight: bold; cursor:pointer;">Salon adi </div>
+    <img src="hang-up-icon.png" style="width: 40px;border-radius: 10px;" id="Sortir" class="sortir" onclick="stopMedia();" title="Leave room">
     
-    <img src="info.png" style=" display:block; margin-left:5px;float:left;width: 25px; border-color: black; border-width: 15px;" id="info" class="sortir" onclick="open_info();" title="Informations">
+    <img src="openScreenShare.png" style="width: 30px; border-color: black; border-width: 15px;" id="open_screen_share" class="sortir" onclick="open_screen_share();" title="Ekranini paylas">
+    <img src="closeScreenShare.png" style="width: 30px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="close_screen_share();" title="Paylasmayi terket">
+    
+    <img src="speak_on.png" style="margin-left:15px;width: 25px; border-color: black; border-width: 15px;" id="speakUp" class="sortir" onclick="shift2speak();" title=" Sadece sesli toplanti">
+    <img src="camera.png" style=" display:none; margin-left:15px;width: 25px; border-color: black; border-width: 15px;" id="videoUp" class="sortir" onclick="shift2video();" title="Videolu  toplanti">
+    
+    <img src="micro_on.png" style=" display:block; margin-left:15px;width: 25px; border-color: black; border-width: 15px;" id="micro_off" class="sortir" onclick="mute_local_micro();" title=" Mikrofonu nu kapat">
+    <img src="micro_off.png" style=" display:none; margin-left:15px;width: 25px; border-color: black; border-width: 15px;" id="micro_on" class="sortir" onclick="unmute_local_micro();" title="Mikrofonu nu aç">
+
+
+
+    <img src="info.png" style=" display:block; margin-left:5px;width: 25px; border-color: black; border-width: 15px;" id="info" class="sortir" onclick="open_info();" title="Informations">
  
     <input type="hidden" id="local_status" value="" data-conf_type="video" data-enter=1 data-com=0 data-screen=0 data-all_micro="ON" data-admin=0 data-actif_speaker=0 data-waiting_speaker="OFF">
     <input type="hidden" id="orientation" value="" data-l="" data-h="">
@@ -246,6 +259,7 @@ audio::-webkit-media-controls-enclosure {
     </select>
 
     <button class="salona_gir_butonu" id="btn-openjoin-room"> Open/Join Room</button>
+    
     <br>
     <!-- ************ MESAJ Bolumu ********** -->
     <div id="copyright"> VisioConf V1.0 - 2021 D.TULBENT</div> <!-- Ayak kismi -->
@@ -257,14 +271,39 @@ audio::-webkit-media-controls-enclosure {
 </div> <!-- Kontrol -->	
 
   <!--************* VIDEO CONTAINER **********-->	
-<!--<section class="container"  id="container">-->
 	<div class="wrapper" id="wrapper" >	</div>	
-<!--</section>-->
  
 </body>
 <!-- ************ FIN BODY *********************************** -->
 
 <script>
+
+
+function mute_local_micro(){
+  var localStream = connection.attachStreams[0];
+  localStream.mute('audio');
+  document.getElementById("wrapper").firstElementChild.setAttribute("data-mikrofon", false);
+  
+  document.getElementById("micro_off").style.display="none";
+  document.getElementById("micro_on").style.display="block";
+  var mesaj="mikrofonum!0!"+document.getElementById("wrapper").firstElementChild.id+"!";
+  connection.send(mesaj);
+}
+
+function unmute_local_micro(){
+  var localStream = connection.attachStreams[0];
+  localStream.unmute('audio');
+  document.getElementById("wrapper").firstElementChild.setAttribute("data-mikrofon", true);
+  
+  document.getElementById("micro_off").style.display="block";
+  document.getElementById("micro_on").style.display="none";
+
+  var mesaj="mikrofonum!1!"+document.getElementById("wrapper").firstElementChild.id+"!";
+  connection.send(mesaj);
+
+}
+
+
 
 function screenSize(beni_arayan){
   
@@ -322,7 +361,7 @@ function yerlestir(arayan){
 
   var mevcut_video_sayisi = document.getElementById("wrapper").childElementCount;
   var screen_share =document.getElementById("screen_id").getAttribute("data-screen_id");
-console.log("Yerlestir->"+arayan+" video sayisi: "+mevcut_video_sayisi+" screen_share:"+screen_share+ "Yönümüz: "+yonumuz);
+//console.log("Yerlestir->"+arayan+" video sayisi: "+mevcut_video_sayisi+" screen_share:"+screen_share+ "Yönümüz: "+yonumuz);
   if(screen_share =="paylasmayok"){
       document.documentElement.style.setProperty('--flex-direction',  "row");
       document.documentElement.style.setProperty('--flex-grow', '0');
@@ -491,6 +530,12 @@ if (language.indexOf('fr') > -1) {
   document.getElementById('Sortir').setAttribute('title', "Quitter la salle!");
   document.getElementById('open_screen_share').setAttribute('title', "Partager un ecran déjà ouvert!");
   document.getElementById('close_screen_share').setAttribute('title', "Attêter la partage!");
+  document.getElementById('speakUp').setAttribute('title', "Réunion seulement en audio ");
+  document.getElementById('videoUp').setAttribute('title', "Réunion avec Video et audio!");
+  document.getElementById('micro_off').setAttribute('title', "Couper local son ");
+  document.getElementById('micro_on').setAttribute('title', "Activer local son ");
+  document.getElementById('room_name').setAttribute('title', "Nom de la Salle ");
+
   var adin_eksik="Votre nom manque !! ";
   var Meeting = "Réunion";
   var odadancik="Quittez la Salle";
@@ -522,43 +567,46 @@ if (language.indexOf('fr') > -1) {
   var Ayarlar="Paramètres d\'affichage";
   var Automatic="Automatique";
   var Informations="Informations";	
+  document.getElementById("micro_off").innerHTML = "Fermer son micro";
+  document.getElementById("micro_on").innerHTML = "Ouvrir son micro";
 }
 else if (language.indexOf('tr') > -1) {
 	document.getElementById("btn-openjoin-room").innerHTML ="Salona buyrun";
-  document.getElementById('OdaIsmi').placeholder = "Salon Adi ?";
-  document.getElementById('name').placeholder = 'Adiniz ?';
+  document.getElementById('OdaIsmi').placeholder = "Salon Adı ?";
+  document.getElementById('name').placeholder = 'Adınız ?';
   document.getElementById('Sortir').setAttribute('title', "Salonu terket!");
-  document.getElementById('open_screen_share').setAttribute('title', "Daha önce açilan bir sekme veya pencereyi paylasın!");
+  document.getElementById('open_screen_share').setAttribute('title', "Daha önce açılan bir sekme veya pencereyi paylasın !");
   document.getElementById('close_screen_share').setAttribute('title', "Paylaşmayı sonlandırın!");
+  document.getElementById('room_name').setAttribute('title', "Toplantı salonu adı ");
   var adin_eksik="Adiniz eksik ! ";
-  var Meeting = "Toplanti";
+  var Meeting = "Toplantı";
 	var odadancik="Salonu terket";
-	var odaadiyok="Salon adi eksik !";
-	var kisisayisi=  " Kisi Salondayiz";
+	var odaadiyok="Salon adı eksik !";
+	var kisisayisi=  " Kisi Salondayız";
 	var navOK="Web Browseriniz uygundur";
-	var navNotOK="Bu Web Browser size kaliteli bir visoconferans yapama imkani sunmuyor!";
-	var dataylari_incele="Detaylari incele";
+	var navNotOK="Bu Web Browser size kaliteli bir visoconferans yapama imkanı sunmuyor!";
+	var dataylari_incele="Detayları incele";
 	
 	var ScreenCapturingSupported_OK="Ekrak koyalama mümkün";
-	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Ekran kopyalama imkansiz</span>";
+	var ScreenCapturingSupported_notOK="<span style=\'color:red;\'>Ekran kopyalama imkansız</span>";
 	var SctpDataChannelsSupported_OK="Sctp Data Channel Tamam";
-	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel çalismiyor</span>";
+	var SctpDataChannelsSupported_notOK="<span style=\'color:red;\'>Sctp Data Channel çalismıyor</span>";
 	var RtpDataChannelsSupported_OK="Rtp Data Channel Tamam";
-	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel çalismiyor</span>";
+	var RtpDataChannelsSupported_notOK="<span style=\'color:red;\'>Rtp Data Channel çalismıyor</span>";
 	var WebRTCSupported_OK="Internet üzerinden direk baglanti Tamam";
-	var WebRTCSupported_notOK="<span style=\'color:red;\'>Internet üzerinden direk baglanti çalismiyor </span>";
+	var WebRTCSupported_notOK="<span style=\'color:red;\'>Internet üzerinden direk baglanti çalismıyor </span>";
 	var WebSocketsSupported_OK="Web Socket Tamam";
-	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket çalismiyor</span>";
-	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket kapali</span>";
+	var WebSocketsSupported_notOK="<span style=\'color:red;\'>Web Socket çalısmıyor</span>";
+	var WebSocketsBlocked_OK="<span style=\'color:red;\'>Web Socket kapalı</span>";
 	var WebSocketsBlocked_notOK="Web Socket açik";
 	var VideoSupportsStreamCapturing_OK="Video kopyalama mümkün";
-	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Video kopyalama çalismiyor</span>";
+	var VideoSupportsStreamCapturing_notOK="<span style=\'color:red;\'>Video kopyalama çalısmiyor</span>";
 	var System="Isletme sistemi: ";
 	var Browser="Browser: ";
-  var PageSize="Ekran boyutlari";
+  var PageSize="Ekran boyutları";
   var Width="Genislik";
   var Height="Yükseklik";
-  var Ayarlar="Ekran ayarlari";
+  var Ayarlar="Ekran ayarları";
   var Automatic="Otomatik";
   var Informations="Ek bilgiler";
 	}
@@ -570,6 +618,12 @@ else {
   document.getElementById('Sortir').setAttribute('title', "Leave the Room!");
   document.getElementById('open_screen_share').setAttribute('title', "Share your screen !");
   document.getElementById('close_screen_share').setAttribute('title', "Stop sharing your screen!");
+  document.getElementById('speakUp').setAttribute('title', "Meetint with audio only");
+  document.getElementById('videoUp').setAttribute('title', "Meeting Video and  audio!");
+  document.getElementById('micro_off').setAttribute('title', "Mute local micro");
+  document.getElementById('micro_on').setAttribute('title', " Unmute local micro");
+  document.getElementById('room_name').setAttribute('title', "Room Name ");
+
   var adin_eksik="Please  enter your name ! ";
   var Meeting = "Meeting";
 	var odadancik="Leave the Room";
@@ -601,6 +655,8 @@ else {
   var Ayarlar="Layout setting";
   var Automatic="Automatic";
   var Informations="Informations";
+  document.getElementById("micro_off").innerHTML = "Mute your micro";
+  document.getElementById("micro_on").innerHTML = "Unmute your micro";
 	}
 
   // ******************************************* //
@@ -837,10 +893,9 @@ document.getElementById('btn-openjoin-room').onclick = function() {
 };
 
 function adimi_gonder(){    
-    //var kendi_adim=document.getElementById("wrapper").firstElementChild.title;
     var kendi_id=document.getElementById("wrapper").firstElementChild.id;
     var kendi_adim=document.getElementById("wrapper").firstElementChild.title;
-console.log("ADIMI GONDER ->"+kendi_adim+"/"+kendi_id);
+//console.log("ADIMI GONDER ->"+kendi_adim+"/"+kendi_id);
     var mesaj="adim!"+kendi_adim+"!"+kendi_id+"!";
     console.log("sending:",kendi_adim);
     connection.send(mesaj);
@@ -849,10 +904,9 @@ console.log("ADIMI GONDER ->"+kendi_adim+"/"+kendi_id);
 
 connection.onstream = function(event) {
   var MediaTag=event.mediaElement.tagName;
-//alert(event.mediaElement.tagName);
 	var conf_type=document.getElementById("local_status").getAttribute("data-conf_type");
+  
   if(event.type=="remote"){ 
-
     var kisi_id=event.userid;
     // önce bir div kur
     var mediaElementContainer = document.getElementById("wrapper")
@@ -898,53 +952,49 @@ connection.onstream = function(event) {
 else {
  // Ecran Share yüzünden Ikinci bir local baglanti varmi 
  var nbr_local=document.getElementById("wrapper").childElementCount;
- console.log("ONSTREAM LOCAL nbr_local"+nbr_local);
+ //console.log("ONSTREAM LOCAL nbr_local"+nbr_local);
       // Bu 2ci Baglanti
       if(nbr_local >=1) { document.getElementById("media"+event.userid).appendChild(event.mediaElement);}
       
       // bu 1ci baglanti
       else {
-          var kisi_adi=	document.getElementById('name').value;
-          var kisi_id=event.userid;
-          // önce bir div kur
-          var mediaElementContainer = document.getElementById("wrapper")
-          var mediaControls = document.createElement('div');
-              mediaControls.className = 'media-controls';
-              mediaControls.id = event.userid;
-              mediaControls.title=kisi_adi;
-              mediaControls.setAttribute("data-stream_type", "local");
-              mediaControls.setAttribute("data-conf_type", conf_type);
-              mediaControls.setAttribute("data-mikrofon", true);
+        var kisi_adi=	document.getElementById('name').value;
+        var kisi_id=event.userid;
+        // önce bir div kur
+        var mediaElementContainer = document.getElementById("wrapper")
+          
+        var mediaControls = document.createElement('div');
+          mediaControls.className = 'media-controls';
+          mediaControls.id = event.userid;
+          mediaControls.title=kisi_adi;
+          mediaControls.setAttribute("data-stream_type", "local");
+          mediaControls.setAttribute("data-conf_type", conf_type);
+          mediaControls.setAttribute("data-mikrofon", true);
+        var media_kontrol= document.className="media-controls";
 
-      // daha önce baska bir local kaydi varmi ?
-      //let temp = document.getElementById('element').parentNode;
-      var media_kontrol= document.className="media-controls";
-
-      //console.log("ONSTREAM LOCAL count-> "+media_kontrol.getAttribute("data-stream_type"));   
-
-      mediaElementContainer.appendChild(mediaControls);   
+         mediaElementContainer.appendChild(mediaControls);   
         
           // namex div kur 
         var namex=document.createElement('div');
-        namex.id="name"+event.userid;
-        mediaControls.appendChild(namex); 
-        namex.className="namex"; 
+          namex.id="name"+event.userid;
+          mediaControls.appendChild(namex); 
+          namex.className="namex"; 
 
         // mesajx div kur
         var mesajx=document.createElement('div');
-        mesajx.id="mesaj"+event.userid;
-        mediaControls.appendChild(mesajx); 
-        mesajx.className="mesajx";
+          mesajx.id="mesaj"+event.userid;
+          mediaControls.appendChild(mesajx); 
+          mesajx.className="mesajx";
 
         // media div kur
         var mediax=document.createElement('div');
-        mediax.id="media"+event.userid;
-        mediax.setAttribute("conf_type","");
-        mediaControls.appendChild(mediax);
-        mediax.className="mediax";
-        
+          mediax.id="media"+event.userid;
+          mediax.setAttribute("conf_type","");
+          mediaControls.appendChild(mediax);
+          mediax.className="mediax";
+          
         /* **** media element i div audiox e yukle **** */
-          document.getElementById("media"+event.userid).appendChild(event.mediaElement); 
+        document.getElementById("media"+event.userid).appendChild(event.mediaElement); 
         
         /* **** AVATAR Yükle **** */
         var imagex=document.createElement('img');
@@ -953,7 +1003,7 @@ else {
           imagex.className="imagex"; 
           if(conf_type=="audioconf"){ document.getElementById("img"+event.userid).src= "avatar.png";}
           // adimi namex e yukle
-        document.getElementById("name"+event.userid).innerText=kisi_adi;
+          document.getElementById("name"+event.userid).innerText=kisi_adi;
       }
       
   }
@@ -985,6 +1035,7 @@ connection.onopen = function(event) {
 
 // on message 		   
 connection.onmessage = function(event) { decoding_data(event.data);};
+
 /* ------------------------ */
 /* -------- OPEN INFO ------ */
 /* -------------------------- */
@@ -1126,7 +1177,7 @@ function decoding_data(data){
 
 
           // Biz baglandik baglandiklarimiz sirayla bize adlarini ve id lerini gönderiyor
-          if(res_element=="adim"){ 
+         else if(res_element=="adim"){ 
           var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
           var son_nom=data.substring(pos_element+1,pos_1);
           var pos_2 = data.lastIndexOf("!");
@@ -1136,9 +1187,21 @@ console.log("DEKODAJ TITLE Yazim ve Okudum ===>"+document.getElementById(son_id)
           //document.getElementById(son_id).setAttribute("data-user_name",son_nom);
 console.log("DECODAGE -> "+son_id + "/"+son_nom);
  		   	// kurulu dive adini ekle 
-          document.getElementById("name"+son_id).innerText=son_nom;
-         
-         
+          document.getElementById("name"+son_id).innerText=son_nom;    
+        }
+
+        else if(res_element=="mikrofonum"){
+          var larg = document.getElementById("orientation").dataset.l;
+          var resim_w= parseInt(larg/40);
+          var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
+          if(data.substring(pos_element+1,pos_1)>0){var status="true"; var text="<img src='micro_on.png' width='"+resim_w+"px'>";}
+          else {var status="false"; var text="<img src='micro_off.png' width='"+resim_w+"px'>";}
+          var pos_2 = data.lastIndexOf("!");
+				  var son_id = data.substring(pos_1+1,pos_2); 
+          document.getElementById(son_id).setAttribute("data-mikrofon",status);
+          document.getElementById("mesaj"+son_id).innerHTML=text;
+
+
         }
 }
 
