@@ -283,6 +283,12 @@ function mute_local_micro(){
   var localStream = connection.attachStreams[0];
   localStream.mute('audio');
   document.getElementById("wrapper").firstElementChild.setAttribute("data-mikrofon", false);
+  var mon_id=document.getElementById("wrapper").firstElementChild.id;
+  var larg = document.getElementById("orientation").dataset.l;
+  var resim_w= parseInt(larg/40);        
+  var text="<img src='micro_off.png' width='"+resim_w+"px'>";
+  document.getElementById("mesaj"+mon_id).innerHTML=text;
+
   
   document.getElementById("micro_off").style.display="none";
   document.getElementById("micro_on").style.display="block";
@@ -294,6 +300,12 @@ function unmute_local_micro(){
   var localStream = connection.attachStreams[0];
   localStream.unmute('audio');
   document.getElementById("wrapper").firstElementChild.setAttribute("data-mikrofon", true);
+  var mon_id=document.getElementById("wrapper").firstElementChild.id;
+
+  var larg = document.getElementById("orientation").dataset.l;
+  var resim_w= parseInt(larg/40);        
+  var text="";
+  document.getElementById("mesaj"+mon_id).innerHTML=text;
   
   document.getElementById("micro_off").style.display="block";
   document.getElementById("micro_on").style.display="none";
@@ -1194,7 +1206,7 @@ console.log("DECODAGE -> "+son_id + "/"+son_nom);
           var larg = document.getElementById("orientation").dataset.l;
           var resim_w= parseInt(larg/40);
           var pos_1 = data.indexOf("!", data.indexOf("!") + 1);
-          if(data.substring(pos_element+1,pos_1)>0){var status="true"; var text="<img src='micro_on.png' width='"+resim_w+"px'>";}
+          if(data.substring(pos_element+1,pos_1)>0){var status="true"; var text="";}
           else {var status="false"; var text="<img src='micro_off.png' width='"+resim_w+"px'>";}
           var pos_2 = data.lastIndexOf("!");
 				  var son_id = data.substring(pos_1+1,pos_2); 
