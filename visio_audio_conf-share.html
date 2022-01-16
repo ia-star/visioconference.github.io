@@ -118,6 +118,36 @@ audio::-webkit-media-controls-enclosure {
   left:0vw;
   z-index:10;
 }
+
+.shared_screen_holder{
+  height:20px; 
+  float: left;
+  
+  font-weight: bold; font-size: 14px;
+  opacity : 0.9;
+  color:#08233e;
+  background-color:rgba(255,204,0,1);
+    
+    /*border:1px solid #ffcc00;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border-bottom:1px solid #9f9f9f;*/
+  -moz-box-shadow:5px 2px  rgb(167, 112, 10);
+  -webkit-box-shadow:5px 2px rgb(167, 112, 10);
+  box-shadow: 5px 2px rgb(167, 112, 10);
+}
+.my_picture_on_shared_screen{
+  height:10%;
+  width:10%;
+  max-width:5%;
+  max-height:5%;
+  position: absolute;
+  display:block;
+  top:70vh;
+  left:70vw;
+  z-index:20;
+}
 .wrapper {
     height: 100%;
     background-color: black;
@@ -283,6 +313,8 @@ option { font-size: 12px;}
     <img src="openScreenShare.png" style="width: 30px; border-color: black; border-width: 15px;" id="open_screen_share" class="sortir" onclick="open_screen_share();" title="Ekranini paylas">
     <img src="closeScreenShare.png" style="width: 30px; border-color: black; border-width: 15px;" id="close_screen_share" class="sortir" onclick="close_screen_share();" title="Paylasmayi terket">
     
+    <div class='shared_screen_holder' id='shared_screen_holder'></div>
+
     <img src="speak_on.png" style="margin-left:15px;width: 25px; border-color: black; border-width: 15px;" id="speakUp" class="sortir" onclick="shift2speak();" title=" Sadece sesli toplanti">
     <img src="camera.png" style=" display:none; margin-left:15px;width: 25px; border-color: black; border-width: 15px;" id="videoUp" class="sortir" onclick="shift2video();" title="Videolu  toplanti">
     
@@ -302,7 +334,8 @@ option { font-size: 12px;}
     <input type='hidden' id='admin_status' value='' data-all_micro="ON" data-admin_id=0 data-admin_type=0  data-speak_duration=0 data-actif_speaker=0 >
     <input type="hidden" id="orientation" value="Landscape" data-l="" data-h="">
    <input type="hidden" id="touch" name="touch" value="0"> 
-   <input type="hidden" id="screen_id"  data-user_id="paylasmayok" data-screen_id="paylasmayok">  
+   <input type="hidden" id="screen_id" data-user_video_id="paylasmayok"  data-user_id="paylasmayok" data-screen_id="paylasmayok">  
+ 
   </header>
 
   <div id="admin_data" class='admin_data'>
@@ -339,7 +372,7 @@ option { font-size: 12px;}
     
     <br>
     <!-- ************ MESAJ Bolumu ********** -->
-    <div id="copyright"> VisioConf V1.0 - 2021 D.TULBENT</div> <!-- Ayak kismi -->
+    <div id="copyright"> VisioConf V2.1 - 2020 &#x24B8;	 Deniz TULBENT</div> <!-- Ayak kismi -->
     <div style="display:inline;"> <span id="mesaj"> </span > <span id="butondetay" title=" " style="color:blue;cursor:pointer; font-size:30px;" > </span></div>
       <div id="detaymesaji"> </div>
 
@@ -354,10 +387,9 @@ option { font-size: 12px;}
 </body>
 <!-- ************ FIN BODY *********************************** -->
 <script src="visio_audio_conf-share-obs.js"></script>
-<!--<script src="visio_audio_conf-share.js"></script>-->
 
+<!--<script src="visio_audio_conf-share-decodage-obs.js"></script>-->
 <script src="visio_audio_conf-share-decodage-obs.js"></script>
-<!--<script src="visio_audio_conf-share-decodage.js"></script>-->
 
 <script>
 
