@@ -1,8 +1,8 @@
 var connection = new RTCMultiConnection();
 
 // this line is VERY_important
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
+//connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+connection.socketURL = 'https://muazkhan.com:9001/';
 // all below lines are optional; however recommended.
 connection.socketCustomParameters ='&fullName=Deniz&country=FR&meetingId=xyz';
 
