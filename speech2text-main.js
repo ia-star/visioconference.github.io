@@ -19,18 +19,18 @@ showInfo('info_start');
     console.log("on start -> "+ document.getElementById("final_span").textContent);
         recognizing = true;
         showInfo("info_speak_now");
-        start_img.src = 'https://github.com/ia-star/visioconference.github.io/spech2text-mic-animate.gif';
+        start_img.src = 'https://github.com/ia-star/visioconference.github.io/blob/master/spech2text-mic-animate.gif';
         start_img.title = 'Cliquez pour arrêter la Transcription';
       };
     
       recognition.onerror = function(event) {
         if (event.error == 'no-speech') {
-          start_img.src = 'https://github.com/ia-star/visioconference.github.io/spech2text-mic.gif';
+          start_img.src = 'https://github.com/ia-star/visioconference.github.io/blob/master/spech2text-mic.gif';
           showInfo('info_no_speech');
           ignore_onend = true;
         }
         if (event.error == 'audio-capture') {    
-          start_img.src = 'https://github.com/ia-star/visioconference.github.io/spech2text-mic.gif';
+          start_img.src = 'https://github.com/ia-star/visioconference.github.io/blob/master/spech2text-mic.gif';
           showInfo('info_no_microphone');
           ignore_onend = true;
         }
@@ -52,7 +52,7 @@ showInfo('info_start');
         if (ignore_onend) {
           return;
         }
-        start_img.src = 'https://github.com/ia-star/visioconference.github.io/spech2text-mic.gif';
+        start_img.src = 'https://github.com/ia-star/visioconference.github.io/blob/master/spech2text-mic.gif';
         start_img.title="Tikla ve konus";
 
         if (!final_transcript) {
@@ -189,7 +189,7 @@ console.log("startButton -> "+ karatahta);
       ignore_onend = false;
 final_span.innerHTML = karatahta;
       interim_span.innerHTML = '';
-      start_img.src = 'https://github.com/ia-star/visioconference.github.io/spech2text-mic-slash.gif';
+      start_img.src = 'https://github.com/ia-star/visioconference.github.io/blob/master/spech2text-mic-slash.gif';
       showInfo('info_allow');
       showButtons('none');
       start_timestamp = event.timeStamp;
