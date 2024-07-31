@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Client</title>
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+
+  <h1>Socket.IO Client</h1>
+<button id="sendButton">Send Message to Server</button>
+  <script>
+
+
+    // Connect to the Socket.IO server
+    const socket = io.connect('https://www.kozeri.site:9001'); // Adjust the URL to match your server's URL
+
+    // Handle the 'hello' event from the server
+    socket.on('hello', (message) => {
+      console.log('Received a hello message:', message);
+    });
+
+    // Example: Send a message to the server when a button is clicked
+    document.getElementById('sendButton').addEventListener('click', () => {
+      const message = prompt('Enter a message:');
+      socket.emit('chat message', message);
+    });
+    socket.emit("hello", "world", (response) => {
+  console.log(response); // "got it"
+});
+
+/*
+    // Handle the 'chat message' event from the server
+    socket.on('chat message', (message) => {
+      console.log('Received a chat message:', message);
+      // Handle the received message as needed
+    });
+*/
+// Client-side code
+socket.on('answer', (answer) => {
+  // Process the answer and set the remote description
+  pc.setRemoteDescription(new RTCSessionDescription(answer));
+});
+
+
+
+  </script>
+
+  
+
+</body>
+</html>
