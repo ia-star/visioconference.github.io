@@ -16,7 +16,7 @@ document.getElementById("entete").innerHTML = "	<div style='padding: 12px 15px 2
 var connection = new RTCMultiConnection();
 
 // önemli bir nokta
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+connection.socketURL = 'https://muazkhan.com:9001/';
 
 // Baglanti opsiyonlari.
 connection.socketCustomParameters ='&fullName=Deniz&country=FR&meetingId=xyz';
